@@ -33,6 +33,34 @@ let getPeliculasByTitle= (req,res) =>
         });
 }
 
+let getPeliculasByMovieId= (req,res) =>
+{
+   
+    console.log("Buscando pelicula por titulo")
+    console.log(req.query.movieId);
+    const idBusqueda = req.query.movieId;
+    const endpoint = `${url}${apiKEY}&i=${idBusqueda}`;
+    console.log(endpoint);
+    fetch(endpoint)
+    .then (
+        (response) => {
+            console.log(response);
+            return response.json();
+        }).then (responseData => {
+            console.log(responseData);
+            
+            console.log("Parsear Json to object");
+            movieData = new movieData(responseData);
+            console.log(movieData);
+            //const {Title,Actors,Genre,Language,Poster,imdbRating,imdbID,Website,Runtime,Year,Plot}= responseData;
+            //const newData = {Title: Title, Genre: Genre,Actors: Actors, Language: Language, 
+            //    Poster: Poster,imdbRating:imdbRating,imdbID:imdbID,Website:Website,Runtime:Runtime,Year:Year,Plot:Plot};
+            //console.log(newData);
+            res.send(movieData); //devuelvo resultado query  
+        });
+}
+
+
 let getPeliculasByTitleAndYear= (req,res) =>
 {
     
@@ -76,14 +104,11 @@ let getPeliculasByKey= (req,res) =>
             console.log("Parsear Json to object.");
             var arrayMovie = [];
             for (var i = 0, len = responseData.Search.length; i < len; i++) {
-                const {Title,Year,imdbID,Type,Poster}= responseData.Search[i]; 
-                const newData = {Title: Title, Year: Year,imdbID: imdbID, Type: Type, Poster: Poster};
-                console.log(newData);
+                //const {Title,Year,imdbID,Type,Poster}= responseData.Search[i]; 
+                const newData = {Title: responseData.Search[i].Title, Year: responseData.Search[i].Year,imdbID: responseData.Search[i].imdbID, Type: responseData.Search[i].Type, Poster: responseData.Search[i].Poster};
+                //console.log(newData);
                 arrayMovie.push(newData);
               }            
-            //
-            //const newData = {Title: Title, Genre: Genre,Actors: Actors, Language: Language, Poster: Poster,Website: Website};
-            //console.log(newData);
             res.send(arrayMovie); //devuelvo resultado query  
     });
 
@@ -112,4 +137,4 @@ let getPeliculasByKey1= (req,res) =>
 }
 
 
-module.exports = {getPeliculasByTitle,getPeliculasByTitleAndYear,getPeliculasByKey};
+module.exports = {getPeliculasByTitle,getPeliculasByTitleAndYear,getPeliculasByKey,getPeliculasByMovieId};
