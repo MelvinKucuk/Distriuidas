@@ -1,5 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, Button, Dimensions } from 'react-native';
+
+const deviceWidth = Dimensions.get("window").width;
+const deviceHeight = Dimensions.get("window").height;
+
 
 const Detalle = ({ }) => {
 
@@ -23,16 +27,15 @@ function onPressLearnMore() {
 
 const styles = StyleSheet.create({
     buttonOuterLayout: {
-        flex: 1,
+        flex:1,
     flexDirection: 'column',
     justifyContent: 'center',
-
+        marginHorizontal: 100,
       },
     detalleContainer: {
         flex: 1,
         backgroundColor: 'red',
         justifyContent: 'center',
-        //alignSelf: 'stretch',
     }
 })
 

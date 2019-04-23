@@ -1,13 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import Detalle from './components/Detalle';
-import Puto from './components/Puto';
 
+const deviceWidth = Dimensions.get("window").width;
+const deviceHeight = Dimensions.get("window").height;
 
 export default class App extends React.Component {
   render() {
     return (
-      <Puto></Puto>
+      <Detalle></Detalle>
     );
   }
 }
