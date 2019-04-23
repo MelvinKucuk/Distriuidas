@@ -60,4 +60,21 @@ let getUsuarioById = (req, res) =>
     )       
 };
 
-module.exports = {getUsuarios,getUsuarioById,insertUsuario};
+let updateUsuarioByPassword = (req, res) =>
+{      
+    console.log("Actualizar a leer con filtro");
+    //Obtener id busqueda req.param.tagid
+    console.log(req.body.usuarioId);
+    var myquery = { usuarioId: req.body.usuarioId};
+    console.log(req.body.password);
+    var newvalues = { $set: {password: req.body.password } };
+    //Listar resultados
+    usuarios.updateMany(myquery, newvalues, function(err, res) {
+        if (err) console.log(err);
+        console.log("Documento actualizado");
+        console.log(res.result.nModified);
+      });    
+      res.status(206).send({ msg: "Se actualizaron los usuarios." });  
+};
+
+module.exports = {getUsuarios,getUsuarioById,insertUsuario,updateUsuarioByPassword};

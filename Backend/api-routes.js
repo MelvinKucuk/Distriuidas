@@ -4,8 +4,6 @@ let usuarioController = require('./controller/UsuarioController');
 let comentarioController = require('./controller/ComentarioController');
 let peliculaController = require('./controller/PeliculaController');
        
-    
-
 // Set default API response
 router.get('/', function (req, res) 
 {
@@ -16,12 +14,15 @@ router.get('/', function (req, res)
     });
 });
 
-//EndPoint para leer toda la base de usuarios
+//**************************Recursos de Usuarios**************************** */
+//EndPoint para leer todos  los usuarios
 router.get('/getUsuarios',function(req,res)
 {
     console.log("getUsuarios");
     usuarioController.getUsuarios(req,res);
 });
+//router.get('/getUsuarios1',usuarioController.getUsuarios(req,res));
+
 //EndPoint para leer usuario por id
 router.get('/getUsuarioById',function(req,res)
 {
@@ -35,7 +36,20 @@ router.post('/insertUsuario/Usuario',function(req,res)
     usuarioController.insertUsuario(req,res);
 });
 
-//EndPoint para insertar votacion
+//EndPoint para actualizar password por usuario.
+router.post('/updateUsuarioByPassword/Usuario',function(req,res)
+{
+    console.log(req);
+    if(!req.body.usuarioId || !req.body.password) {
+        res.status(400).send({ msg: "El campo nombre y password son requeridos del usuario." });
+    }
+    else{
+        usuarioController.updateUsuarioByPassword(req,res);
+    }    
+});
+
+//**************************Recursos de Usuarios**************************** */
+//EndPoint para insertar comentario
 router.post('/insertComentario/Comentario',function(req,res)
 {
     console.log("Insertar nuevo comentatrio: " + req.body);
@@ -49,6 +63,14 @@ router.get('/getComentariosByUsuario',function(req,res)
     comentarioController.getComentariosByUsuarioId(req,res);
 });
 
+//EndPoint para leer comentartios de un usuarios
+router.get('/getComentariosByUsuario',function(req,res)
+{
+    console.log(req.body);
+    comentarioController.getComentariosByPeliculaId(req,res);
+});
+
+//**************************Recursos de Peliculas**************************** */
 //EndPoint para buscar pelicula por titulo.
 router.get('/getPeliculasByTitle',function(req,res)
 {
@@ -65,11 +87,11 @@ router.get('/getPeliculasByTitleAndYear',function(req,res)
         console.log(req.query.year);
         peliculaController.getPeliculasByTitleAndYear(req,res);
     }else{
-        res.status(400).send({ msg: "Parametros invalidos." });
+        res.status(409).send({ msg: "Parametros invalidos." });
     }    
 });
 
-//EndPoint para buscar pelicula por titulo y anio.
+//EndPoint para buscar pelicula por key de nombre de pelicula.
 router.get('/getPeliculasByKey',function(req,res)
 {
     console.log(req);
@@ -77,8 +99,9 @@ router.get('/getPeliculasByKey',function(req,res)
         console.log(req.query.key);
         peliculaController.getPeliculasByKey(req,res);
     }else{
-        res.status(400).send({ msg: "Parametros no ingresado o invalidos." });
+        res.status(410).send({ msg: "Parametros no ingresado o invalidos." });
     }    
 });
+
 // Export API routes
 module.exports = router;

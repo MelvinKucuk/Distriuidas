@@ -45,4 +45,24 @@ let getComentariosByUsuarioId = (req, res) =>
     )       
 };
 
-module.exports = {insertComentario,getComentariosByUsuarioId};
+let getComentariosByPeliculaId = (req, res) =>
+{      
+    console.log("llegue a leer comentarios con filtro");
+    //Obtener id busqueda req.param.tagid
+    console.log(req.query.peliculaId);
+    let idBusqueda = {usuarioId: req.query.peliculaId};
+    console.log(idBusqueda);
+    //Listar resultados
+    comentarios.find(idBusqueda)
+    .then
+    (
+        (listaComentarios)=>
+        {
+            console.log(listaComentarios);    
+            res.send(listaComentarios); //devuelvo resultado query   
+        },
+        (err)=>{console.log(err);}
+    )       
+};
+
+module.exports = {insertComentario,getComentariosByUsuarioId,getComentariosByPeliculaId};
