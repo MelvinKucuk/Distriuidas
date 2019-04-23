@@ -40,6 +40,10 @@ let navegador = this.navigator
 
 class LoginScreen extends React.Component {
 
+  static navigationOptions = {
+    title: 'Login',
+  };
+
   constructor(props)
   {
     super(props)
@@ -59,21 +63,8 @@ class LoginScreen extends React.Component {
   }
 }
 
-class DetalleScreen extends React.Component {
-  render() {
-    return (
-      <Detalle/>
-    );
-  }
-}
 
-class PeliculasScreen extends React.Component {
-  render() {
-    return (
-      <Peliculas/>
-    );
-  }
-}
+
 
 const RootStack = createStackNavigator(
   {
@@ -81,10 +72,10 @@ const RootStack = createStackNavigator(
       screen: LoginScreen,
     },
     Detalle: {
-      screen: DetalleScreen,
+      screen: Detalle,
     },
     Peliculas: {
-      screen: PeliculasScreen
+      screen: Peliculas,
     },
   },
   {
