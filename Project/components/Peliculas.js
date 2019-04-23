@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 
-const Detalle = ({ }) => {
+const Peliculas = ({ }) => {
 
     return (
         <View style={[styles.detalleContainer]} >
@@ -37,4 +37,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Detalle
+export default Peliculas
