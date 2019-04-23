@@ -48,10 +48,13 @@ class LoginScreen extends React.Component {
 
   static navigationOptions = {
     title: 'Login',
+    headerStyle: {
+      backgroundColor: 'black',
+    },
+    headerTintColor: 'white',
   };
 
-  constructor(props)
-  {
+  constructor(props) {
     super(props)
     console.log(props)
   }
@@ -59,12 +62,12 @@ class LoginScreen extends React.Component {
   render() {
     return (
       <Login
-        onPress = {this.checkLogin.bind(this)}
+        onPress={this.checkLogin.bind(this)}
       />
     );
   }
 
-  checkLogin(){
+  checkLogin() {
     this.props.navigation.navigate('Peliculas')
   }
 }
@@ -99,7 +102,7 @@ export default class App extends React.Component {
   }
 }
 
- const CustomDrawerComponent = (props) => (
+const CustomDrawerComponent = (props) => (
   <SafeAreaView Style={{ flex: 1 }}>
     <View style={{ height: 250, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center' }}>
       <Image source={require('./components/vaca.png')} style={{ height: 120, width: 120, borderRadius: 60 }} />
@@ -107,11 +110,11 @@ export default class App extends React.Component {
     <ScrollView>
       <DrawerItems {...props} />
     </ScrollView>
-    
+
   </SafeAreaView>
 )
 
-function checkLogin(){
+function checkLogin() {
   this.props.navigation.navigate('Peliculas')
 }
 
@@ -138,4 +141,18 @@ const styles = StyleSheet.create({
   barButtonIconStyle: {
     tintColor: '#FFFFFF'
   },
+  navBar: {
+    backgroundColor: '#397af8',
+  },
+  navBarTitle: {
+    color: '#FFFFFF'
+  },
+  barButtonTextStyle: {
+    color: '#FFFFFF'
+  },
+  barButtonIconStyle: {
+    tintColor: '#FFFFFF'
+  },
 });
+
+
