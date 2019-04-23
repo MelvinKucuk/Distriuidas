@@ -24,7 +24,7 @@ class Detalle extends Component {
 const styles = StyleSheet.create({
     buttonOuterLayout: {
         flex: 1,
-
+        flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
         marginHorizontal: 100
