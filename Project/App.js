@@ -5,9 +5,9 @@ import Peliculas from './components/Peliculas';
 import Login from './components/Login';
 import SettingsS from './components/SettingsS';
 import Series from './components/Series';
-import { createDrawerNavigator, createAppContainer, DrawerItems } from 'react-navigation';
+import { createDrawerNavigator, createAppContainer, DrawerItems, createStackNavigator } from 'react-navigation';
 import { Router, Scene } from 'react-native-router-flux';
-import {createStackNavigator, createAppContainer} from 'react-navigation';
+
 
 
 /*
@@ -90,7 +90,7 @@ const RootStack = createStackNavigator(
 
 
 
-const AppContainer = createAppContainer(RootStack);
+//const AppContainer = createAppContainer(RootStack);
 
 export default class App extends React.Component {
   render() {
@@ -98,7 +98,7 @@ export default class App extends React.Component {
   }
 }
 
-} const CustomDrawerComponent = (props) => (
+ const CustomDrawerComponent = (props) => (
   <SafeAreaView Style={{ flex: 1 }}>
     <View style={{ height: 250, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center' }}>
       <Image source={require('./components/vaca.png')} style={{ height: 120, width: 120, borderRadius: 60 }} />
@@ -109,6 +109,11 @@ export default class App extends React.Component {
     
   </SafeAreaView>
 )
+
+function checkLogin(){
+  this.props.navigation.navigate('Peliculas')
+}
+
 const AppDrawerNavigator = createDrawerNavigator({
   Peliculas: Peliculas,
   Series: Series,
@@ -117,7 +122,8 @@ const AppDrawerNavigator = createDrawerNavigator({
     contentComponent: CustomDrawerComponent
   }
 );
-const Apps = createAppContainer(AppDrawerNavigator)
+const AppContainer = createAppContainer(RootStack)
+
 const styles = StyleSheet.create({
   container: {
     //flex: 1,
