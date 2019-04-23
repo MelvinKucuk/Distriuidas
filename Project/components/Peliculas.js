@@ -9,11 +9,26 @@ class MyListItem extends React.PureComponent {
             <View style={{ flex: 1, margin: 30 }}
             >
                 <Image style={[styles.imagen1]}
-                    source={{ uri: this.props.item.imagen }}
+                    source={{ uri: this.props.item.poster }}
                 ></Image>
+                <Button style={[styles.button]}
+                    color='#373737'
+                    title="Login"
+                    onPress={alert("PUTO")}
+                />
             </View>
         )
     }
+}
+
+
+
+function createData(item, idArray) {
+    return {
+        key: item.imdbID,
+        poster: item.Poster,
+        title: item.Title
+    };
 }
 
 
@@ -31,82 +46,88 @@ class Peliculas extends Component {
         super(props);
 
         this.state = {
-            peliculas: Array()
+            peliculas: [
+                { key: '1', imagen: 'https://cdn-images-1.medium.com/max/1600/1*r9PKBnx_o5lxjDP0BMCCaw.png' },
+                { key: '2', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
+                { key: '3', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
+                { key: '4', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
+                { key: '5', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
+                { key: '6', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
+                { key: '7', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
+                { key: '8', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
+                { key: '9', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
+                { key: '10', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
+                { key: '11', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
+                { key: '12', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
+                { key: '13', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
+            ]
         };
     }
 
     componentDidMount() {
-        let uri = 'http://192.168.43.215:8080/apiAppPeliculas/getPeliculasByKey?key=saw'
+        this.cargarPeliculas();
+    }
+
+    cargarPeliculas() {
+        let uri = 'http://192.168.43.249:8080/apiAppPeliculas/getPeliculasByKey?key=saw'
         console.log(uri);
         fetch(uri).then(res => {
-            console.log(res);
             return res.json()
         }).catch((err) => console.log(err)).
-            then(json => {
-                json.array.forEach(element => {
+            then(data => {
+                var i, newArray = [];
+                for (i = 0; i < data.length; i++) {
 
+                    newArray.push(createData(data[i], i));
+
+                }
+                this.setState({
+                    peliculas: newArray
                 });
-                console.log(json.Poster)
-                console.log(json.Title)
-                console.log(json.imdbID)
+
             }).catch((err) => console.log(err));
     }
 
-    cargarPeliculas(element){
-        
-    }
-
-
-    /*
-    { key: '1', imagen: 'https://cdn-images-1.medium.com/max/1600/1*r9PKBnx_o5lxjDP0BMCCaw.png' },
-                    { key: '2', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
-                    { key: '3', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
-                    { key: '4', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
-                    { key: '5', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
-                    { key: '6', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
-                    { key: '7', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
-                    { key: '8', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
-                    { key: '9', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
-                    { key: '10', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
-                    { key: '11', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
-                    { key: '12', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
-                    { key: '13', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' }]}
-                    
-    */
 
     render() {
+        console.log("Entre al render");
         return (
             <View style={[styles.detalleContainer]} >
                 <FlatList
                     style={{ flex: 1 }}
                     numColumns={2}
-                    data={[
-                        { key: '1', imagen: 'https://cdn-images-1.medium.com/max/1600/1*r9PKBnx_o5lxjDP0BMCCaw.png' },
-                        { key: '2', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
-                        { key: '3', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
-                        { key: '4', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
-                        { key: '5', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
-                        { key: '6', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
-                        { key: '7', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
-                        { key: '8', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
-                        { key: '9', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
-                        { key: '10', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
-                        { key: '11', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
-                        { key: '12', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
-                        { key: '13', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' }]}
-                    renderItem={({ item, index }) => {
+                    data={this.state.peliculas}
+                    keyboardShouldPersistTaps='always'
+                    renderItem={({ item }) => {
                         return (
-                            <MyListItem
-                                item={item}
-                                index={index}
-                            ></MyListItem>
-                        )
+                            <View style={{ flex: 1, margin: 10 }}
+                            >
+                            <TouchableOpacity
+                                onPress = {() => this.submithandler()}>
+                                <Image style={[styles.imagen1]}
+                                    source={{ uri: item.poster }}
+                                ></Image>
+                                </TouchableOpacity>
+                            </View>
+                        );
                     }}
                 />
 
             </View>
         )
     }
+
+
+    submithandler(){
+        console.log("asd")
+    }
+
+    _renderItem = ({ item }) => (
+        <MyListItem
+            item={item}
+        />
+    );
+
 };
 
 /*<View style={[styles.Container]} >
@@ -143,9 +164,11 @@ const styles = StyleSheet.create({
         flex: 1
     },
     imagen1: {
-        height: 150,
-        width: 150,
-        resizeMode: 'contain'
+        height: 180,
+        width: 180,
+        resizeMode: 'contain',
+        borderRadius: 20,
+
     },
 
     toolBar: {
@@ -156,6 +179,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#616161',
         justifyContent: 'center',
         //alignSelf: 'stretch',
+    },
+    outterImage: {
+        
     }
 
 })
