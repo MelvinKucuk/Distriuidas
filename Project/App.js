@@ -10,8 +10,9 @@ const deviceHeight = Dimensions.get("window").height;
 export default class App extends React.Component {
   render() {
     return (
-      <Login></Login>
+      //<Login></Login>
       //<Detalle></Detalle>
+     <Peliculas></Peliculas>
     );
   }
 }
