@@ -29,6 +29,15 @@ var fakeData = [
 ];
 class Detalle extends Component {
 
+    static navigationOptions = {
+        title: 'Detalle',
+        headerStyle: {
+            backgroundColor: 'black',
+        },
+        headerTintColor: 'white',
+    };
+
+
     render() {
         return (
             <View style={{ flex: 1, flexDirection: 'column' }}>
