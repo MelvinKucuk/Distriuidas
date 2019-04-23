@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
-import { View, Image, StyleSheet, TextInput } from 'react-native';
+import { View, Image, StyleSheet, TextInput, Button } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 
 class Login extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-        };
+        
     }
 
     render() {
         return (
             <View style={[styles.loginContainer]}>
-                <View style={[styles.inputContainer]}>
+                <View style={[styles.imageContainer]}>
                     <Image
-                        style = {[styles.imageStyle]}
-                        source = {{uri :'asset:/images/clapperboard.png'}}></Image>
+                        style={[styles.imageStyle]}
+                        source={require('./clapperboard.png')}></Image>
                 </View>
                 <View style={[styles.inputContainer]}>
                     <View style={[styles.outterInput]}>
@@ -26,10 +26,15 @@ class Login extends Component {
                         > PassWord
                 </TextInput>
                     </View>
-                    <Image
-  style={{width: '100%', height: 200,resizeMode : 'contain' }}
-         source={{uri :'asset:/images/clapperboard.png'}}  
-         /> 
+                    <View style = {[styles.outterButton]}>
+                        <Button
+                            style = {[styles.button]}
+                            color = '#373737'
+                            title= "Login"
+                            onPress={() => this.props.onPress()}
+                            />
+                    </View>
+                    
                 </View>
             </View>
         );
@@ -46,7 +51,6 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 20,
         alignSelf: 'center',
-
     },
     outterInput: {
         borderBottomWidth: 1,
@@ -61,9 +65,21 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start'
     },
     imageStyle: {
-        width: 100,
-        height: 200, 
-        
+        width: '100%',
+        height: 200,
+        resizeMode: 'contain',
+        justifyContent: 'center'
+    },
+    imageContainer: {
+        flex: 1,
+        justifyContent: 'center'
+    },
+    outterButton: {
+        justifyContent: 'center',
+        marginHorizontal: 150,
+    },
+    button: {
+        color: 'red'
     }
 })
 
