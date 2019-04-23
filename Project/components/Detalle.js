@@ -1,8 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Button, Dimensions } from 'react-native';
-
-const deviceWidth = Dimensions.get("window").width;
-const deviceHeight = Dimensions.get("window").height;
+import { View, Text, StyleSheet, Button } from 'react-native';
 
 
 const Detalle = ({ }) => {
