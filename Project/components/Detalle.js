@@ -1,26 +1,25 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import { Actions } from 'react-native-router-flux';
 
 
-const Detalle = ({ }) => {
-
-    return (
-        <View style={[styles.detalleContainer]} >
-            <View style={[styles.buttonOuterLayout]}>
-                <View>
-                    <Button
-                        title="Escuchar Cancion"
-                        color="#841584"
-                    ></Button>
-                </View>
+class Detalle extends Component {
+    render() {
+        return (
+            <View style={styles.detalleContainer}>
+                <Text
+                    style={styles.detalleText}
+                    onPress={() => Actions.Peliculas()}
+                >
+                    Detalle Screen
+               </Text>
             </View>
-        </View>
-    );
-};
 
-function onPressLearnMore() {
-
+        );
+    }
 }
+
 
 const styles = StyleSheet.create({
     buttonOuterLayout: {
@@ -33,8 +32,15 @@ const styles = StyleSheet.create({
     detalleContainer: {
         flex: 1,
         backgroundColor: 'red',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
+    detalleText: {
+        fontSize: 20,
+        textAlign: 'center',
+        margin: 10,
+        color: '#ffffff'
+    }
+
 })
 
 export default Detalle
