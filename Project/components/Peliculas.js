@@ -27,10 +27,11 @@ class Peliculas extends Component {
         super(props);
 
         this.state = {
+            peliculas: Array()
         };
     }
 
-    /*componentDidMount() {
+    componentDidMount() {
         let uri = 'http://192.168.43.215:8080/apiAppPeliculas/getPeliculasByKey?key=saw'
         console.log(uri);
         fetch(uri).then(res => {
@@ -45,7 +46,11 @@ class Peliculas extends Component {
                 console.log(json.Title)
                 console.log(json.imdbID)
             }).catch((err) => console.log(err));
-    }*/
+    }
+
+    cargarPeliculas(element){
+        
+    }
 
 
     /*
