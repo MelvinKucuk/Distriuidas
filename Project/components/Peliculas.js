@@ -1,20 +1,24 @@
-import React from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import React, { Component } from 'react';
+import { View, Text, StyleSheet, Button, ToolbarAndroid } from 'react-native';
 
-const Peliculas = ({ }) => {
-
-    return (
-        <View style={[styles.detalleContainer]} >
-            <View style={[styles.buttonOuterLayout]}>
-                <View>
-                <Button
-                    title="Escuchar Cancion"
-                    color="#841584"
-                ></Button>
-                </View>
+class Peliculas extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+        };
+    }
+    render() {
+        return (
+            <View style={[styles.detalleContainer]} >
+                <ToolbarAndroid
+                    logo={require('')}
+                    title="AwesomeApp"
+                    actions={[{ title: 'Settings', icon: require(''), show: 'always' }]}
+                    onActionSelec
+                    ted={this.onActionSelected} />
             </View>
-        </View>
-    );
+        )
+    }
 };
 
 function onPressLearnMore() {
@@ -24,17 +28,17 @@ function onPressLearnMore() {
 const styles = StyleSheet.create({
     buttonOuterLayout: {
         flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center'
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
 
-      },
+    },
     detalleContainer: {
         flex: 1,
-        backgroundColor: 'red',
+        backgroundColor: '#616161',
         justifyContent: 'center',
         //alignSelf: 'stretch',
     }
 })
 
-export default Peliculas
+export default Peliculas;
