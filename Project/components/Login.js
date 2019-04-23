@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { View, Image, StyleSheet, TextInput, Button } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 
 class Login extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-        };
+        
     }
 
     render() {
@@ -31,7 +31,7 @@ class Login extends Component {
                             style = {[styles.button]}
                             color = '#373737'
                             title= "Login"
-                            onPress= {()=> this.props.onPress()}
+                            onPress={() => this.props.onPress()}
                             />
                     </View>
                     

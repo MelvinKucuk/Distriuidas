@@ -4,19 +4,19 @@ import Detalle from './components/Detalle';
 import Peliculas from './components/Peliculas';
 import Login from './components/Login'
 import { Router, Scene } from 'react-native-router-flux';
+import {createStackNavigator, createAppContainer} from 'react-navigation';
 
-const deviceWidth = Dimensions.get("window").width;
-const deviceHeight = Dimensions.get("window").height;
 
+/*
 export default class App extends React.Component {
   render() {
     return (
       <Router>
         <Scene key="root">
           <Scene
-            key="Detalle"
-            component={Detalle}
-            title="Detalle"
+            key="Login"
+            component={Login}
+            title="Login"
             initial
           />
           <Scene
@@ -24,9 +24,81 @@ export default class App extends React.Component {
             component={Peliculas}
             title="Peliculas"
           />
+          <Scene
+            key=""
+            component={}
+            title=""
+          />
         </Scene>
       </Router>
     );
+  }
+}
+*/
+
+let navegador = this.navigator
+
+class LoginScreen extends React.Component {
+
+  constructor(props)
+  {
+    super(props)
+    console.log(props)
+  }
+
+  render() {
+    return (
+      <Login
+        onPress = {this.checkLogin.bind(this)}
+      />
+    );
+  }
+
+  checkLogin(){
+    this.props.navigation.navigate('Peliculas')
+  }
+}
+
+class DetalleScreen extends React.Component {
+  render() {
+    return (
+      <Detalle/>
+    );
+  }
+}
+
+class PeliculasScreen extends React.Component {
+  render() {
+    return (
+      <Peliculas/>
+    );
+  }
+}
+
+const RootStack = createStackNavigator(
+  {
+    Login: {
+      screen: LoginScreen,
+    },
+    Detalle: {
+      screen: DetalleScreen,
+    },
+    Peliculas: {
+      screen: PeliculasScreen
+    },
+  },
+  {
+    initialRouteName: 'Login',
+  }
+);
+
+
+
+const AppContainer = createAppContainer(RootStack);
+
+export default class App extends React.Component {
+  render() {
+    return <AppContainer />;
   }
 }
 

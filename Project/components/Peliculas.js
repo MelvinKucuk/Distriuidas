@@ -1,9 +1,28 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button, ToolbarAndroid, Image, FlatList } from 'react-native';
+import { View, Text, StyleSheet, Button, ToolbarAndroid, Image, FlatList, TouchableOpacity } from 'react-native';
+import { Actions } from 'react-native-router-flux';
+
+
+class MyListItem extends React.PureComponent {
+    render() {
+        return (
+            <View style={{ flex: 1, margin: 30}}>
+            <TouchableOpacity
+                onPress= {alert("puto")}>
+                <Image style={[styles.imagen1]}
+                    source={{uri: this.props.item.imagen}}
+                ></Image>
+                </TouchableOpacity>
+            </View>
+        )
+    }
+}
+
 
 class Peliculas extends Component {
     constructor(props) {
         super(props);
+
         this.state = {
         };
     }
@@ -11,41 +30,37 @@ class Peliculas extends Component {
     render() {
         return (
             <View style={[styles.detalleContainer]} >
-                <View style={[styles.toolBar]}>
-                    <ToolbarAndroid
-                        logo={require('./tijeras.png')}
-                        title="AwesomeApp"
-                        actions={[{ title: 'Settings', icon: require('./tijeras.png'), show: 'always' }]}
-                        onActionSelec
-                        ted={this.onActionSelected} />
-                </View>
-                <View>
-                    <Image style={[styles.imagen1]}
-                        source={require('./tijeras.png')} />
-                </View>
-                <View style={[styles.pos]}>
                 <FlatList
-                    data={[
-                        { key: './tijeras.png' },
-                        { key: './vaca.png' },
-                      
-                    ]}
-                    renderItem={({ item }) => <Image style={styles.item}
-                                                    FowardRef= {item.key}></Image>}
+                    style = {{flex: 1}}
+                    numColumns = {2}
+                    data={[{ key: '1', imagen: 'https://cdn-images-1.medium.com/max/1600/1*r9PKBnx_o5lxjDP0BMCCaw.png' }, 
+                    { key: '2', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' }, 
+                    { key: '3', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' }, 
+                    { key: '4', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' }, 
+                    { key: '5', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' }, 
+                    { key: '6', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' }, 
+                    { key: '7', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' }, 
+                    { key: '8', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' }, 
+                    { key: '9', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' }, 
+                    { key: '10', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' }, 
+                    { key: '11', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' }, 
+                    { key: '12', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' }, 
+                    { key: '13', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' }]}
+                    renderItem= {({item, index}) =>{
+                        return (
+                            <MyListItem
+                                item = {item}
+                                index = {index}
+                            ></MyListItem>
+                        )
+                    }}
                 />
-                </View>
             </View>
         )
     }
 };
-function onActionSelected() {
-    if (position === 0) { // index of 'Settings'
-        showSettings();
-    }
-}
-function onPressLearnMore() {
 
-}
+
 
 const styles = StyleSheet.create({
     buttonOuterLayout: {
@@ -69,8 +84,7 @@ const styles = StyleSheet.create({
 
     detalleContainer: {
         flex: 1,
-        //backgroundColor: '#616161',
-        backgroundColor: 'white',
+        backgroundColor: '#616161',
         justifyContent: 'center',
         //alignSelf: 'stretch',
     }
