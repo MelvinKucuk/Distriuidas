@@ -69,5 +69,16 @@ router.get('/getPeliculasByTitleAndYear',function(req,res)
     }    
 });
 
+//EndPoint para buscar pelicula por titulo y anio.
+router.get('/getPeliculasByKey',function(req,res)
+{
+    console.log(req);
+    if(typeof req.query.key !== 'undefined') {
+        console.log(req.query.key);
+        peliculaController.getPeliculasByKey(req,res);
+    }else{
+        res.status(400).send({ msg: "Parametros no ingresado o invalidos." });
+    }    
+});
 // Export API routes
 module.exports = router;
