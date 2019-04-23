@@ -11,7 +11,8 @@ const deviceHeight = Dimensions.get("window").height;
 export default class App extends React.Component {
   render() {
     return (
-      <Router>
+      <Router navigationBarStyle={styles.navBar} titleStyle={styles.navBarTitle} tintColor='white'
+        barButtonTextStyle={styles.barButtonTextStyle} barButtonIconStyle={styles.barButtonIconStyle}>
         <Scene key="root">
           <Scene
             key="Detalle"
@@ -31,9 +32,16 @@ export default class App extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    //flex: 1,
-    backgroundColor: '#eee',
-    // justifyContent: 'center',
+  navBar: {
+    backgroundColor: 'black',
+  },
+  navBarTitle: {
+    color: '#FFFFFF'
+  },
+  barButtonTextStyle: {
+    color: '#FFFFFF'
+  },
+  barButtonIconStyle: {
+    tintColor: '#FFFFFF'
   },
 });
