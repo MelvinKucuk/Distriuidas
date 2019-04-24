@@ -1,9 +1,12 @@
 var bodyParser = require('body-parser');
 const fetch = require("node-fetch");
-const url ="http://www.omdbapi.com/?i=tt3896198&apikey=";
+const url ="http://www.omdbapi.com/?apikey=";
 const apiKEY="d0b64143";
+var utils = require('../utils/Utils');
 var omdb = require('omdb');
+var movieDataId = require('../model/Pelicula');
 var movieData = require('../model/Pelicula');
+var movieDataTitle = require('../model/Pelicula');
 
 
 let getPeliculasByTitle= (req,res) =>
@@ -14,6 +17,8 @@ let getPeliculasByTitle= (req,res) =>
     const idBusqueda = req.query.title;
     const endpoint = `${url}${apiKEY}&t=${idBusqueda}`;
     console.log(endpoint);
+    const endpoint1 = utils.getUrlByKey; 
+    console.log(endpoint1);
     fetch(endpoint)
     .then (
         (response) => {
@@ -21,15 +26,17 @@ let getPeliculasByTitle= (req,res) =>
             return response.json();
         }).then (responseData => {
             console.log(responseData);
-            
             console.log("Parsear Json to object");
-            movieData = new movieData(responseData);
-            console.log(movieData);
+            const newData = {title: responseData.Title, genre: responseData.Genre,actors: responseData.Actors, language: responseData.Language, 
+                poster: responseData.Poster,rating:responseData.imdbRating,movieId:responseData.imdbID,website:responseData.Website,
+			runtime:responseData.Runtime,Year:responseData.Year,synapsi:responseData.Plot,typeMovie:responseData.Type};
+            //movieDataTitle = new movieData(responseData);
+            //console.log(movieDataTitle);
             //const {Title,Actors,Genre,Language,Poster,imdbRating,imdbID,Website,Runtime,Year,Plot}= responseData;
             //const newData = {Title: Title, Genre: Genre,Actors: Actors, Language: Language, 
             //    Poster: Poster,imdbRating:imdbRating,imdbID:imdbID,Website:Website,Runtime:Runtime,Year:Year,Plot:Plot};
             //console.log(newData);
-            res.send(movieData); //devuelvo resultado query  
+            res.send(newData); //devuelvo resultado query  
         });
 }
 
@@ -50,13 +57,13 @@ let getPeliculasByMovieId= (req,res) =>
             console.log(responseData);
             
             console.log("Parsear Json to object");
-            movieData = new movieData(responseData);
-            console.log(movieData);
+            movieDataId = new movieData(responseData);
+            console.log(movieDataId);
             //const {Title,Actors,Genre,Language,Poster,imdbRating,imdbID,Website,Runtime,Year,Plot}= responseData;
             //const newData = {Title: Title, Genre: Genre,Actors: Actors, Language: Language, 
             //    Poster: Poster,imdbRating:imdbRating,imdbID:imdbID,Website:Website,Runtime:Runtime,Year:Year,Plot:Plot};
             //console.log(newData);
-            res.send(movieData); //devuelvo resultado query  
+            res.send(movieDataId); //devuelvo resultado query  
         });
 }
 
