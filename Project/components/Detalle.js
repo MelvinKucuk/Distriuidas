@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Button, Image, FlatList } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Button, Image, FlatList, Linking, ActivityIndicator } from 'react-native';
+import { Divider } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Actions } from 'react-native-router-flux';
-import { Entypo, AntDesign } from '@expo/vector-icons';
+import { Entypo, AntDesign, FontAwesome } from '@expo/vector-icons';
 
 var fakeData = [
     {
@@ -29,97 +30,167 @@ var fakeData = [
 ];
 class Detalle extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-            id: props.navigation.getParam('id')
+            id: props.navigation.getParam('id'),
+            detalle: {
+                "title": "",
+                "year": "",
+                "synapsi": "",
+                "poster": "",
+                "genre": "",
+                "rating": "",
+                "runtime": "",
+                "webSite": ""
+            },
+            isLoading: true,
         }
-        console.log(this.state.id);
+        console.log("ID: " + this.state.id);
     }
 
     static navigationOptions = {
-        title: 'Detalles',
+        title: 'Detalle',
         headerStyle: {
             backgroundColor: 'black',
         },
         headerTintColor: 'white',
     };
 
+    componentDidMount() {
+        this.cargarDetalle();
+    }
+
+    cargarDetalle() {
+        let uri = `http://192.168.43.71:8080/apiAppPeliculas/getPeliculasByMovieId?movieId=${this.state.id}`
+        console.log(uri);
+        fetch(uri).then(res => {
+            return res.json()
+        }).catch((err) => console.log(err)).
+            then(data => {
+                this.setState({
+                    detalle: data,
+                    isLoading: false
+                });
+            }).catch((err) => console.log(err));
+    }
 
     render() {
-        return (
-            <View style={{ flex: 1, flexDirection: 'column' }}>
-                <TouchableOpacity onPress={onPressFab} style={styles.fab}>
-                    <AntDesign name="form" size={25} color="white" />
-                </TouchableOpacity>
-                <ScrollView>
-                    <View style={styles.detalleContainer}>
-                        <View style={{ flex: 1, flexDirection: 'column' }}>
-                            <View style={{ flex: 0.5, flexDirection: 'row' }}>
-                                <Image
-                                    style={{ width: 150, height: 250, marginLeft: 10, marginTop: 10, flex: 0.45, borderRadius: 10 }}
-                                    source={{ uri: 'https://pbs.twimg.com/media/D1nmVNuU4AAO2yD.jpg' }} />
-                                <View style={{ flex: 0.55, flexDirection: 'column', alignContent: 'center', marginHorizontal: 10, marginTop: 20 }}>
-                                    <Text style={styles.detalleTitle}>
-                                        Los Vengadores
-                                    </Text>
-                                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                                        <Text style={styles.detalleMovie}>
-                                            2019
+        if (this.state.isLoading) {
+            return (
+                <View style={styles.detalleContainer}>
+                    <ActivityIndicator size="large" color="#00ff00" backgroundColor=' #616161' style={{ flex: 1 }}></ActivityIndicator>
+                </View>
+            );
+        } else {
+            return (
+                <View style={{ flex: 1, flexDirection: 'column' }}>
+                    <TouchableOpacity onPress={onPressFab} style={styles.fab}>
+                        <AntDesign name="form" size={25} color="white" />
+                    </TouchableOpacity>
+                    <ScrollView>
+                        <View style={styles.detalleContainer}>
+                            <View style={{ flex: 1, flexDirection: 'column' }}>
+                                <View style={{ flex: 0.5, flexDirection: 'row' }}>
+                                    <Image
+                                        style={{ width: 150, height: 250, marginLeft: 10, marginTop: 10, flex: 0.45, borderRadius: 10 }}
+                                        source={{ uri: this.state.detalle.poster }} />
+                                    <View style={{ flex: 0.55, flexDirection: 'column', alignContent: 'center', marginHorizontal: 10, marginTop: 20 }}>
+                                        <Text style={styles.detalleTitle}>
+                                            {this.state.detalle.title}
                                         </Text>
-                                        <Entypo name="calendar" size={15} color="white" />
-                                    </View>
-                                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                                        <Text style={styles.detalleMovie}>
-                                            160 min
-                                        </Text>
-                                        <Entypo name="clock" size={15} color="white" />
-                                    </View>
-                                    <View style={{ marginHorizontal: 20, marginTop: 20 }}>
-                                        <Button
-                                            onPress={onPressHomepage}
-                                            title="Homepage"
-                                            color="#B3B6B7"
+                                        <View
+                                            style={{
+                                                borderBottomColor: 'grey',
+                                                borderBottomWidth: 1,
+                                            }}
                                         />
+                                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                                            <Text style={styles.detalleMovie}>
+                                                {this.state.detalle.year}
+                                            </Text>
+                                            <Entypo name="calendar" size={15} color="white" />
+                                        </View>
+                                        <View
+                                            style={{
+                                                borderBottomColor: 'grey',
+                                                borderBottomWidth: 1,
+                                            }}
+                                        />
+                                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                                            <Text style={styles.detalleMovie}>
+                                                {this.state.detalle.runtime}
+                                            </Text>
+                                            <Entypo name="clock" size={15} color="white" />
+                                        </View>
+                                        <View
+                                            style={{
+                                                borderBottomColor: 'grey',
+                                                borderBottomWidth: 1,
+                                            }}
+                                        />
+                                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                                            <Text style={styles.detalleMovie}>
+                                                {this.state.detalle.rating}
+                                            </Text>
+                                            <FontAwesome name="star" size={15} color="white" />
+                                        </View>
+                                        <View style={{ marginHorizontal: 20, marginTop: 20 }}>
+                                            <Button
+                                                onPress={() => Linking.openURL(this.state.detalle.webSite)}
+                                                title="Homepage"
+                                                color="#B3B6B7"
+                                            />
+                                        </View>
                                     </View>
                                 </View>
-                            </View>
-                            <Text style={styles.detalleGenresTitles}>
-                                Géneros
-                             </Text>
-                            <Text style={styles.detalleGenres}>
-                                Acción, Comedia, Suspenso, Cómic, Thriller, Ciencia Ficción
-                             </Text>
-                            <Text style={styles.detalleGenresTitles}>
-                                Resumen
-                             </Text>
-                            <Text style={styles.detalleGenres}>
-                                Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words,
-                               consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC.
-                                  This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-                                 The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
-                             </Text>
-                            <Text style={styles.detalleGenresTitles}>
-                                Comentarios
-                            </Text>
-                            <FlatList
-                                data={fakeData}
-                                keyExtractor={(item, index) => 'key'+index}
-                                renderItem={({ item, index }) => {
-                                    return (
-                                        <FlatListItems item={item} index={index}>
+                                <Text style={styles.detalleGenresTitles}>
+                                    Géneros
+                                 </Text>
+                                <Text style={styles.detalleGenres}>
+                                    {this.state.detalle.genre}
+                                </Text>
+                                <View
+                                    style={{
+                                        borderBottomColor: 'grey',
+                                        borderBottomWidth: 1,
+                                    }}
+                                />
+                                <Text style={styles.detalleGenresTitles}>
+                                    Resumen
+                                 </Text>
+                                <Text style={styles.detalleGenres}>
+                                    {this.state.detalle.synapsi}
+                                </Text>
+                                <View
+                                    style={{
+                                        borderBottomColor: 'grey',
+                                        borderBottomWidth: 1,
+                                    }}
+                                />
+                                <Text style={styles.detalleGenresTitles}>
+                                    Comentarios
+                                </Text>
+                                <FlatList
+                                    data={fakeData}
+                                    keyExtractor={(item, index) => 'key' + index}
+                                    renderItem={({ item, index }) => {
+                                        return (
+                                            <FlatListItems item={item} index={index}>
 
-                                        </FlatListItems>
-                                    );
-                                }}
+                                            </FlatListItems>
+                                        );
+                                    }}
                                 >
-                                
-                            </FlatList>
+
+                                </FlatList>
+                            </View>
                         </View>
-                    </View>
-                </ScrollView>
-            </View>
-        );
+                    </ScrollView>
+                </View>
+            );
+        }
+
     }
 
 }
@@ -165,7 +236,6 @@ const styles = StyleSheet.create({
     detalleComentario: {
         flex: 1,
         backgroundColor: 'white',
-
     },
     detalleTitle: {
         fontSize: 20,
