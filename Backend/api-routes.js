@@ -103,18 +103,30 @@ router.get('/getPeliculasByKey',function(req,res)
     }    
 });
 
-//EndPoint para buscar pelicula por key de nombre de pelicula.
-router.get('/getPeliculasByMovieId',function(req,res)
+//EndPoint para buscar pelicula por Id  de pelicula.
+router.get('/getPeliculasAndSeriesById',function(req,res)
 {
     console.log(req);
     if(typeof req.query.movieId !== 'undefined') {
         console.log(req.query.movieId);
-        peliculaController.getPeliculasByMovieId(req,res);
+        peliculaController.getPeliculasAndSeriesById(req,res);
     }else{
         res.status(410).send({ msg: "Parametros no ingresado o invalidos." });
     }    
 });
 
+
+//EndPoint para buscar series por key de nombre de pelicula.
+router.get('/getSeriesByKey',function(req,res)
+{
+    console.log(req);
+    if(typeof req.query.key !== 'undefined') {
+        console.log(req.query.key);
+        peliculaController.getSeriesByKey(req,res);
+    }else{
+        res.status(410).send({ msg: "Parametros no ingresado o invalidos." });
+    }    
+});
 
 // Export API routes
 module.exports = router;
