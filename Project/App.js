@@ -6,18 +6,20 @@ import Peliculas from './components/Peliculas';
 import Login from './components/Login';
 import Series from './components/Series';
 import Perfil from './components/Perfil';
+import DatosPersonales from './components/DatosPersonales';
+import Comentarios from './components/Comentarios';
 import {
   createSwitchNavigator,
   createAppContainer,
   createDrawerNavigator,
+  DrawerItems,
   createBottomTabNavigator,
   createStackNavigator,
   SafeAreaView,
-  DrawerItems
 } from 'react-navigation';
 import {DrawerNavigator} from 'react-navigation'
 import { ScrollView } from 'react-native-gesture-handler';
-import { Container, Content, Header, Body} from 'native-base';
+import { Container, Content, Header,Left, Body} from 'native-base';
 
 class App extends Component {
   render() {
@@ -174,6 +176,7 @@ const SeriesStackNavigator = createStackNavigator(
     initialRouteName: 'Series',
   }
 );
+/*
 const PerfilStackNavigator = createStackNavigator(
   {
     Perfil: { screen: Perfil },
@@ -199,6 +202,34 @@ const PerfilStackNavigator = createStackNavigator(
     initialRouteName: 'Perfil',
   }
 )
+*/
+const PerfilTabNavigator = createBottomTabNavigator({
+  DatosPersonales,
+  Comentarios
+},{
+  navigationOptions: ({navigation})=>{
+    const {routeName} = navigation.state.routes[navigation.state.index]
+    return{
+      headerTitle: 'Datos Personales',
+      headerLeft: (
+        <Icon
+          style={{ paddingLeft: 10, color: 'white' }}
+          onPress={() => navigation.openDrawer()}
+          name="md-menu"
+          size={30}
+        />
+      ),
+      headerTintColor: 'white',
+      headerStyle: {
+        backgroundColor: 'black'
+      }
+    }
+  },
+});
+
+const PerfilStackNavigator= createStackNavigator({
+  PerfilTabNavigator: PerfilTabNavigator
+});
 
 const AppDrawerNavigator = createDrawerNavigator({
   Peliculas: {
@@ -210,12 +241,12 @@ const AppDrawerNavigator = createDrawerNavigator({
   Perfil: {
     screen: PerfilStackNavigator
   }
-}/*,{
-  initialRouteName: 'Peliculas',
-  contentComponent:CustomDrawerContentComponent,
-  drawerOpenRoute: 'DrawerOpen',
-  drawerCloseRoute: 'DrawerClose',
-  drawerToggleRoute: 'DrawerToggle'*/
+},{
+    drawerBackgroundColor: 'pink',
+    DrawerItems:{
+      backgroundColor: 'white'
+    }
+}
 );
 
 const AppSwitchNavigator = createSwitchNavigator({
@@ -225,13 +256,14 @@ const AppSwitchNavigator = createSwitchNavigator({
 
 const AppContainer = createAppContainer(AppSwitchNavigator);
 
+/*
 const CustomDrawerComponent = (props) => (
   <SafeAreaView Style={{ flex: 1 }}>
     <View style={{
       height: 150, backgroundColor: 'white', alignContent: 'center',
       justifyContent: 'center'
     }}>
-      <Image source={require('./components/vaca.png')}
+      <Image source={require('./vaca.png')}
         style={{ height: 120, with: 120, borderRadius: 60 }} />
     </View>
     <ScrollView>
@@ -239,7 +271,7 @@ const CustomDrawerComponent = (props) => (
     </ScrollView>
   </SafeAreaView>
 )
-
+*/
 class drawerContentComponents extends Component {
 
   navigateToScreen = (route) => (
@@ -273,7 +305,7 @@ class drawerContentComponents extends Component {
     )
   }
 }
-
+/*
 const CustomDrawerContentComponent = (props) => (
 
   <Container>
@@ -285,7 +317,7 @@ const CustomDrawerContentComponent = (props) => (
     </Header>
   </Container>
 )
-
+*/
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#616161',
