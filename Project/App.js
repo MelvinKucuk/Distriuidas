@@ -5,8 +5,8 @@ import Detalle from './components/Detalle';
 import Peliculas from './components/Peliculas';
 import Login from './components/Login';
 import Series from './components/Series';
-import Feed from './components/Feed';
-import { Router, Scene } from 'react-native-router-flux';
+
+
 import {
   createSwitchNavigator,
   createAppContainer,
@@ -21,32 +21,77 @@ class App extends Component {
 }
 export default App;
 
-let navegador = this.navigator
 
 class LoginScreen extends React.Component {
 
-  static navigationOptions = {
-    title: 'Login',
-    headerStyle: {
-      backgroundColor: 'black',
-    },
-    headerTintColor: 'white',
-  };
-
-  constructor(props) {
+  constructor(props)
+  {
     super(props)
   }
 
-class WelcomeScreen extends Component {
   render() {
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#616161' }}>
-        <Button
-          title="Login"
-          onPress={() => this.props.navigation.navigate('Dashboard')}
-        />
-        <Button title="Sign Up" onPress={() => alert('button pressed')} />
-      </View>
+      <Login
+        onPress = {this.checkLogin.bind(this)}
+      />
+    );
+  }
+
+  checkLogin(){
+    this.props.navigation.navigate('Peliculas')
+  }
+}
+
+ let id = null;
+
+class PeliculasScreen extends React.Component {
+
+  static navigationOptions = {
+    title: 'Peliculas           ',
+    headerStyle: {
+        backgroundColor: 'black',
+    },
+    headerTintColor: 'white',
+};
+
+  constructor(props)
+  {
+    super(props)
+  }
+
+  render() {
+    return (
+      <Peliculas
+        onPress = {this.pasarDetalle.bind(this)}
+      />
+    );
+  }
+
+  pasarDetalle(idMovie){
+    this.props.navigation.navigate('Detalle', {id: idMovie})
+  }
+}
+
+class DetalleScreen extends React.Component {
+
+  static navigationOptions = {
+    title: 'Peliculas           ',
+    headerStyle: {
+        backgroundColor: 'black',
+    },
+    headerTintColor: 'white',
+};
+
+  constructor(props)
+  {
+    super(props)
+  }
+
+  render() {
+    return (
+      <Detalle
+        
+      />
     );
   }
 }
@@ -55,8 +100,7 @@ class WelcomeScreen extends Component {
 
 const DashboardStackNavigator = createStackNavigator(
   {
-    //Login: { screen: Login },
-    Peliculas: { screen: Peliculas },
+    Peliculas: { screen: PeliculasScreen },
     Detalle: { screen: Detalle },
   },
   {
@@ -88,7 +132,7 @@ const AppDrawerNavigator = createDrawerNavigator({
 });
 
 const AppSwitchNavigator = createSwitchNavigator({
-  Login: { screen: Login },
+  Login: { screen: LoginScreen },
   Dashboard: { screen: AppDrawerNavigator }
 });
 

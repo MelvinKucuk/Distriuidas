@@ -1,37 +1,14 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button, ToolbarAndroid, Image, FlatList, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
-import { Actions } from 'react-native-router-flux';
-import { Header, Left, Right, Icon } from 'native-base'
-
-class MyListItem extends React.PureComponent {
-    render() {
-        return (
-            <View style={{ flex: 1, margin: 30 }}
-            >
-                <Image style={[styles.imagen1]}
-                    source={{ uri: this.props.item.poster }}
-                ></Image>
-                <Button style={[styles.button]}
-                    color='#373737'
-                    title="Login"
-                    onPress={alert("PUTO")}
-                />
-            </View>
-        )
-    }
-}
-
-
+import { View, Text, StyleSheet, Button, Image, FlatList, TouchableOpacity } from 'react-native';
 
 function createData(item, idArray) {
     return {
         key: item.imdbID,
         poster: item.Poster,
-        title: item.Title
+        title: item.Title,
+        id: item.imdbID,
     };
 }
-
-
 
 class Peliculas extends Component {
     static navigationOptions = {
@@ -47,19 +24,8 @@ class Peliculas extends Component {
 
         this.state = {
             peliculas: [
-                { key: '1', imagen: 'https://cdn-images-1.medium.com/max/1600/1*r9PKBnx_o5lxjDP0BMCCaw.png' },
-                { key: '2', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
-                { key: '3', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
-                { key: '4', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
-                { key: '5', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
-                { key: '6', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
-                { key: '7', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
-                { key: '8', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
-                { key: '9', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
-                { key: '10', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
-                { key: '11', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
-                { key: '12', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
-                { key: '13', imagen: 'https://cdn-images-1.medium.com/max/1600/1*TZAwFAf2oSJGoQBuVIbOvQ.png' },
+                { key: '1', imagen: 'https://m.media-amazon.com/images/M/MV5BNWVjMzgwMTctZmZjNC00ZmE0LThiNTUtYzkyM2RkYWIzY2Y2XkEyXkFqcGdeQXVyNjEyNDAyMzI@._V1_SX300.jpg' },
+                { key: '2', imagen: 'https://m.media-amazon.com/images/M/MV5BNWVjMzgwMTctZmZjNC00ZmE0LThiNTUtYzkyM2RkYWIzY2Y2XkEyXkFqcGdeQXVyNjEyNDAyMzI@._V1_SX300.jpg' },
             ]
         };
     }
@@ -103,7 +69,7 @@ class Peliculas extends Component {
                             <View style={{ flex: 1, margin: 10 }}
                             >
                             <TouchableOpacity
-                                onPress = {() => this.submithandler()}>
+                                onPress = {() => this.props.onPress(item.id)}>
                                 <Image style={[styles.imagen1]}
                                     source={{ uri: item.poster }}
                                 ></Image>
@@ -117,40 +83,7 @@ class Peliculas extends Component {
         )
     }
 
-
-    submithandler(){
-        console.log("asd")
-    }
-
-    _renderItem = ({ item }) => (
-        <MyListItem
-            item={item}
-        />
-    );
-
 };
-
-/*<View style={[styles.Container]} >
-                    <Header style={{ height: 70, backgroundColor: 'black' }}>
-                        <View style={{ marginTop: 30, marginRight: 325 }}>
-                            <Left>
-                                <Icon name="menu" onPress={() => this.props.navigation.openDrawer()} style={{ color: 'white' }} />
-                            </Left>
-                        </View>
-                    </Header>
-                    <View>
-
-                    </View>
-                </View> */
-
-function onActionSelected() {
-    if (position === 0) { // index of 'Settings'
-        showSettings();
-    }
-}
-function onPressLearnMore() {
-
-}
 
 const styles = StyleSheet.create({
     buttonOuterLayout: {
@@ -178,7 +111,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#616161',
         justifyContent: 'center',
-        //alignSelf: 'stretch',
     },
     outterImage: {
         

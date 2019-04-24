@@ -29,6 +29,14 @@ var fakeData = [
 ];
 class Detalle extends Component {
 
+    constructor(props){
+        super(props);
+        this.state = {
+            id: props.navigation.getParam('id')
+        }
+        console.log(this.state.id);
+    }
+
     static navigationOptions = {
         title: 'Detalle',
         headerStyle: {
@@ -96,14 +104,16 @@ class Detalle extends Component {
                             </Text>
                             <FlatList
                                 data={fakeData}
+                                keyExtractor={(item, index) => 'key'+index}
                                 renderItem={({ item, index }) => {
                                     return (
                                         <FlatListItems item={item} index={index}>
 
                                         </FlatListItems>
                                     );
-                                }}>
-
+                                }}
+                                >
+                                
                             </FlatList>
                         </View>
                     </View>
