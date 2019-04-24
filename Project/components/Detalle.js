@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Button, Image, FlatList, Linking, ActivityIndicator } from 'react-native';
-import { Divider } from 'react-native-elements';
+import { View, Text, StyleSheet, TouchableOpacity, TouchableHighlight, Button, Image, FlatList, Linking, ActivityIndicator, Modal, TextInput, Dimensions } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Actions } from 'react-native-router-flux';
 import { Entypo, AntDesign, FontAwesome } from '@expo/vector-icons';
 
 var fakeData = [
@@ -28,7 +26,11 @@ var fakeData = [
     },
 
 ];
+
+var { height, width } = Dimensions.get('window');
+
 class Detalle extends Component {
+
 
     constructor(props) {
         super(props);
@@ -45,8 +47,10 @@ class Detalle extends Component {
                 "webSite": ""
             },
             isLoading: true,
+            modalVisible: false,
+            text: "",
+
         }
-        console.log("ID: " + this.state.id);
     }
 
     static navigationOptions = {
@@ -61,8 +65,13 @@ class Detalle extends Component {
         this.cargarDetalle();
     }
 
+    setModalVisible(visible) {
+        this.setState({ modalVisible: visible });
+    }
+
+
     cargarDetalle() {
-        let uri = `http://192.168.43.249:8080/apiAppPeliculas/getPeliculasByMovieId?movieId=${this.state.id}`
+        let uri = `http://192.168.43.71:8080/apiAppPeliculas/getPeliculasAndSeriesById?movieId=${this.state.id}`
         console.log(uri);
         fetch(uri).then(res => {
             return res.json()
@@ -72,7 +81,7 @@ class Detalle extends Component {
                     detalle: data,
                     isLoading: false
                 });
-            }).catch((err) => console.log(err));
+            }).catch((error) => console.log(error));
     }
 
     render() {
@@ -85,9 +94,8 @@ class Detalle extends Component {
         } else {
             return (
                 <View style={{ flex: 1, flexDirection: 'column' }}>
-                    <TouchableOpacity onPress={onPressFab} style={styles.fab}>
-                        <AntDesign name="form" size={25} color="white" />
-                    </TouchableOpacity>
+                    {console.log(this.state.detalle)}
+
                     <ScrollView>
                         <View style={styles.detalleContainer}>
                             <View style={{ flex: 1, flexDirection: 'column' }}>
@@ -135,13 +143,13 @@ class Detalle extends Component {
                                             </Text>
                                             <FontAwesome name="star" size={15} color="white" />
                                         </View>
-                                        <View style={{ marginHorizontal: 20, marginTop: 20 }}>
+                                        {/* <View style={{ marginHorizontal: 20, marginTop: 20 }}>
                                             <Button
                                                 onPress={() => Linking.openURL(this.state.detalle.webSite)}
                                                 title="Homepage"
                                                 color="#B3B6B7"
                                             />
-                                        </View>
+                                        </View> */}
                                     </View>
                                 </View>
                                 <Text style={styles.detalleGenresTitles}>
@@ -187,6 +195,46 @@ class Detalle extends Component {
                             </View>
                         </View>
                     </ScrollView>
+                    <TouchableOpacity onPress={() => {
+                        this.setModalVisible(true);
+                    }} style={styles.fab}>
+                        <AntDesign name="form" size={25} color="white" />
+                    </TouchableOpacity>
+
+                    <Modal visible={this.state.isModalVisible} animationType="fade" visible={this.state.modalVisible} transparent={true} onRequestClose={() => { Alert.alert('Modal has been closed.'); }}>
+
+                        <View style={styles.modal}>
+                            <View>
+                                <Text
+                                    style={styles.modalText}>Comentario</Text>
+                            </View>
+                            <View style={{ margin: 10, color: 'white', borderColor: 'black', borderWidth: 1, width: width * 0.70, height: 50, backgroundColor: 'white' }}>
+                                <TextInput multiline={true} autoFocus={true} maxLength={100} onChangeText={(text) => this.setState({ text })} value={this.state.text}>
+
+                                </TextInput>
+                            </View>
+                            <View style={{ flex: 0.5, flexDirection: 'row' }}>
+                                <View style={{ marginRight: 10, width: width * 0.30 }}>
+                                    <Button
+                                        title="Aceptar"
+                                        color="#B3B6B7"
+                                        onPress={() => {
+                                            this.setModalVisible(!this.state.modalVisible);
+                                        }} />
+                                </View>
+                                <View style={{ marginLeft: 10, width: width * 0.30 }}>
+                                    <Button
+                                        title="Cancelar"
+                                        color="#B3B6B7"
+                                        onPress={() => {
+                                            this.setModalVisible(!this.state.modalVisible);
+                                        }} />
+                                </View>
+                            </View>
+
+
+                        </View>
+                    </Modal>
                 </View>
             );
         }
@@ -281,7 +329,36 @@ const styles = StyleSheet.create({
         color: 'black',
         padding: 10,
         fontSize: 16,
-    }
+    },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+    },
+    modal: {
+        height: height * 0.3,
+        width: width * 0.75,
+        position: 'absolute',
+        top: height * 0.3,
+        left: width * 0.13,
+        backgroundColor: 'grey',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
+        borderColor: 'rgba(0, 0, 0, 0.1)',
+        shadowColor: 'black',
+        shadowOpacity: 5.0,
+    },
+    modalText: {
+        fontSize: 20,
+        margin: 10,
+        color: 'white',
+        fontWeight: 'bold'
+    },
+    textInput: {
+        color: 'white',
+        fontSize: 20,
+        alignSelf: 'center',
+    },
 
 })
 
