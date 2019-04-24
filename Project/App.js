@@ -21,6 +21,22 @@ class App extends Component {
 }
 export default App;
 
+let navegador = this.navigator
+
+class LoginScreen extends React.Component {
+
+  static navigationOptions = {
+    title: 'Login',
+    headerStyle: {
+      backgroundColor: 'black',
+    },
+    headerTintColor: 'white',
+  };
+
+  constructor(props) {
+    super(props)
+  }
+
 class WelcomeScreen extends Component {
   render() {
     return (
