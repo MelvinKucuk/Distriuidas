@@ -8,20 +8,25 @@ class Login extends Component {
         super(props);
         this.state = {
             username: null,
-            password: null,
+            oldPassword: null,
+            newPassword: null,
         }
     }
 
-    checkLogin(){
+    checkChange(){
         ApiController.getUsuario(this.checkUsuario.bind(this), this.state.username)        
     }
 
     checkUsuario(data){
-        if(data.usuarioId == this.state.username && data.password == this.state.password){
-            this.props.onPressLogin()
+        if(data.password == this.state.oldPassword){
+            ApiController.changePassword(this.state.username, this.state.newPassword, this.okChange.bind(this));
         } else{
-            alert("Contraseña incorrecta");
         }
+    }
+
+    okChange(){
+        alert("Cambio de contraseña exitoso");
+        this.props.onPress();
     }
 
     render() {
@@ -30,7 +35,7 @@ class Login extends Component {
                 <View style={[styles.imageContainer]}>
                     <Image
                         style={[styles.imageStyle]}
-                        source={require('./clapperboard.png')}/>
+                        source={require('./clapperboard.png')}></Image>
                 </View>
                 <View style={[styles.inputContainer]}>
                     <View style={[styles.outterInput]}>
@@ -43,29 +48,31 @@ class Login extends Component {
                     <View style={[styles.outterInput]}>
                         <TextInput 
                         style={[styles.textInput]}
-                        placeholder="Password"
-                        onChangeText = {(text) => this.setState({ password: text})}
+                        placeholder="Old Password"
+                        onChangeText = {(text) => this.setState({ oldPassword: text})}
+                        secureTextEntry={true}
+                        />
+                    </View>
+                    <View style={[styles.outterInput]}>
+                        <TextInput 
+                        style={[styles.textInput]}
+                        placeholder="New Password"
+                        onChangeText = {(text) => this.setState({ newPassword: text})}
                         secureTextEntry={true}
                         />
                     </View>
                     <View style={[styles.outterButton]}>
                         <Button
                             color='#373737'
-                            title="Login"
-                            onPress={() => this.checkLogin()}/>
+                            title="Change Password"
+                            onPress={() => this.checkChange()}/>
                         
                     </View>
                     <View style={[styles.outterButtonCreate]}>
                     <Button
                             color='#373737'
-                            title="Create Account"
-                            onPress={() => this.props.onPressCreate()}/>
-                    </View>
-                    <View style={[styles.outterButtonCreate]}>
-                    <Button
-                            color='#373737'
-                            title="Change Password"
-                            onPress={() => this.props.onPressPass()}/>
+                            title="Go Back"
+                            onPress={() => this.props.onPress()}/>
                     </View>
                 </View>
             </View>

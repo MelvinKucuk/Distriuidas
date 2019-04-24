@@ -7,21 +7,24 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: null,
+            name: null,
+            lastName: null,
+            email: null,
+            user: null,
             password: null,
         }
     }
 
-    checkLogin(){
-        ApiController.getUsuario(this.checkUsuario.bind(this), this.state.username)        
+    checkCreate(){
+        if(this.state.user != null && this.state.password != null){
+        ApiController.insertUsuario(this.state.name, this.state.lastName, this.state.email, 
+            this.state.user, this.state.password, this.okCreate.bind(this));  
+        }
     }
 
-    checkUsuario(data){
-        if(data.usuarioId == this.state.username && data.password == this.state.password){
-            this.props.onPressLogin()
-        } else{
-            alert("Contraseña incorrecta");
-        }
+    okCreate(){
+        alert("Se creo el usuario exitosamente");
+        this.props.onPress();
     }
 
     render() {
@@ -30,14 +33,35 @@ class Login extends Component {
                 <View style={[styles.imageContainer]}>
                     <Image
                         style={[styles.imageStyle]}
-                        source={require('./clapperboard.png')}/>
+                        source={require('./clapperboard.png')}></Image>
                 </View>
                 <View style={[styles.inputContainer]}>
+                <View style={[styles.outterInput]}>
+                        <TextInput
+                            style={[styles.textInput]}
+                            placeholder="Name"
+                            onChangeText = {(text) => this.setState({ name: text})}
+                        />
+                    </View>
                     <View style={[styles.outterInput]}>
                         <TextInput
                             style={[styles.textInput]}
-                            placeholder="Username"
-                            onChangeText = {(text) => this.setState({ username: text})}
+                            placeholder="Last Name"
+                            onChangeText = {(text) => this.setState({ lastName: text})}
+                        />
+                    </View>
+                    <View style={[styles.outterInput]}>
+                        <TextInput
+                            style={[styles.textInput]}
+                            placeholder="Email"
+                            onChangeText = {(text) => this.setState({ email: text})}
+                        />
+                    </View>
+                    <View style={[styles.outterInput]}>
+                        <TextInput 
+                        style={[styles.textInput]}
+                        placeholder="User"
+                        onChangeText = {(text) => this.setState({ user: text})}
                         />
                     </View>
                     <View style={[styles.outterInput]}>
@@ -51,21 +75,15 @@ class Login extends Component {
                     <View style={[styles.outterButton]}>
                         <Button
                             color='#373737'
-                            title="Login"
-                            onPress={() => this.checkLogin()}/>
+                            title="Create User"
+                            onPress={() => this.checkCreate()}/>
                         
                     </View>
                     <View style={[styles.outterButtonCreate]}>
                     <Button
                             color='#373737'
-                            title="Create Account"
-                            onPress={() => this.props.onPressCreate()}/>
-                    </View>
-                    <View style={[styles.outterButtonCreate]}>
-                    <Button
-                            color='#373737'
-                            title="Change Password"
-                            onPress={() => this.props.onPressPass()}/>
+                            title="Go Back"
+                            onPress={() => this.props.onPress()}/>
                     </View>
                 </View>
             </View>
@@ -93,7 +111,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     inputContainer: {
-        flex: 1,
+        flex: 2,
         backgroundColor: '#616161',
         justifyContent: 'flex-start'
     },
