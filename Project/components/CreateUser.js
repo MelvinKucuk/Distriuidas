@@ -7,21 +7,24 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: null,
-            oldPassword: null,
-            newPassword: null,
+            name: null,
+            lastName: null,
+            email: null,
+            user: null,
+            password: null,
         }
     }
 
-    checkLogin(){
-        ApiController.getUsuario(this.checkUsuario.bind(this), this.state.username)        
+    checkCreate(){
+        if(this.state.user != null && this.state.password != null){
+        ApiController.insertUsuario(this.state.name, this.state.lastName, this.state.email, 
+            this.state.user, this.state.password, this.okCreate.bind(this));  
+        }
     }
 
-    checkUsuario(data){
-        if(data.usuarioId == this.state.username && data.password == this.state.password){
-            this.props.onPress()
-        } else{
-        }
+    okCreate(){
+        alert("Se creo el usuario exitosamente");
+        this.props.onPress();
     }
 
     render() {
@@ -33,29 +36,39 @@ class Login extends Component {
                         source={require('./clapperboard.png')}></Image>
                 </View>
                 <View style={[styles.inputContainer]}>
+                <View style={[styles.outterInput]}>
+                        <TextInput
+                            style={[styles.textInput]}
+                            placeholder="Name"
+                            onChangeText = {(text) => this.setState({ name: text})}
+                        />
+                    </View>
                     <View style={[styles.outterInput]}>
                         <TextInput
                             style={[styles.textInput]}
-                            placeholder="Username"
-                            placeholderTextColor="rgba(255, 255, 255, 0.5)"
-                            onChangeText = {(text) => this.setState({ username: text})}
+                            placeholder="Last Name"
+                            onChangeText = {(text) => this.setState({ lastName: text})}
+                        />
+                    </View>
+                    <View style={[styles.outterInput]}>
+                        <TextInput
+                            style={[styles.textInput]}
+                            placeholder="Email"
+                            onChangeText = {(text) => this.setState({ email: text})}
                         />
                     </View>
                     <View style={[styles.outterInput]}>
                         <TextInput 
                         style={[styles.textInput]}
-                        placeholder="Old Password"
-                        placeholderTextColor="rgba(255, 255, 255, 0.5)"
-                        onChangeText = {(text) => this.setState({ oldPassword: text})}
-                        secureTextEntry={true}
+                        placeholder="User"
+                        onChangeText = {(text) => this.setState({ user: text})}
                         />
                     </View>
                     <View style={[styles.outterInput]}>
                         <TextInput 
                         style={[styles.textInput]}
-                        placeholder="New Password"
-                        placeholderTextColor="rgba(255, 255, 255, 0.5)"
-                        onChangeText = {(text) => this.setState({ newPassword: text})}
+                        placeholder="Password"
+                        onChangeText = {(text) => this.setState({ password: text})}
                         secureTextEntry={true}
                         />
                     </View>
@@ -63,7 +76,7 @@ class Login extends Component {
                         <Button
                             color='#373737'
                             title="Create User"
-                            onPress={() => this.checkLogin()}/>
+                            onPress={() => this.checkCreate()}/>
                         
                     </View>
                     <View style={[styles.outterButtonCreate]}>
@@ -98,7 +111,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     inputContainer: {
-        flex: 1,
+        flex: 2,
         backgroundColor: '#616161',
         justifyContent: 'flex-start'
     },

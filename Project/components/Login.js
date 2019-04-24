@@ -18,8 +18,9 @@ class Login extends Component {
 
     checkUsuario(data){
         if(data.usuarioId == this.state.username && data.password == this.state.password){
-            this.props.onPress("login")
+            this.props.onPressLogin()
         } else{
+            alert("Contraseña incorrecta");
         }
     }
 
@@ -29,14 +30,13 @@ class Login extends Component {
                 <View style={[styles.imageContainer]}>
                     <Image
                         style={[styles.imageStyle]}
-                        source={require('./clapperboard.png')}></Image>
+                        source={require('./clapperboard.png')}/>
                 </View>
                 <View style={[styles.inputContainer]}>
                     <View style={[styles.outterInput]}>
                         <TextInput
                             style={[styles.textInput]}
                             placeholder="Username"
-                            placeholderTextColor="rgba(255, 255, 255, 0.5)"
                             onChangeText = {(text) => this.setState({ username: text})}
                         />
                     </View>
@@ -44,7 +44,6 @@ class Login extends Component {
                         <TextInput 
                         style={[styles.textInput]}
                         placeholder="Password"
-                        placeholderTextColor="rgba(255, 255, 255, 0.5)"
                         onChangeText = {(text) => this.setState({ password: text})}
                         secureTextEntry={true}
                         />
@@ -60,13 +59,13 @@ class Login extends Component {
                     <Button
                             color='#373737'
                             title="Create Account"
-                            onPress={() => this.props.onPress("create")}/>
+                            onPress={() => this.props.onPressCreate()}/>
                     </View>
                     <View style={[styles.outterButtonCreate]}>
                     <Button
                             color='#373737'
                             title="Change Password"
-                            onPress={() => this.props.onPress("pass")}/>
+                            onPress={() => this.props.onPressPass()}/>
                     </View>
                 </View>
             </View>

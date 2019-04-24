@@ -13,15 +13,20 @@ class Login extends Component {
         }
     }
 
-    checkLogin(){
+    checkChange(){
         ApiController.getUsuario(this.checkUsuario.bind(this), this.state.username)        
     }
 
     checkUsuario(data){
-        if(data.usuarioId == this.state.username && data.password == this.state.password){
-            this.props.onPress()
+        if(data.password == this.state.oldPassword){
+            ApiController.changePassword(this.state.username, this.state.newPassword, this.okChange.bind(this));
         } else{
         }
+    }
+
+    okChange(){
+        alert("Cambio de contraseña exitoso");
+        this.props.onPress();
     }
 
     render() {
@@ -37,7 +42,6 @@ class Login extends Component {
                         <TextInput
                             style={[styles.textInput]}
                             placeholder="Username"
-                            placeholderTextColor="rgba(255, 255, 255, 0.5)"
                             onChangeText = {(text) => this.setState({ username: text})}
                         />
                     </View>
@@ -45,7 +49,6 @@ class Login extends Component {
                         <TextInput 
                         style={[styles.textInput]}
                         placeholder="Old Password"
-                        placeholderTextColor="rgba(255, 255, 255, 0.5)"
                         onChangeText = {(text) => this.setState({ oldPassword: text})}
                         secureTextEntry={true}
                         />
@@ -54,7 +57,6 @@ class Login extends Component {
                         <TextInput 
                         style={[styles.textInput]}
                         placeholder="New Password"
-                        placeholderTextColor="rgba(255, 255, 255, 0.5)"
                         onChangeText = {(text) => this.setState({ newPassword: text})}
                         secureTextEntry={true}
                         />
@@ -63,7 +65,7 @@ class Login extends Component {
                         <Button
                             color='#373737'
                             title="Change Password"
-                            onPress={() => this.checkLogin()}/>
+                            onPress={() => this.checkChange()}/>
                         
                     </View>
                     <View style={[styles.outterButtonCreate]}>

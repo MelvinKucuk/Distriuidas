@@ -36,23 +36,22 @@ class LoginScreen extends React.Component {
   render() {
     return (
       <Login
-        onPress={this.checkLogin.bind(this)}
+        onPressLogin={this.checkLogin.bind(this)}
+        onPressPass = {this.goPass.bind(this)}
+        onPressCreate = {this.goCreate.bind(this)}
       />
     );
   }
   checkLogin(screen) {
+    this.props.navigation.navigate('Peliculas');
+  }
 
-    switch (screen) {
-      case "login":
-        this.props.navigation.navigate('Peliculas');
-        break;
-      case "pass":
-        this.props.navigation.navigate('ChangePassword');
-        break;
-      case "create":
-        this.props.navigation.navigate('CreateUser');
-        break;
-    }
+  goPass(screen) {
+    this.props.navigation.navigate('ChangePassword');
+  }
+
+  goCreate(screen) {
+    this.props.navigation.navigate('CreateUser');
   }
 }
 
