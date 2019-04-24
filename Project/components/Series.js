@@ -1,27 +1,115 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button, ToolbarAndroid, Image, FlatList } from 'react-native';
+import { View, Text, StyleSheet, Button, Image, FlatList, TouchableOpacity } from 'react-native';
+import ApiController from '../controller/ApiController'
+
+function createData(item, idArray) {
+    return {
+        key: item.imdbID,
+        poster: item.Poster,
+        title: item.Title,
+        id: item.imdbID,
+    };
+}
 
 class Series extends Component {
+    static navigationOptions = {
+        title: 'Series',
+        headerStyle: {
+            backgroundColor: 'black',
+        },
+        headerTintColor: 'white',
+    };
+
     constructor(props) {
         super(props);
+
         this.state = {
+            series: [
+                { key: '1', imagen: 'https://m.media-amazon.com/images/M/MV5BNWVjMzgwMTctZmZjNC00ZmE0LThiNTUtYzkyM2RkYWIzY2Y2XkEyXkFqcGdeQXVyNjEyNDAyMzI@._V1_SX300.jpg' },
+                { key: '2', imagen: 'https://m.media-amazon.com/images/M/MV5BNWVjMzgwMTctZmZjNC00ZmE0LThiNTUtYzkyM2RkYWIzY2Y2XkEyXkFqcGdeQXVyNjEyNDAyMzI@._V1_SX300.jpg' },
+            ]
         };
     }
+
+    componentDidMount() {
+        ApiController.getSeries(this.okSeries.bind(this));
+    }
+
+    okSeries(data) {
+        var i, newArray = [];
+                for (i = 0; i < data.length; i++) {
+                    newArray.push(createData(data[i], i));
+                }
+                this.setState({ Series: newArray });
+    }
+
+
     render() {
+        //console.log("Entre al render");
         return (
             <View style={[styles.detalleContainer]} >
-                 <Text>Series</Text>
+                <FlatList
+                    style={{ flex: 1 }}
+                    numColumns={2}
+                    data={this.state.Series}
+                    keyboardShouldPersistTaps='always'
+                    renderItem={({ item }) => {
+                        return (
+                            <View style={{ flex: 1, margin: 10 }}
+                            >
+                            <TouchableOpacity
+                                onPress = {() => this.props.onPress(item.id)}>
+                                <Image style={[styles.imagen1]}
+                                    source={{ uri: item.poster }}
+                                ></Image>
+                                <Text style = {[styles.texto]}
+                                    >{item.title}</Text>
+                                </TouchableOpacity>
+                            </View>
+                        );
+                    }}
+                />
+
             </View>
         )
     }
+
 };
 
 const styles = StyleSheet.create({
+    buttonOuterLayout: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
+
+    },
+    pos: {
+        flex: 1
+    },
+    imagen1: {
+        height: 180,
+        width: 180,
+        resizeMode: 'contain',
+        borderRadius: 20,
+
+    },
+
+    toolBar: {
+    },
+
     detalleContainer: {
         flex: 1,
         backgroundColor: '#616161',
         justifyContent: 'center',
-        //alignSelf: 'stretch',
+    },
+    texto: {
+        color: 'white',
+        fontSize: 20,
+        alignSelf: 'center',
+        textAlign: 'center'
     }
+
 })
+
 export default Series;

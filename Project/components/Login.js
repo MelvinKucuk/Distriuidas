@@ -38,10 +38,16 @@ class Login extends Component {
                             style={[styles.button]}
                             color='#373737'
                             title="Login"
-                            onPress={() => this.props.onPress()}
-                        />
+                            onPress={() => this.props.onPress()}/>
+                        
                     </View>
-
+                    <View style={[styles.outterButtonCreate]}>
+                    <Button
+                            style={[styles.button]}
+                            color='#373737'
+                            title="Create Account"
+                            onPress={() => this.props.onPress()}/>
+                    </View>
                 </View>
             </View>
         );
@@ -85,9 +91,16 @@ const styles = StyleSheet.create({
     outterButton: {
         justifyContent: 'center',
         alignSelf: 'center',
+        marginBottom: 20,
+        marginTop: 20,
+    },
+    outterButtonCreate: {
+        justifyContent: 'center',
+        alignSelf: 'center',
+        marginBottom: 20,
     },
     button: {
-        color: 'red'
+        color: 'red',
     }
 })
 
