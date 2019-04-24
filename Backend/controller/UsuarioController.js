@@ -72,7 +72,7 @@ let updateUsuarioByPassword = (req, res) =>
     usuarios.updateMany(myquery, newvalues, function(err, res) {
         if (err) console.log(err);
         console.log("Documento actualizado");
-        console.log(res.result.nModified);
+        console.log(res.nModified);
       });    
       res.status(206).send({ msg: "Se actualizaron los usuarios." });  
 };

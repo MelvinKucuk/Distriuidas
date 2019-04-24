@@ -45,7 +45,7 @@ class Peliculas extends Component {
 
 
     render() {
-        console.log("Entre al render");
+        //console.log("Entre al render");
         return (
             <View style={[styles.detalleContainer]} >
                 <FlatList

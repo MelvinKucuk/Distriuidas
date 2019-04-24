@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
     detalleContainer: {
         flex: 1,
         backgroundColor: '#616161',
-        backgroundColor: 'white',
         justifyContent: 'center',
         //alignSelf: 'stretch',
     }
