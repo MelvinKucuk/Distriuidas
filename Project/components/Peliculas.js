@@ -35,7 +35,7 @@ class Peliculas extends Component {
     }
 
     cargarPeliculas() {
-        let uri = 'http://192.168.43.249:8080/apiAppPeliculas/getPeliculasByKey?key=saw'
+        let uri = 'http://192.168.43.71:8080/apiAppPeliculas/getPeliculasByKey?key=saw'
         //console.log(uri);
         fetch(uri).then(res => {
             return res.json()
@@ -68,11 +68,11 @@ class Peliculas extends Component {
                         return (
                             <View style={{ flex: 1, margin: 10 }}
                             >
-                            <TouchableOpacity
-                                onPress = {() => this.props.onPress(item.id)}>
-                                <Image style={[styles.imagen1]}
-                                    source={{ uri: item.poster }}
-                                ></Image>
+                                <TouchableOpacity
+                                    onPress={() => this.props.onPress(item.id)}>
+                                    <Image style={[styles.imagen1]}
+                                        source={{ uri: item.poster }}
+                                    ></Image>
                                 </TouchableOpacity>
                             </View>
                         );
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     outterImage: {
-        
+
     }
 
 })
