@@ -4,9 +4,8 @@ const url ="http://www.omdbapi.com/?apikey=";
 const apiKEY="d0b64143";
 var utils = require('../utils/Utils');
 var omdb = require('omdb');
-var movieDataId = require('../model/Pelicula');
 var movieData = require('../model/Pelicula');
-var movieDataTitle = require('../model/Pelicula');
+var assert = require('assert');
 
 
 let getPeliculasByTitle= (req,res) =>
@@ -25,19 +24,22 @@ let getPeliculasByTitle= (req,res) =>
             console.log(response);
             return response.json();
         }).then (responseData => {
-            console.log(responseData);
+            console.log(responseData);           
             console.log("Parsear Json to object");
-            const newData = {title: responseData.Title, genre: responseData.Genre,actors: responseData.Actors, language: responseData.Language, 
-                poster: responseData.Poster,rating:responseData.imdbRating,movieId:responseData.imdbID,website:responseData.Website,
-			runtime:responseData.Runtime,Year:responseData.Year,synapsi:responseData.Plot,typeMovie:responseData.Type};
-            //movieDataTitle = new movieData(responseData);
-            //console.log(movieDataTitle);
-            //const {Title,Actors,Genre,Language,Poster,imdbRating,imdbID,Website,Runtime,Year,Plot}= responseData;
-            //const newData = {Title: Title, Genre: Genre,Actors: Actors, Language: Language, 
-            //    Poster: Poster,imdbRating:imdbRating,imdbID:imdbID,Website:Website,Runtime:Runtime,Year:Year,Plot:Plot};
-            //console.log(newData);
-            res.send(newData); //devuelvo resultado query  
-        });
+            //movieData= new movieData(responseData);
+            //console.log(movieData);
+            const {Title,Genre,Actors,Language,Poster,imdbRating,imdbID,Website,Runtime,Year,Plot,Type}= responseData;
+            console.log("Mapeo json");
+            const newData = {title:Title, genre:Genre,actors:Actors, language: Language, 
+                poster: Poster,rating:imdbRating,movieId:imdbID,website:Website,
+			runtime:Runtime,year:Year,synapsi:Plot,typeMovie:Type};
+            console.log(newData);
+            //res.send(movieData); //devuelvo resultado query
+            res.send(newData);   
+        }).catch((error) => {
+            assert.ok('Promise error',error);
+            console.log(error);
+          });
 }
 
 let getPeliculasByMovieId= (req,res) =>
@@ -54,17 +56,22 @@ let getPeliculasByMovieId= (req,res) =>
             console.log(response);
             return response.json();
         }).then (responseData => {
-            console.log(responseData);
-            
+            console.log(responseData);           
             console.log("Parsear Json to object");
-            movieDataId = new movieData(responseData);
-            console.log(movieDataId);
-            //const {Title,Actors,Genre,Language,Poster,imdbRating,imdbID,Website,Runtime,Year,Plot}= responseData;
-            //const newData = {Title: Title, Genre: Genre,Actors: Actors, Language: Language, 
-            //    Poster: Poster,imdbRating:imdbRating,imdbID:imdbID,Website:Website,Runtime:Runtime,Year:Year,Plot:Plot};
-            //console.log(newData);
-            res.send(movieDataId); //devuelvo resultado query  
-        });
+            //movieData= new movieData(responseData);
+            //console.log(movieData);
+            const {Title,Genre,Actors,Language,Poster,imdbRating,imdbID,Website,Runtime,Year,Plot,Type}= responseData;
+            console.log("Mapeo json");
+            const newData = {title:Title, genre:Genre,actors:Actors, language: Language, 
+                poster: Poster,rating:imdbRating,movieId:imdbID,website:Website,
+			runtime:Runtime,year:Year,synapsi:Plot,typeMovie:Type};
+            console.log(newData);
+            //res.send(movieData); //devuelvo resultado query
+            res.send(newData);  
+        }).catch((error) => {
+            assert.ok('Promise error',error);
+            console.log(error);
+          });
 }
 
 
@@ -80,16 +87,22 @@ let getPeliculasByTitleAndYear= (req,res) =>
             console.log(response);
             return response.json();
         }).then (responseData => {
-            console.log(responseData);
-            
+            console.log(responseData);           
             console.log("Parsear Json to object");
-            movieData = new movieData(responseData);
-            console.log(movieData);
-            //const {Title,Actors,Genre,Language,Poster,Website}= responseData;
-            //const newData = {Title: Title, Genre: Genre,Actors: Actors, Language: Language, Poster: Poster,Website: Website};
-            //console.log(newData);
-            res.send(movieData); //devuelvo resultado query  
-    });
+            //movieData= new movieData(responseData);
+            //console.log(movieData);
+            const {Title,Genre,Actors,Language,Poster,imdbRating,imdbID,Website,Runtime,Year,Plot,Type}= responseData;
+            console.log("Mapeo json");
+            const newData = {title:Title, genre:Genre,actors:Actors, language: Language, 
+                poster: Poster,rating:imdbRating,movieId:imdbID,website:Website,
+			runtime:Runtime,year:Year,synapsi:Plot,typeMovie:Type};
+            console.log(newData);
+            //res.send(movieData); //devuelvo resultado query
+            res.send(newData);  
+    }).catch((error) => {
+        assert.ok('Promise error',error);
+        console.log(error);
+      });
 
 }
 
@@ -117,7 +130,10 @@ let getPeliculasByKey= (req,res) =>
                 arrayMovie.push(newData);
               }            
             res.send(arrayMovie); //devuelvo resultado query  
-    });
+    }).catch((error) => {
+        assert.ok('Promise error',error);
+        console.log(error);
+      });
 
 }
 
