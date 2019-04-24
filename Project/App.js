@@ -5,6 +5,8 @@ import Detalle from './components/Detalle';
 import Peliculas from './components/Peliculas';
 import Login from './components/Login';
 import Series from './components/Series';
+import ChangePassword from './components/ChangePassword'
+import CreateUser from './components/CreateUser'
 
 
 import {
@@ -34,8 +36,51 @@ class LoginScreen extends React.Component {
       />
     );
   }
-  checkLogin() {
-    this.props.navigation.navigate('Peliculas')
+  checkLogin(screen) {
+
+    switch (screen) {
+      case "login":
+        this.props.navigation.navigate('Peliculas');
+        break;
+      case "pass":
+        this.props.navigation.navigate('ChangePassword');
+        break;
+      case "create":
+        this.props.navigation.navigate('CreateUser');
+        break;
+    }
+  }
+}
+
+class ChangePasswordScreen extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+  render() {
+    return (
+      <ChangePassword
+        onPress={this.checkPassword.bind(this)}
+      />
+    );
+  }
+  checkPassword() {
+    this.props.navigation.navigate('Login')
+  }
+}
+
+class CreateUserScreen extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+  render() {
+    return (
+      <CreateUser
+        onPress={this.checkPassword.bind(this)}
+      />
+    );
+  }
+  checkPassword() {
+    this.props.navigation.navigate('Login')
   }
 }
 
@@ -181,6 +226,8 @@ const AppDrawerNavigator = createDrawerNavigator({
 
 const AppSwitchNavigator = createSwitchNavigator({
   Login: { screen: LoginScreen },
+  ChangePassword: { screen: ChangePasswordScreen },
+  CreateUser: {screen: CreateUserScreen},
   Peliculas: { screen: AppDrawerNavigator }
 });
 

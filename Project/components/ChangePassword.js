@@ -8,7 +8,8 @@ class Login extends Component {
         super(props);
         this.state = {
             username: null,
-            password: null,
+            oldPassword: null,
+            newPassword: null,
         }
     }
 
@@ -18,7 +19,7 @@ class Login extends Component {
 
     checkUsuario(data){
         if(data.usuarioId == this.state.username && data.password == this.state.password){
-            this.props.onPress("login")
+            this.props.onPress()
         } else{
         }
     }
@@ -43,30 +44,33 @@ class Login extends Component {
                     <View style={[styles.outterInput]}>
                         <TextInput 
                         style={[styles.textInput]}
-                        placeholder="Password"
+                        placeholder="Old Password"
                         placeholderTextColor="rgba(255, 255, 255, 0.5)"
-                        onChangeText = {(text) => this.setState({ password: text})}
+                        onChangeText = {(text) => this.setState({ oldPassword: text})}
+                        secureTextEntry={true}
+                        />
+                    </View>
+                    <View style={[styles.outterInput]}>
+                        <TextInput 
+                        style={[styles.textInput]}
+                        placeholder="New Password"
+                        placeholderTextColor="rgba(255, 255, 255, 0.5)"
+                        onChangeText = {(text) => this.setState({ newPassword: text})}
                         secureTextEntry={true}
                         />
                     </View>
                     <View style={[styles.outterButton]}>
                         <Button
                             color='#373737'
-                            title="Login"
+                            title="Change Password"
                             onPress={() => this.checkLogin()}/>
                         
                     </View>
                     <View style={[styles.outterButtonCreate]}>
                     <Button
                             color='#373737'
-                            title="Create Account"
-                            onPress={() => this.props.onPress("create")}/>
-                    </View>
-                    <View style={[styles.outterButtonCreate]}>
-                    <Button
-                            color='#373737'
-                            title="Change Password"
-                            onPress={() => this.props.onPress("pass")}/>
+                            title="Go Back"
+                            onPress={() => this.props.onPress()}/>
                     </View>
                 </View>
             </View>
