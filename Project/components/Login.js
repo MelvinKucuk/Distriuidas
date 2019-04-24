@@ -1,11 +1,27 @@
 import React, { Component } from 'react';
 import { View, Image, StyleSheet, TextInput, Button } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import ApiController from '../controller/ApiController';
 
 class Login extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            username: null,
+            password: null,
+        }
+    }
 
+    checkLogin(){
+        ApiController.getUsuario(this.checkUsuario.bind(this), this.state.username)        
+    }
+
+    checkUsuario(data){
+        if(data.usuarioId == this.state.username && data.password == this.state.password){
+            this.props.onPress()
+        } else{
+            alert("No esiste ese usuario CRA")
+        }
     }
 
     render() {
@@ -22,7 +38,7 @@ class Login extends Component {
                             style={[styles.textInput]}
                             placeholder="Username"
                             placeholderTextColor="rgba(255, 255, 255, 0.5)"
-                            autoFocus = {true}
+                            onChangeText = {(text) => this.setState({ username: text})}
                         />
                     </View>
                     <View style={[styles.outterInput]}>
@@ -30,6 +46,7 @@ class Login extends Component {
                         style={[styles.textInput]}
                         placeholder="Password"
                         placeholderTextColor="rgba(255, 255, 255, 0.5)"
+                        onChangeText = {(text) => this.setState({ password: text})}
                         secureTextEntry={true}
                         />
                     </View>
@@ -37,7 +54,7 @@ class Login extends Component {
                         <Button
                             color='#373737'
                             title="Login"
-                            onPress={() => this.props.onPress()}/>
+                            onPress={() => this.checkLogin()}/>
                         
                     </View>
                     <View style={[styles.outterButtonCreate]}>

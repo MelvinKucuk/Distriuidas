@@ -21,6 +21,26 @@ class ApiController extends Component {
                 okSeries(data);
             }).catch((err) => console.log(err));
     }
+
+    insertUsuario(data){
+
+    }
+
+    getUsuario(okUsuario, username){
+        let uri = 'http://192.168.43.215:8080/apiAppPeliculas/getUsuarioById?usuarioId='+username
+        fetch(uri).then(res => {
+            return res.json()
+        }).catch((err) => {
+            console.log(err)
+            
+        }).
+        then(data => {
+            okUsuario(data[0]);
+        }).catch((err => {
+            console.log(err);
+            alert("No existe el usuario");
+        }));
+    }
 }
 
 export default new ApiController();

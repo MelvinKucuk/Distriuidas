@@ -60,7 +60,6 @@ class Peliculas extends Component {
                             style={[styles.textInput]}
                             placeholder="Buscar por titulo"
                             onChangeText={(text) => this.setState({ nombre: text })}
-                            autoFocus={true}
                             onSubmitEditing={() => this.obtenerPeliculas()}
                         />
                     </View>
