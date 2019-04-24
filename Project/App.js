@@ -14,6 +14,7 @@ import {
   createBottomTabNavigator,
   createStackNavigator
 } from 'react-navigation';
+
 class App extends Component {
   render() {
     return <AppContainer />;
@@ -23,84 +24,129 @@ export default App;
 
 
 class LoginScreen extends React.Component {
-
-  constructor(props)
-  {
+  constructor(props) {
     super(props)
   }
-
   render() {
     return (
       <Login
-        onPress = {this.checkLogin.bind(this)}
+        onPress={this.checkLogin.bind(this)}
       />
     );
   }
-
-  checkLogin(){
+  checkLogin() {
     this.props.navigation.navigate('Peliculas')
   }
 }
 
- let id = null;
+
 
 class PeliculasScreen extends React.Component {
 
   static navigationOptions = {
-    title: 'Peliculas           ',
+    title: 'Peliculas',
     headerStyle: {
-        backgroundColor: 'black',
+      backgroundColor: 'black',
     },
     headerTintColor: 'white',
-};
+  };
 
-  constructor(props)
-  {
+  constructor(props) {
     super(props)
   }
 
   render() {
     return (
       <Peliculas
-        onPress = {this.pasarDetalle.bind(this)}
+        onPress={this.pasarDetalle.bind(this)}
       />
     );
   }
 
-  pasarDetalle(idMovie){
-    this.props.navigation.navigate('Detalle', {id: idMovie})
+  pasarDetalle(idMovie) {
+    this.props.navigation.navigate('Detalle', { id: idMovie })
+  }
+}
+
+
+
+class SeriesScreen extends React.Component {
+
+  static navigationOptions = {
+    title: 'Series',
+    headerStyle: {
+      backgroundColor: 'black',
+    },
+    headerTintColor: 'white',
+  };
+
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+    return (
+      <Series
+        onPress={this.pasarDetalle.bind(this)}
+      />
+    );
+  }
+
+  pasarDetalle(idMovie) {
+    this.props.navigation.navigate('Detalle', { id: idMovie })
   }
 }
 
 class DetalleScreen extends React.Component {
 
   static navigationOptions = {
-    title: 'Peliculas           ',
+    title: 'Peliculas',
     headerStyle: {
-        backgroundColor: 'black',
+      backgroundColor: 'black',
     },
     headerTintColor: 'white',
-};
+  };
 
-  constructor(props)
-  {
+  constructor(props) {
     super(props)
   }
 
   render() {
     return (
       <Detalle
-        
+
       />
     );
   }
 }
 
-
-
-const DashboardStackNavigator = createStackNavigator(
+const PeliculasStackNavigator = createStackNavigator(
   {
-    Peliculas: { screen: PeliculasScreen },
+    Peliculas: {
+      screen: PeliculasScreen,
+      navigationOptions: ({ navigation }) => {
+        return {
+          headerLeft: (
+            <Icon
+              style={{ paddingLeft: 10, color: 'white' }}
+              onPress={() => navigation.openDrawer()}
+              name="md-menu"
+              size={30}
+            />
+          ),
+
+        }
+      }
+    },
+    Detalle: { screen: Detalle },
+  },
+  {
+    initialRouteName: 'Peliculas',
+  }
+);
+const SeriesStackNavigator = createStackNavigator(
+  {
+    Series: { screen: SeriesScreen },
     Detalle: { screen: Detalle },
   },
   {
@@ -108,7 +154,7 @@ const DashboardStackNavigator = createStackNavigator(
       return {
         headerLeft: (
           <Icon
-            style={{ paddingLeft: 10, color: 'white'}}
+            style={{ paddingLeft: 10, color: 'white' }}
             onPress={() => navigation.openDrawer()}
             name="md-menu"
             size={30}
@@ -121,19 +167,21 @@ const DashboardStackNavigator = createStackNavigator(
     }
   },
   {
-    initialRouteName: 'Peliculas',
+    initialRouteName: 'Series',
   }
 );
-
 const AppDrawerNavigator = createDrawerNavigator({
-  Dashboard: {
-    screen: DashboardStackNavigator
+  Peliculas: {
+    screen: PeliculasStackNavigator
+  },
+  Series: {
+    screen: SeriesStackNavigator
   }
 });
 
 const AppSwitchNavigator = createSwitchNavigator({
   Login: { screen: LoginScreen },
-  Dashboard: { screen: AppDrawerNavigator }
+  Peliculas: { screen: AppDrawerNavigator }
 });
 
 const AppContainer = createAppContainer(AppSwitchNavigator);

@@ -38,7 +38,7 @@ class Detalle extends Component {
     }
 
     static navigationOptions = {
-        title: 'Detalle',
+        title: 'Detalles',
         headerStyle: {
             backgroundColor: 'black',
         },

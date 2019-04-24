@@ -36,10 +36,10 @@ class Peliculas extends Component {
 
     cargarPeliculas() {
         let uri = 'http://192.168.43.249:8080/apiAppPeliculas/getPeliculasByKey?key=saw'
-        console.log(uri);
+        //console.log(uri);
         fetch(uri).then(res => {
             return res.json()
-        }).catch((err) => console.log(err)).
+        }).
             then(data => {
                 var i, newArray = [];
                 for (i = 0; i < data.length; i++) {
@@ -51,12 +51,12 @@ class Peliculas extends Component {
                     peliculas: newArray
                 });
 
-            }).catch((err) => console.log(err));
+            });
     }
 
 
     render() {
-        console.log("Entre al render");
+        //console.log("Entre al render");
         return (
             <View style={[styles.detalleContainer]} >
                 <FlatList
