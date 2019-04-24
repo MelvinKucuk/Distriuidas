@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Button, Image, FlatList, TouchableOpacity } from 'react-native';
+import ApiController from '../controller/ApiController'
 
 function createData(item, idArray) {
     return {
@@ -31,27 +32,15 @@ class Peliculas extends Component {
     }
 
     componentDidMount() {
-        this.cargarPeliculas();
+        ApiController.getPeliculas(this.okPeliculas.bind(this));
     }
 
-    cargarPeliculas() {
-        let uri = 'http://192.168.43.249:8080/apiAppPeliculas/getPeliculasByKey?key=saw'
-        console.log(uri);
-        fetch(uri).then(res => {
-            return res.json()
-        }).catch((err) => console.log(err)).
-            then(data => {
-                var i, newArray = [];
+    okPeliculas(data) {
+        var i, newArray = [];
                 for (i = 0; i < data.length; i++) {
-
                     newArray.push(createData(data[i], i));
-
                 }
-                this.setState({
-                    peliculas: newArray
-                });
-
-            }).catch((err) => console.log(err));
+                this.setState({ peliculas: newArray });
     }
 
 
@@ -73,6 +62,8 @@ class Peliculas extends Component {
                                 <Image style={[styles.imagen1]}
                                     source={{ uri: item.poster }}
                                 ></Image>
+                                <Text style = {[styles.texto]}
+                                    >{item.title}</Text>
                                 </TouchableOpacity>
                             </View>
                         );
@@ -112,8 +103,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#616161',
         justifyContent: 'center',
     },
-    outterImage: {
-        
+    texto: {
+        color: 'white',
+        fontSize: 20,
+        alignSelf: 'center',
+        textAlign: 'center'
     }
 
 })

@@ -5,7 +5,7 @@ import { Actions } from 'react-native-router-flux';
 class Login extends Component {
     constructor(props) {
         super(props);
-        
+
     }
 
     render() {
@@ -18,23 +18,30 @@ class Login extends Component {
                 </View>
                 <View style={[styles.inputContainer]}>
                     <View style={[styles.outterInput]}>
-                        <TextInput style={[styles.textInput]}
-                        > Username </TextInput>
+                        <TextInput
+                            style={[styles.textInput]}
+                            placeholder="Username"
+                            placeholderTextColor="rgba(255, 255, 255, 0.5)"
+                            autoFocus = {true}
+                        />
                     </View>
                     <View style={[styles.outterInput]}>
-                        <TextInput style={[styles.textInput]}
-                        > PassWord
-                </TextInput>
+                        <TextInput 
+                        style={[styles.textInput]}
+                        placeholder="Password"
+                        placeholderTextColor="rgba(255, 255, 255, 0.5)"
+                        secureTextEntry={true}
+                        />
                     </View>
-                    <View style = {[styles.outterButton]}>
+                    <View style={[styles.outterButton]}>
                         <Button
-                            style = {[styles.button]}
-                            color = '#373737'
-                            title= "Login"
+                            style={[styles.button]}
+                            color='#373737'
+                            title="Login"
                             onPress={() => this.props.onPress()}
-                            />
+                        />
                     </View>
-                    
+
                 </View>
             </View>
         );
@@ -51,6 +58,7 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 20,
         alignSelf: 'center',
+        textAlign: 'center',
     },
     outterInput: {
         borderBottomWidth: 1,
@@ -76,7 +84,7 @@ const styles = StyleSheet.create({
     },
     outterButton: {
         justifyContent: 'center',
-        marginHorizontal: 150,
+        alignSelf: 'center',
     },
     button: {
         color: 'red'
