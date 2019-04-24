@@ -1,158 +1,88 @@
-import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native';
+import React, { Component } from 'react';
+import { View, Text, StyleSheet, Button } from 'react-native';
+import Icon from '@expo/vector-icons/Ionicons';
 import Detalle from './components/Detalle';
 import Peliculas from './components/Peliculas';
 import Login from './components/Login';
-import SettingsS from './components/SettingsS';
 import Series from './components/Series';
-import { createDrawerNavigator, createAppContainer, DrawerItems, createStackNavigator } from 'react-navigation';
+import Feed from './components/Feed';
 import { Router, Scene } from 'react-native-router-flux';
-
-
-
-/*
-export default class App extends React.Component {
-  render() {
-
-    return (
-      <Router navigationBarStyle={styles.navBar} titleStyle={styles.navBarTitle} tintColor='white'
-        barButtonTextStyle={styles.barButtonTextStyle} barButtonIconStyle={styles.barButtonIconStyle}>
-        <Scene key="root">
-          <Scene
-            key="Login"
-            component={Login}
-            title="Login"
-            initial
-          />
-          <Scene
-            key="Peliculas"
-            component={Peliculas}
-            title="Peliculas"
-          />
-          <Scene
-            key=""
-            component={}
-            title=""
-          />
-        </Scene>
-      </Router>
-      <Apps />
-    );
-  }
-}
-*/
-
-let navegador = this.navigator
-
-class LoginScreen extends React.Component {
-
-  static navigationOptions = {
-    title: 'Login',
-    headerStyle: {
-      backgroundColor: 'black',
-    },
-    headerTintColor: 'white',
-  };
-
-  constructor(props) {
-    super(props)
-    console.log(props)
-  }
-
-  render() {
-    return (
-      <Login
-        onPress={this.checkLogin.bind(this)}
-      />
-    );
-  }
-
-  checkLogin() {
-    this.props.navigation.navigate('Peliculas')
-  }
-}
-
-
-
-
-const RootStack = createStackNavigator(
-  {
-    Login: {
-      screen: LoginScreen,
-    },
-    Detalle: {
-      screen: Detalle,
-    },
-    Peliculas: {
-      screen: Peliculas,
-    },
-  },
-  {
-    initialRouteName: 'Login',
-  }
-);
-
-
-
-//const AppContainer = createAppContainer(RootStack);
-
-export default class App extends React.Component {
+import {
+  createSwitchNavigator,
+  createAppContainer,
+  createDrawerNavigator,
+  createBottomTabNavigator,
+  createStackNavigator
+} from 'react-navigation';
+class App extends Component {
   render() {
     return <AppContainer />;
   }
 }
+export default App;
 
-const CustomDrawerComponent = (props) => (
-  <SafeAreaView Style={{ flex: 1 }}>
-    <View style={{ height: 250, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center' }}>
-      <Image source={require('./components/vaca.png')} style={{ height: 120, width: 120, borderRadius: 60 }} />
-    </View>
-    <ScrollView>
-      <DrawerItems {...props} />
-    </ScrollView>
-
-  </SafeAreaView>
-)
-
-function checkLogin() {
-  this.props.navigation.navigate('Peliculas')
+class WelcomeScreen extends Component {
+  render() {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#616161' }}>
+        <Button
+          title="Login"
+          onPress={() => this.props.navigation.navigate('Dashboard')}
+        />
+        <Button title="Sign Up" onPress={() => alert('button pressed')} />
+      </View>
+    );
+  }
 }
 
-const AppDrawerNavigator = createDrawerNavigator({
-  Peliculas: Peliculas,
-  Series: Series,
-  Settings: SettingsS
-}, {
-    contentComponent: CustomDrawerComponent
+
+
+const DashboardStackNavigator = createStackNavigator(
+  {
+    //Login: { screen: Login },
+    Peliculas: { screen: Peliculas },
+    Detalle: { screen: Detalle },
+  },
+  {
+    defaultNavigationOptions: ({ navigation }) => {
+      return {
+        headerLeft: (
+          <Icon
+            style={{ paddingLeft: 10, color: 'white'}}
+            onPress={() => navigation.openDrawer()}
+            name="md-menu"
+            size={30}
+          />
+        ),
+        headerStyle: {
+          backgroundColor: 'black'
+        }
+      };
+    }
+  },
+  {
+    initialRouteName: 'Peliculas',
   }
 );
-const AppContainer = createAppContainer(RootStack)
 
-const styles = StyleSheet.create({
-  navBar: {
-    backgroundColor: 'black',
-  },
-  navBarTitle: {
-    color: '#FFFFFF'
-  },
-  barButtonTextStyle: {
-    color: '#FFFFFF'
-  },
-  barButtonIconStyle: {
-    tintColor: '#FFFFFF'
-  },
-  navBar: {
-    backgroundColor: '#397af8',
-  },
-  navBarTitle: {
-    color: '#FFFFFF'
-  },
-  barButtonTextStyle: {
-    color: '#FFFFFF'
-  },
-  barButtonIconStyle: {
-    tintColor: '#FFFFFF'
-  },
+const AppDrawerNavigator = createDrawerNavigator({
+  Dashboard: {
+    screen: DashboardStackNavigator
+  }
 });
 
+const AppSwitchNavigator = createSwitchNavigator({
+  Login: { screen: Login },
+  Dashboard: { screen: AppDrawerNavigator }
+});
 
+const AppContainer = createAppContainer(AppSwitchNavigator);
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#616161',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
+});
