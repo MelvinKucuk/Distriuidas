@@ -5,15 +5,19 @@ import Detalle from './components/Detalle';
 import Peliculas from './components/Peliculas';
 import Login from './components/Login';
 import Series from './components/Series';
-
-
+import Perfil from './components/Perfil';
 import {
   createSwitchNavigator,
   createAppContainer,
   createDrawerNavigator,
   createBottomTabNavigator,
-  createStackNavigator
+  createStackNavigator,
+  SafeAreaView,
+  DrawerItems
 } from 'react-navigation';
+import {DrawerNavigator} from 'react-navigation'
+import { ScrollView } from 'react-native-gesture-handler';
+import { Container, Content, Header, Body} from 'native-base';
 
 class App extends Component {
   render() {
@@ -170,14 +174,49 @@ const SeriesStackNavigator = createStackNavigator(
     initialRouteName: 'Series',
   }
 );
+const PerfilStackNavigator = createStackNavigator(
+  {
+    Perfil: { screen: Perfil },
+  },
+  {
+    defaultNavigationOptions: ({ navigation }) => {
+      return {
+        headerLeft: (
+          <Icon
+            style={{ paddingLeft: 10, color: 'white' }}
+            onPress={() => navigation.openDrawer()}
+            name="md-menu"
+            size={30}
+          />
+        ),
+        headerStyle: {
+          backgroundColor: 'black'
+        }
+      };
+    }
+  },
+  {
+    initialRouteName: 'Perfil',
+  }
+)
+
 const AppDrawerNavigator = createDrawerNavigator({
   Peliculas: {
     screen: PeliculasStackNavigator
   },
   Series: {
     screen: SeriesStackNavigator
+  },
+  Perfil: {
+    screen: PerfilStackNavigator
   }
-});
+}/*,{
+  initialRouteName: 'Peliculas',
+  contentComponent:CustomDrawerContentComponent,
+  drawerOpenRoute: 'DrawerOpen',
+  drawerCloseRoute: 'DrawerClose',
+  drawerToggleRoute: 'DrawerToggle'*/
+);
 
 const AppSwitchNavigator = createSwitchNavigator({
   Login: { screen: LoginScreen },
@@ -185,6 +224,67 @@ const AppSwitchNavigator = createSwitchNavigator({
 });
 
 const AppContainer = createAppContainer(AppSwitchNavigator);
+
+const CustomDrawerComponent = (props) => (
+  <SafeAreaView Style={{ flex: 1 }}>
+    <View style={{
+      height: 150, backgroundColor: 'white', alignContent: 'center',
+      justifyContent: 'center'
+    }}>
+      <Image source={require('./components/vaca.png')}
+        style={{ height: 120, with: 120, borderRadius: 60 }} />
+    </View>
+    <ScrollView>
+      <DrawerItems{...props} />
+    </ScrollView>
+  </SafeAreaView>
+)
+
+class drawerContentComponents extends Component {
+
+  navigateToScreen = (route) => (
+    () => {
+      const navigateAction = NavigationActions.navigate({
+        routeName: route
+      });
+      this.props.navigation.dispatch(navigateAction);
+    })
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <View style={styles.headerContainer}>
+            <Text style={styles.headerText}>Header Portion</Text>
+            <Text style={styles.headerText}>You can display here logo or profile image</Text>
+        </View>
+        <View style={styles.screenContainer}>
+          <View style={styles.screenStyle}>
+            <Text onPress={this.navigateToScreen('Peliculas')}>Peliculas</Text>
+          </View>
+          <View style={styles.screenStyle}>
+            <Text onPress={this.navigateToScreen('Series')}>Series</Text>
+          </View>
+          <View style={styles.screenStyle}>
+            <Text onPress={this.navigateToScreen('Perfil')}>Perfil</Text>
+          </View>
+        </View>
+      </View>
+
+    )
+  }
+}
+
+const CustomDrawerContentComponent = (props) => (
+
+  <Container>
+    <Header>
+      <Body>
+        <Image source={require('./components/vaca.png')}
+        style={{height: '150', with:'150', borderRadius:'25'}} />
+      </Body>
+    </Header>
+  </Container>
+)
 
 const styles = StyleSheet.create({
   container: {
@@ -194,3 +294,30 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   }
 });
+/*
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+  },
+  headerContainer: {
+    height: 150,
+  },
+  headerText: {
+    color: '#fff8f8',
+  },
+  screenContainer: {
+    paddingTop: 20
+  },
+  screenStyle: {
+    height: 30,
+    marginTop: 2,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  screenTextStyle: {
+    fontSize: 20,
+    marginLeft: 20
+  },
+
+});
+*/
