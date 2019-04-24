@@ -9,40 +9,36 @@ var assert = require('assert');
 
 
 let getPeliculasByTitle= (req,res) =>
-{
-   
-    console.log("Buscando pelicula por titulo")
-    console.log(req.query.title);
+{ 
+    console.log('Buscando pelicula por titulo:  %s ',req.query.title);
     const idBusqueda = req.query.title;
-    const endpoint = `${url}${apiKEY}&t=${idBusqueda}`;
-    console.log(endpoint);
-    const endpoint1 = utils.getUrlByKey; 
-    console.log(endpoint1);
+    console.log('Titulo: %s ',idBusqueda);
+    const endpoint = utils.getUrlByKey()+`&t=${idBusqueda}`; 
+    console.log('URL: %s ',endpoint);
     fetch(endpoint)
     .then (
         (response) => {
-            console.log(response);
+            console.log('Response Api:',response);
             return response.json();
         }).then (responseData => {
-            console.log(responseData);           
-            console.log("Parsear Json to object");
+            console.log('Mapeo json: ',responseData);           
             //movieData= new movieData(responseData);
             //console.log(movieData);
             const {Title,Genre,Actors,Language,Poster,imdbRating,imdbID,Website,Runtime,Year,Plot,Type}= responseData;
-            console.log("Mapeo json");
             const newData = {title:Title, genre:Genre,actors:Actors, language: Language, 
                 poster: Poster,rating:imdbRating,movieId:imdbID,website:Website,
 			runtime:Runtime,year:Year,synapsi:Plot,typeMovie:Type};
-            console.log(newData);
+            console.log('Mapeo json:',newData);
             //res.send(movieData); //devuelvo resultado query
-            res.send(newData);   
+            res.status(200).send(newData);   
         }).catch((error) => {
-            assert.ok('Promise error',error);
-            console.log(error);
+            assert.ok('Error console',error);
+            console.log('Error console',error);
+            res.status(409).send({ msg: "Error:." + error});
           });
 }
 
-let getPeliculasByMovieId= (req,res) =>
+let getPeliculasAndSeriesById= (req,res) =>
 {
    
     console.log("Buscando pelicula por titulo")
@@ -67,10 +63,11 @@ let getPeliculasByMovieId= (req,res) =>
 			runtime:Runtime,year:Year,synapsi:Plot,typeMovie:Type};
             console.log(newData);
             //res.send(movieData); //devuelvo resultado query
-            res.send(newData);  
+            res.status(200).send(newData);   
         }).catch((error) => {
             assert.ok('Promise error',error);
             console.log(error);
+            res.status(409).send({ msg: "Error:." + error});
           });
 }
 
@@ -98,10 +95,11 @@ let getPeliculasByTitleAndYear= (req,res) =>
 			runtime:Runtime,year:Year,synapsi:Plot,typeMovie:Type};
             console.log(newData);
             //res.send(movieData); //devuelvo resultado query
-            res.send(newData);  
+            res.status(200).send(newData);   
     }).catch((error) => {
         assert.ok('Promise error',error);
         console.log(error);
+        res.status(409).send({ msg: "Error:." + error});
       });
 
 }
@@ -110,17 +108,17 @@ let getPeliculasByTitleAndYear= (req,res) =>
 let getPeliculasByKey= (req,res) =>
 {
     
-    console.log("Buscando pelicula por key")
-    const endpoint = `${url}${apiKEY}&s=${req.query.key}`;
-    console.log(endpoint);
+    console.log('Buscando pelicula por key:  %s ',req.query.key);
+   // const endpoint = `${url}${apiKEY}&s=${req.query.key}`;
+    const endpoint = utils.getUrlByKey()+`&type=movie&s=${req.query.key}`; 
+    console.log('URL: %s ',endpoint);
     fetch(endpoint)
     .then (
         (response) => {
             //console.log(response);
             return response.json();
         }).then (responseData => {
-            console.log("Cantidad de peliculas por key.");
-            console.log(responseData.Search.length);            
+            console.log("Cantidad de peliculas por key.",responseData.Search.length);;            
             console.log("Parsear Json to object.");
             var arrayMovie = [];
             for (var i = 0, len = responseData.Search.length; i < len; i++) {
@@ -129,35 +127,46 @@ let getPeliculasByKey= (req,res) =>
                 //console.log(newData);
                 arrayMovie.push(newData);
               }            
-            res.send(arrayMovie); //devuelvo resultado query  
+            res.status(200).send(arrayMovie); //devuelvo resultado query  
     }).catch((error) => {
         assert.ok('Promise error',error);
         console.log(error);
+        res.status(409).send({ msg: "Error:." + error});
       });
 
 }
 
-let getPeliculasByKey1= (req,res) =>
-{
-    
-    console.log("Buscando1")
-    console.log(req.query.title);
-    const idBusqueda = req.query.title;
-    omdb.get({ title: idBusqueda, year: 2004 }, true, function(err, movie) {
-        if(err) {
-            return console.error(err);
-        }
-     
-        if(!movie) {
-            return console.log('Movie not found!');
-        }
-        console.log('%s (%d) %d/10', movie.title, movie.year, movie.imdb.rating);
-        console.log(movie);
-        console.log(movie.plot);
-        res.send(movie); //devuelvo resultado query  
-    });
-
+let getSeriesByKey= (req,res) =>
+{ 
+    console.log('Buscando series por key:  %s ',req.query.key);
+    const idBusqueda = req.query.key;
+    console.log('Serie: %s ',idBusqueda);
+    const endpoint = utils.getUrlByKey()+`&type=series&s=${idBusqueda}`; 
+    console.log('URL: %s ',endpoint);
+    fetch(endpoint)
+    .then (
+        (response) => {
+            console.log('Response Api:',response);
+            return response.json();
+        }).then (responseData => {
+            console.log('Mapeo json: ',responseData);           
+            console.log("Cantidad de peliculas por key.");
+            console.log(responseData.Search.length);            
+            console.log("Parsear Json to object.");
+            var arraySeries = [];
+            for (var i = 0, len = responseData.Search.length; i < len; i++) {
+                //const {Title,Year,imdbID,Type,Poster}= responseData.Search[i]; 
+                const newData = {Title: responseData.Search[i].Title, Year: responseData.Search[i].Year,imdbID: responseData.Search[i].imdbID, Type: responseData.Search[i].Type, Poster: responseData.Search[i].Poster};
+                //console.log(newData);
+                arraySeries.push(newData);
+            }
+            res.status(200).send(arraySeries);
+        }).catch((error) => {
+            assert.ok('Error console',error);
+            console.log('Error console',error);
+            res.status(409).send({ msg: "Error:." + error});
+          });
 }
 
 
-module.exports = {getPeliculasByTitle,getPeliculasByTitleAndYear,getPeliculasByKey,getPeliculasByMovieId};
+module.exports = {getPeliculasByTitle,getPeliculasByTitleAndYear,getPeliculasByKey,getPeliculasAndSeriesById,getSeriesByKey};

@@ -1,11 +1,27 @@
 import React, { Component } from 'react';
 import { View, Image, StyleSheet, TextInput, Button } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import ApiController from '../controller/ApiController';
 
 class Login extends Component {
     constructor(props) {
         super(props);
-        
+        this.state = {
+            username: null,
+            password: null,
+        }
+    }
+
+    checkLogin(){
+        ApiController.getUsuario(this.checkUsuario.bind(this), this.state.username)        
+    }
+
+    checkUsuario(data){
+        if(data.usuarioId == this.state.username && data.password == this.state.password){
+            this.props.onPress()
+        } else{
+            alert("No esiste ese usuario CRA")
+        }
     }
 
     render() {
@@ -18,23 +34,35 @@ class Login extends Component {
                 </View>
                 <View style={[styles.inputContainer]}>
                     <View style={[styles.outterInput]}>
-                        <TextInput style={[styles.textInput]}
-                        > Username </TextInput>
+                        <TextInput
+                            style={[styles.textInput]}
+                            placeholder="Username"
+                            placeholderTextColor="rgba(255, 255, 255, 0.5)"
+                            onChangeText = {(text) => this.setState({ username: text})}
+                        />
                     </View>
                     <View style={[styles.outterInput]}>
-                        <TextInput style={[styles.textInput]}
-                        > PassWord
-                </TextInput>
+                        <TextInput 
+                        style={[styles.textInput]}
+                        placeholder="Password"
+                        placeholderTextColor="rgba(255, 255, 255, 0.5)"
+                        onChangeText = {(text) => this.setState({ password: text})}
+                        secureTextEntry={true}
+                        />
                     </View>
-                    <View style = {[styles.outterButton]}>
+                    <View style={[styles.outterButton]}>
                         <Button
-                            style = {[styles.button]}
-                            color = '#373737'
-                            title= "Login"
-                            onPress={() => this.props.onPress()}
-                            />
+                            color='#373737'
+                            title="Login"
+                            onPress={() => this.checkLogin()}/>
+                        
                     </View>
-                    
+                    <View style={[styles.outterButtonCreate]}>
+                    <Button
+                            color='#373737'
+                            title="Create Account"
+                            onPress={() => this.props.onPress()}/>
+                    </View>
                 </View>
             </View>
         );
@@ -51,6 +79,7 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 20,
         alignSelf: 'center',
+        textAlign: 'center',
     },
     outterInput: {
         borderBottomWidth: 1,
@@ -76,11 +105,15 @@ const styles = StyleSheet.create({
     },
     outterButton: {
         justifyContent: 'center',
-        marginHorizontal: 150,
+        alignSelf: 'center',
+        marginBottom: 20,
+        marginTop: 20,
     },
-    button: {
-        color: 'red'
-    }
+    outterButtonCreate: {
+        justifyContent: 'center',
+        alignSelf: 'center',
+        marginBottom: 20,
+    },
 })
 
 export default Login;
