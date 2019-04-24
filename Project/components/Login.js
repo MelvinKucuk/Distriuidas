@@ -35,7 +35,6 @@ class Login extends Component {
                     </View>
                     <View style={[styles.outterButton]}>
                         <Button
-                            style={[styles.button]}
                             color='#373737'
                             title="Login"
                             onPress={() => this.props.onPress()}/>
@@ -43,7 +42,6 @@ class Login extends Component {
                     </View>
                     <View style={[styles.outterButtonCreate]}>
                     <Button
-                            style={[styles.button]}
                             color='#373737'
                             title="Create Account"
                             onPress={() => this.props.onPress()}/>
@@ -99,9 +97,6 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginBottom: 20,
     },
-    button: {
-        color: 'red',
-    }
 })
 
 export default Login;

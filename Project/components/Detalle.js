@@ -62,7 +62,7 @@ class Detalle extends Component {
     }
 
     cargarDetalle() {
-        let uri = `http://192.168.43.71:8080/apiAppPeliculas/getPeliculasByMovieId?movieId=${this.state.id}`
+        let uri = `http://192.168.43.249:8080/apiAppPeliculas/getPeliculasByMovieId?movieId=${this.state.id}`
         console.log(uri);
         fetch(uri).then(res => {
             return res.json()

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button, Image, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Button, Image, FlatList, TouchableOpacity, TextInput } from 'react-native';
 import ApiController from '../controller/ApiController'
 
 function createData(item, idArray) {
@@ -25,22 +25,27 @@ class Series extends Component {
 
         this.state = {
             series: [
-                { key: '1', imagen: 'https://m.media-amazon.com/images/M/MV5BNWVjMzgwMTctZmZjNC00ZmE0LThiNTUtYzkyM2RkYWIzY2Y2XkEyXkFqcGdeQXVyNjEyNDAyMzI@._V1_SX300.jpg' },
-                { key: '2', imagen: 'https://m.media-amazon.com/images/M/MV5BNWVjMzgwMTctZmZjNC00ZmE0LThiNTUtYzkyM2RkYWIzY2Y2XkEyXkFqcGdeQXVyNjEyNDAyMzI@._V1_SX300.jpg' },
-            ]
+                { key: '1', poster: 'https://m.media-amazon.com/images/M/MV5BNWVjMzgwMTctZmZjNC00ZmE0LThiNTUtYzkyM2RkYWIzY2Y2XkEyXkFqcGdeQXVyNjEyNDAyMzI@._V1_SX300.jpg', title: "Saw" },
+                { key: '2', poster: 'https://m.media-amazon.com/images/M/MV5BNWVjMzgwMTctZmZjNC00ZmE0LThiNTUtYzkyM2RkYWIzY2Y2XkEyXkFqcGdeQXVyNjEyNDAyMzI@._V1_SX300.jpg', title: "Saw" },
+            ],
+            nombre: null
         };
     }
 
     componentDidMount() {
-        ApiController.getSeries(this.okSeries.bind(this));
+        //ApiController.getSeries(this.okSeries.bind(this));
+    }
+
+    obtenerSeries() {
+        ApiController.getSeries(this.okSeries.bind(this), this.state.nombre);
     }
 
     okSeries(data) {
         var i, newArray = [];
-                for (i = 0; i < data.length; i++) {
-                    newArray.push(createData(data[i], i));
-                }
-                this.setState({ Series: newArray });
+        for (i = 0; i < data.length; i++) {
+            newArray.push(createData(data[i], i));
+        }
+        this.setState({ series: newArray });
     }
 
 
@@ -48,21 +53,39 @@ class Series extends Component {
         //console.log("Entre al render");
         return (
             <View style={[styles.detalleContainer]} >
+                <View style={{ flexDirection: 'row', backgroundColor: '#373737' }}>
+                    <View style={[styles.outterInput]}>
+                        <TextInput
+                            style={[styles.textInput]}
+                            placeholder="Buscar por titulo"
+                            onChangeText={(text) => this.setState({ nombre: text })}
+                            autoFocus={true}
+                            onSubmitEditing={() => this.obtenerSeries()}
+                        />
+                    </View>
+                    <View style={[styles.outterButton]}>
+                        <Button
+                            title="Buscar"
+                            color='#373737'
+                            onPress={() => this.obtenerSeries()}
+                        />
+                    </View>
+                </View>
                 <FlatList
                     style={{ flex: 1 }}
                     numColumns={2}
-                    data={this.state.Series}
+                    data={this.state.series}
                     keyboardShouldPersistTaps='always'
                     renderItem={({ item }) => {
                         return (
                             <View style={{ flex: 1, margin: 10 }}
                             >
-                            <TouchableOpacity
-                                onPress = {() => this.props.onPress(item.id)}>
-                                <Image style={[styles.imagen1]}
-                                    source={{ uri: item.poster }}
-                                ></Image>
-                                <Text style = {[styles.texto]}
+                                <TouchableOpacity
+                                    onPress={() => this.props.onPress(item.id)}>
+                                    <Image style={[styles.imagen1]}
+                                        source={{ uri: item.poster }}
+                                    ></Image>
+                                    <Text style={[styles.texto]}
                                     >{item.title}</Text>
                                 </TouchableOpacity>
                             </View>
@@ -108,6 +131,26 @@ const styles = StyleSheet.create({
         fontSize: 20,
         alignSelf: 'center',
         textAlign: 'center'
+    },
+    outterInput: {
+        flex: 3,
+        borderBottomWidth: 1,
+        borderBottomColor: 'white',
+        marginHorizontal: 30,
+        marginBottom: 20,
+        alignItems: 'center',
+        marginTop: 20,
+    },
+    textInput: {
+        color: 'white',
+        fontSize: 20,
+        alignSelf: 'center',
+        textAlign: 'center',
+    },
+    outterButton: {
+        marginTop: 15,
+        marginRight: 50,
+        flex: 1,
     }
 
 })
