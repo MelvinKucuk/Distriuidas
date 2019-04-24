@@ -3,13 +3,23 @@ import { Component } from 'react';
 class ApiController extends Component {
 
     getPeliculas(okPeliculas, nombre) {
-        let uri = 'http://192.168.43.249:8080/apiAppPeliculas/getPeliculasByKey?key=' + nombre
+        let uri = 'http://192.168.43.215:8080/apiAppPeliculas/getPeliculasByKey?key=' + nombre
         fetch(uri).then(res => {
             return res.json()
         }).catch((err) => alert("Intentar de nuevo")).
             then(data => {
                 okPeliculas(data);
             }).catch((err) => alert("Intentar de nuevo"));
+    }
+
+    getDetalle(okDetalle, id) {
+        let uri = 'http://192.168.43.215:8080/apiAppPeliculas/getPeliculasAndSeriesById?movieId=' + id
+        fetch(uri).then(res => {
+            return res.json()
+        }).catch((err) => console.log(err)).
+            then(data => {
+                okDetalle(data);
+            }).catch((error) => console.log(error));
     }
 
     getSeries(okSeries, nombre) {
@@ -33,14 +43,15 @@ class ApiController extends Component {
                 apellido: lastName,
                 email: email,
                 usuarioId: user,
-                password: password,})
-            }).then((res) => {
-                console.log("res1", res);
-                return res.json();
-            }).catch((err) => console.log(err)).then((res) => {
-                okCreate();
-            }).catch((err) => console.log(err))
-        
+                password: password,
+            })
+        }).then((res) => {
+            console.log("res1", res);
+            return res.json();
+        }).catch((err) => console.log(err)).then((res) => {
+            okCreate();
+        }).catch((err) => console.log(err))
+
     }
 
     changePassword(user, pass, okChange) {

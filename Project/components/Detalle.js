@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TouchableHighlight, Button, Image, FlatList, Linking, ActivityIndicator, Modal, TextInput, Dimensions } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Entypo, AntDesign, FontAwesome } from '@expo/vector-icons';
+import ApiController from '../controller/ApiController';
 
 var fakeData = [
     {
@@ -49,7 +50,6 @@ class Detalle extends Component {
             isLoading: true,
             modalVisible: false,
             text: "",
-
         }
     }
 
@@ -71,17 +71,18 @@ class Detalle extends Component {
 
 
     cargarDetalle() {
-        let uri = `http://192.168.43.71:8080/apiAppPeliculas/getPeliculasAndSeriesById?movieId=${this.state.id}`
-        console.log(uri);
-        fetch(uri).then(res => {
-            return res.json()
-        }).catch((err) => console.log(err)).
-            then(data => {
-                this.setState({
-                    detalle: data,
-                    isLoading: false
-                });
-            }).catch((error) => console.log(error));
+        ApiController.getDetalle(this.okDetalle.bind(this), this.state.id);
+    }
+
+    okDetalle(data) {
+        if (data != null) {
+            this.setState({
+                detalle: data,
+                isLoading: false
+            });
+        } else {
+            alert("Intentar de nuevo")
+        }
     }
 
     render() {
