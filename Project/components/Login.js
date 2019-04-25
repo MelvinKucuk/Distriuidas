@@ -33,7 +33,7 @@ class Login extends Component {
                     <View style={[styles.imageContainer]}>
                         <Image
                             style={[styles.imageStyle]}
-                            source={require('./clapperboard.png')} />
+                            source={require('./pochoclo.png')} />
                     </View>
                     <View style={[styles.inputContainer]}>
                         <View style={[styles.outterInput]}>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Button, Image, FlatList, TouchableOpacity } from 'react-native';
 import { TextInput, ScrollView } from 'react-native-gesture-handler';
 import ApiController from '../controller/ApiController'
-import {AsyncStorage} from 'react-native';
+import { AsyncStorage } from 'react-native';
 
 function createData(item, idArray) {
     return {
@@ -40,22 +40,22 @@ class Series extends Component {
     obtenerSeries() {
         ApiController.getSeries(this.okSeries.bind(this), this.state.nombre);
 
-       
+
 
     }
 
     _retrieveData = async () => {
         try {
-          const value = await AsyncStorage.getItem('idUs');
-          if (value !== null) {
-            this.setState ({
-                idUser: value
-            })
-          }
+            const value = await AsyncStorage.getItem('idUser');
+            if (value !== null) {
+                this.setState({
+                    idUser: value
+                })
+            }
         } catch (error) {
             console.log(error);
         }
-      };
+    };
 
     okSeries(data) {
         var i, newArray = [];

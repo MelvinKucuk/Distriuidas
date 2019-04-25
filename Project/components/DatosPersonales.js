@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Image, StyleSheet, TextInput, Button, Text } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import ApiController from '../controller/ApiController';
-import {AsyncStorage} from 'react-native';
+import { AsyncStorage } from 'react-native';
 
 
 class DatosPersonales extends Component {
@@ -18,38 +18,37 @@ class DatosPersonales extends Component {
         this.state = {
             idUser: null,
             nombre: null,
-            apellido: null, 
-            email: null, 
+            apellido: null,
+            email: null,
         };
         this._retrieveData();
     }
 
     _retrieveData = async () => {
         try {
-          const value = await AsyncStorage.getItem('idUser');
-          if (value !== null) {
-            this.setState ({
-                idUser: value
-            })
-            console.log("PEPE", value);
-            this.getUserData(this.state.idUser);
-          }
+            const value = await AsyncStorage.getItem('idUser');
+            if (value !== null) {
+                this.setState({
+                    idUser: value
+                })
+                this.getUserData(this.state.idUser);
+            }
         } catch (error) {
             console.log(error);
         }
-      };
+    };
 
-      getUserData(){
+    getUserData() {
         ApiController.getUsuario(this.okUserData.bind(this), this.state.idUser);
-      }
+    }
 
-      okUserData(data){
-        this.setState ({
+    okUserData(data) {
+        this.setState({
             nombre: data.nombre,
             apellido: data.apellido,
             email: data.email,
         })
-      }
+    }
 
     render() {
         return (
@@ -62,7 +61,7 @@ class DatosPersonales extends Component {
                         borderRadius: 20,
                     }} />
                 </View>
-                <View style={{alignSelf:'center'}}>
+                <View style={{ alignSelf: 'center' }}>
                     <View style={[styles.underline]}>
                         <Text style={[styles.TextUnderline]}>Nombre:</Text>
                         <Text style={[styles.textInput]}>{this.state.nombre}</Text>

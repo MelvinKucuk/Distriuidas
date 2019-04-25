@@ -79,18 +79,18 @@ class Detalle extends Component {
         this.setState({ modalVisible: visible });
     }
 
-    cargarComentario(){
-        if (this.state.idUser != null && this.state.id != null && this.state.text != null){
+    cargarComentario() {
+        if (this.state.idUser != null && this.state.id != null && this.state.text != null) {
             ApiController.createComment(this.state.idUser, this.state.id, this.state.text, this.okComentario.bind(this));
         }
     }
 
-    okComentario(){
+    okComentario() {
         alert("Se guardo tu comentario");
         this.setState({ modalVisible: false });
         this.cargarComentarios();
     }
-    
+
 
 
     cargarDetalle() {
@@ -130,7 +130,7 @@ class Detalle extends Component {
         if (this.state.isLoading) {
             return (
                 <View style={styles.detalleContainer}>
-                    <ActivityIndicator size="large" color="#00ff00" backgroundColor=' #616161' style={{ flex: 1 }}></ActivityIndicator>
+                    <ActivityIndicator size="large" color="pink" backgroundColor=' #616161' style={{ flex: 1 }}></ActivityIndicator>
                 </View>
             );
         } else {
@@ -286,22 +286,45 @@ class Detalle extends Component {
 class FlatListItems extends Component {
     render() {
         return (
+
             <View style={{
                 flex: 1,
                 backgroundColor: 'white',
                 margin: 5,
                 borderRadius: 10
             }}>
-                <View style={{ flex: 1, flexDirection: 'row', marginLeft: 10, alignContent: 'space-around' }}>
-                    <Text style={styles.FlatListItems}>
-                        {this.props.item.nombre}
-                    </Text>
-                    <View>
-                        <Text style={styles.FlatListItems}>
-                            {this.props.item.fechaComentario}
+                <View style={{ flex: 1, flexDirection: 'row', marginLeft: 10 }}>
+                    <View style={styles.CircleShapeView}>
+                        <Text style={{ fontSize: 15, color: 'white', marginTop: 5 }}>
+                            {this.props.item.nombre.slice(0, 1).toUpperCase()}
                         </Text>
                     </View>
+                    <View style={{ flex: 1, flexDirection: 'column', marginLeft: 10 }}>
+                        <View>
+                            <Text style={{
+                                color: 'black',
+                                padding: 5,
+                                fontSize: 12,
+                                marginTop: 5
+                            }}>
+                                {this.props.item.nombre}
+                            </Text>
+                        </View>
+                        <View>
+                            <Text style={{
+                                color: 'black',
+                                paddingTop: 3,
+                                paddingLeft: 5,
+                                paddingBottom: 5,
+                                fontSize: 12,
+                            }}>
+                                {this.props.item.fechaComentario}
+                            </Text>
+                        </View>
+                    </View>
                 </View>
+
+
                 <View
                     style={{
                         borderBottomColor: 'grey',
@@ -314,6 +337,7 @@ class FlatListItems extends Component {
                 </Text>
             </View>
         );
+
     }
 }
 
@@ -406,6 +430,15 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 20,
         alignSelf: 'center',
+    },
+    CircleShapeView: {
+        width: 35,
+        height: 35,
+        borderRadius: 35 / 2,
+        backgroundColor: '#00BCD4',
+        marginTop: 15,
+        alignItems: 'center',
+        alignContent: 'center'
     },
 
 })
