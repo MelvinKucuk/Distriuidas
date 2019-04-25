@@ -232,7 +232,7 @@ class Detalle extends Component {
 
                                     </TextInput>
                                 </View>
-                                <View style={{ flex: 0.5, flexDirection: 'row' }}>
+                                <View style={{ flex: 0.5, flexDirection: 'row', marginTop: 10 }}>
                                     <View style={{ marginRight: 10, width: width * 0.30 }}>
                                         <View style={[styles.outterButtonCreate]}>
 
@@ -267,8 +267,6 @@ class Detalle extends Component {
         }
 
     }
-    //onPress={() => {this.setModalVisible(!this.state.modalVisible);}}
-    //onPress={() => {this.insertarComentario();}}
 }
 
 class FlatListItems extends Component {
@@ -394,7 +392,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     modal: {
-        height: height * 0.3,
+        height: height * 0.25,
         width: width * 0.75,
         position: 'absolute',
         top: height * 0.3,
