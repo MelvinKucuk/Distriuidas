@@ -7,7 +7,6 @@ import Login from './components/Login';
 import Series from './components/Series';
 import ChangePassword from './components/ChangePassword'
 import CreateUser from './components/CreateUser'
-import Perfil from './components/Perfil';
 import DatosPersonales from './components/DatosPersonales';
 import Comentarios from './components/Comentarios';
 import {
@@ -225,33 +224,7 @@ const SeriesStackNavigator = createStackNavigator(
     initialRouteName: 'Series',
   }
 );
-/*
-const PerfilStackNavigator = createStackNavigator(
-  {
-    Perfil: { screen: Perfil },
-  },
-  {
-    defaultNavigationOptions: ({ navigation }) => {
-      return {
-        headerLeft: (
-          <Icon
-            style={{ paddingLeft: 10, color: 'white' }}
-            onPress={() => navigation.openDrawer()}
-            name="md-menu"
-            size={30}
-          />
-        ),
-        headerStyle: {
-          backgroundColor: 'black'
-        }
-      };
-    }
-  },
-  {
-    initialRouteName: 'Perfil',
-  }
-)
-*/
+
 const PerfilTabNavigator = createBottomTabNavigator({
   DatosPersonales,
   Comentarios

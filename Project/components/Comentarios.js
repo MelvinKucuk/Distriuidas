@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, FlatList, Text, ActivityIndicator } from 'react-native';
+import { View, Image, StyleSheet, TextInput, Button, Text, ActivityIndicator } from 'react-native';
+import { LinearGradient } from 'expo'
 import ApiController from '../controller/ApiController';
 import { AsyncStorage } from 'react-native';
 
@@ -12,6 +13,10 @@ function createData(item) {
   }
 }
 
+class Comentarios extends Component {
+  render() {
+    return (
+      <LinearGradient colors={['#584150', '#1e161b']} style={{ flex: 1 }}>
 class Comentarios extends Component {
 
   constructor(props) {
@@ -88,6 +93,9 @@ class Comentarios extends Component {
 
           </FlatList>
         </View>
+      </LinearGradient>
+    )
+  }
       );
     }
   }
@@ -158,31 +166,7 @@ class FlatListItems extends Component {
 const styles = StyleSheet.create({
   detalleContainer: {
     flex: 1,
-    backgroundColor: '#616161',
     justifyContent: 'center',
-  },
-  detalleGenres: {
-    fontSize: 15,
-    margin: 10,
-    color: '#ffffff'
-  },
-  FlatListItems: {
-    color: 'black',
-    padding: 10,
-    fontSize: 16,
-  },
-  detalleComentario: {
-    flex: 1,
-    backgroundColor: 'white',
-  },
-  CircleShapeView: {
-    width: 35,
-    height: 35,
-    borderRadius: 35 / 2,
-    backgroundColor: '#00BCD4',
-    marginTop: 15,
-    alignItems: 'center',
-    alignContent: 'center'
   },
 })
 

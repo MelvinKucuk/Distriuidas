@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Button, Image, FlatList, TouchableOpacity } fro
 import { TextInput, ScrollView } from 'react-native-gesture-handler';
 import ApiController from '../controller/ApiController'
 import { AsyncStorage } from 'react-native';
+import { LinearGradient } from 'expo'
 
 function createData(item, idArray) {
     return {
@@ -63,6 +64,27 @@ class Series extends Component {
 
     render() {
         return (
+            <LinearGradient colors={['#584150', '#1e161b']} style={{ flex: 1 }}>
+                <View style={[styles.detalleContainer]} >
+                    <View style={{ flexDirection: 'row', backgroundColor: '#373737' }}>
+                        <View style={[styles.outterInput]}>
+                            <TextInput
+                                style={[styles.textInput]}
+                                placeholder="Buscar por titulo"
+                                onChangeText={(text) => this.setState({ nombre: text })}
+                                autoFocus={true}
+                                onSubmitEditing={() => this.obtenerSeries()}
+                            />
+                        </View>
+                        <View style={[styles.outterButton]}>
+                            <TouchableOpacity
+                                style={styles.SubmitButtonStyle}
+                                activeOpacity={.5}
+                                onPress={() => this.obtenerSeries()}>
+                                <Text style={styles.textButton}> Buscar </Text>
+                            </TouchableOpacity>
+
+                        </View>
             <View style={[styles.detalleContainer]}>
                 <ScrollView>
                     <View style={[styles.detalleContainer]} >
@@ -109,6 +131,30 @@ class Series extends Component {
                     </View>
                 </ScrollView>
             </View>
+                    <FlatList
+                        style={{ flex: 1 }}
+                        numColumns={2}
+                        data={this.state.series}
+                        keyboardShouldPersistTaps='always'
+                        renderItem={({ item }) => {
+                            return (
+                                <View style={{ flex: 1, margin: 10 }}
+                                >
+                                    <TouchableOpacity
+                                        onPress={() => this.props.onPress(item.id)}>
+                                        <Image style={[styles.imagen1]}
+                                            source={{ uri: item.poster }}
+                                        ></Image>
+                                        <Text style={[styles.texto]}
+                                        >{item.title}</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            );
+                        }}
+                    />
+
+                </View>
+            </LinearGradient>
         )
     }
 
@@ -138,7 +184,7 @@ const styles = StyleSheet.create({
 
     detalleContainer: {
         flex: 1,
-        backgroundColor: '#373737',
+        justifyContent: 'center',
     },
     texto: {
         color: 'white',
@@ -161,11 +207,26 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         textAlign: 'center',
     },
-    outterButton: {
-        marginTop: 15,
+
+    SubmitButtonStyle: {
+        width: 70,
+        marginTop: 20,
+        paddingTop: 5,
+        paddingBottom: 5,
+        marginLeft: 0,
         marginRight: 20,
-        flex: 1,
-    }
+        backgroundColor: '#373737',
+        borderRadius: 10,
+        borderWidth: 0.5,
+        borderColor: '#fff'
+    },
+    textButton: {
+        color: 'white',
+        fontSize: 15,
+        alignSelf: 'center',
+        textAlign: 'center',
+        fontWeight: 'bold'
+    },
 
 })
 
