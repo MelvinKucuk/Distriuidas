@@ -19,7 +19,7 @@ class Login extends Component {
 
     checkUsuario(data) {
         if (data.usuarioId == this.state.username && data.password == this.state.password) {
-            this.props.onPressLogin()
+            this.props.onPressLogin(this.state.username);
         } else {
             alert("Contraseña incorrecta");
         }

@@ -33,7 +33,7 @@ class Series extends Component {
             nombre: null,
             idUser: null,
         };
-        
+        this._retrieveData();
     }
 
 
@@ -63,7 +63,6 @@ class Series extends Component {
             newArray.push(createData(data[i], i));
         }
         this.setState({ series: newArray });
-        this._retrieveData();
     }
 
 

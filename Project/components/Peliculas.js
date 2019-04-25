@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Button, Image, FlatList, TouchableOpacity } fro
 import ApiController from '../controller/ApiController'
 import { TextInput, ScrollView } from 'react-native-gesture-handler';
 import { withNavigation } from 'react-navigation';
-import {AsyncStorage} from 'react-native';
+import { AsyncStorage } from 'react-native';
 
 
 function createData(item) {
@@ -37,22 +37,25 @@ class Peliculas extends Component {
             idUser: props.navigation.getParam('idUser')
         };
 
+        console.log("USER", this.state.idUser);
         this._storeData(this.state.idUser);
+
     }
 
     obtenerPeliculas() {
         ApiController.getPeliculas(this.okPeliculas.bind(this), this.state.nombre);
 
-        console.log("jardinero", this.state.idUser);
+        console.log("jarinero", this.state.idUser);
     }
 
     _storeData = async () => {
         try {
-          await AsyncStorage.setItem('idUs', this.state.idUser);
+            await AsyncStorage.setItem('idUser', this.state.idUser);
+            console.log("Se guardo");
         } catch (error) {
-          console.log(error);
+            console.log(error);
         }
-      };
+    };
 
     okPeliculas(data) {
         if (data != null) {
@@ -64,6 +67,7 @@ class Peliculas extends Component {
         } else {
             alert("Intentar de nuevo")
         }
+        this._storeData(this.state.idUser);
     }
 
 
@@ -117,7 +121,7 @@ class Peliculas extends Component {
                 </ScrollView>
             </View>
         )
-        
+
     }
 
 };
