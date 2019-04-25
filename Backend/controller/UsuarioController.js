@@ -60,21 +60,43 @@ let getUsuarioById = (req, res) =>
     )       
 };
 
+let getUsuarioByIdOne = (req, res) =>
+{      
+    console.log("llegue a leer con filtro");
+    //Obtener id busqueda req.param.tagid
+    console.log(req.query.usuarioId);
+    let idBusqueda = {usuarioId: req.query.usuarioId};
+    console.log(idBusqueda);
+    //Listar resultados
+    usuarios.findOne(idBusqueda)
+    .then
+    (
+        (user)=>
+        {
+            console.log(user); 
+            if(user == null)
+                res.status(206).send({ msg: "NO existe usuario."});
+            else
+                res.status(200).send(user); //devuelvo resultado query   
+        },
+        (err)=>{console.log(err);}
+    )       
+};
+
 let updateUsuarioByPassword = (req, res) =>
 {      
-    console.log("Actualizar a leer con filtro");
+    console.log("Actualizar usuario: ",req.body.usuarioId);
     //Obtener id busqueda req.param.tagid
-    console.log(req.body.usuarioId);
     var myquery = { usuarioId: req.body.usuarioId};
-    console.log(req.body.password);
+    console.log("Actualizar key: ",myquery);
     var newvalues = { $set: {password: req.body.password } };
+    console.log("Actualizar password: ",newvalues);
     //Listar resultados
     usuarios.updateMany(myquery, newvalues, function(err, res) {
         if (err) console.log(err);
-        console.log("Documento actualizado");
-        console.log(res.nModified);
+        console.log("Documento actualizado",res.nModified);
       });    
       res.status(206).send({ msg: "Se actualizaron los usuarios." });  
 };
 
-module.exports = {getUsuarios,getUsuarioById,insertUsuario,updateUsuarioByPassword};
+module.exports = {getUsuarios,getUsuarioById,insertUsuario,updateUsuarioByPassword,getUsuarioByIdOne};

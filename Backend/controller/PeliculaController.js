@@ -41,27 +41,25 @@ let getPeliculasByTitle= (req,res) =>
 let getPeliculasAndSeriesById= (req,res) =>
 {
    
-    console.log("Buscando pelicula por titulo")
-    console.log(req.query.movieId);
-    const idBusqueda = req.query.movieId;
-    const endpoint = `${url}${apiKEY}&i=${idBusqueda}`;
-    console.log(endpoint);
+    console.log('Buscando pelicula y series por id:',req.query.movieId)
+    const endpoint = utils.getUrlByKey()+`&i=${req.query.movieId}`; 
+    //const idBusqueda = req.query.movieId;
+    //const endpoint = `${url}${apiKEY}&i=${idBusqueda}`; 
+    console.log('URL: %s ',endpoint);
     fetch(endpoint)
     .then (
         (response) => {
             console.log(response);
             return response.json();
         }).then (responseData => {
-            console.log(responseData);           
-            console.log("Parsear Json to object");
+            console.log('Mapeo json: ',responseData);  
             //movieData= new movieData(responseData);
             //console.log(movieData);
             const {Title,Genre,Actors,Language,Poster,imdbRating,imdbID,Website,Runtime,Year,Plot,Type}= responseData;
-            console.log("Mapeo json");
             const newData = {title:Title, genre:Genre,actors:Actors, language: Language, 
                 poster: Poster,rating:imdbRating,movieId:imdbID,website:Website,
 			runtime:Runtime,year:Year,synapsi:Plot,typeMovie:Type};
-            console.log(newData);
+            console.log('Mapeo json:',newData);
             //res.send(movieData); //devuelvo resultado query
             res.status(200).send(newData);   
         }).catch((error) => {

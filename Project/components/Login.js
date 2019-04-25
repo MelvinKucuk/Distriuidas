@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View, Image, StyleSheet, TextInput, Button } from 'react-native';
+import { View, Image, StyleSheet, TextInput, Button , TouchableOpacity,Text} from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import ApiController from '../controller/ApiController';
+import { LinearGradient } from 'expo'
 
 class Login extends Component {
     constructor(props) {
@@ -12,64 +13,83 @@ class Login extends Component {
         }
     }
 
-    checkLogin(){
-        ApiController.getUsuario(this.checkUsuario.bind(this), this.state.username)        
+    checkLogin() {
+        ApiController.getUsuario(this.checkUsuario.bind(this), this.state.username)
     }
 
-    checkUsuario(data){
-        if(data.usuarioId == this.state.username && data.password == this.state.password){
-            console.log(this.state.username);
-            this.props.onPressLogin(this.state.username)
-        } else{
+    checkUsuario(data) {
+        if (data.usuarioId == this.state.username && data.password == this.state.password) {
+            this.props.onPressLogin()
+        } else {
             alert("Contraseña incorrecta");
         }
     }
 
     render() {
         return (
-            <View style={[styles.loginContainer]}>
-                <View style={[styles.imageContainer]}>
-                    <Image
-                        style={[styles.imageStyle]}
-                        source={require('./clapperboard.png')}/>
+            <LinearGradient
+                colors={['#584150', '#1e161b']} style={{ flex: 1 }}>
+                <View style={[styles.loginContainer]}>
+                    <View style={[styles.imageContainer]}>
+                        <Image
+                            style={[styles.imageStyle]}
+                            source={require('./clapperboard.png')} />
+                    </View>
+                    <View style={[styles.inputContainer]}>
+                        <View style={[styles.outterInput]}>
+                            <TextInput
+                                style={[styles.textInput]}
+                                placeholder="Username"
+                                onChangeText={(text) => this.setState({ username: text })}
+                            />
+                        </View>
+                        <View style={[styles.outterInput]}>
+                            <TextInput
+                                style={[styles.textInput]}
+                                placeholder="Password"
+                                onChangeText={(text) => this.setState({ password: text })}
+                                secureTextEntry={true}
+                            />
+                        </View>
+                        <View style={[styles.outterButton]}>
+                            {/* <Button
+                                color='#373737'
+                                title="Login"
+                                onPress={() => this.checkLogin()} /> */}
+                            <TouchableOpacity
+                                style={styles.SubmitButtonStyle}
+                                activeOpacity={.5}
+                                onPress={() => this.checkLogin()}>
+                                <Text style={styles.textButton}> Login </Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={[styles.outterButtonCreate]}>
+                            {/* <Button
+                                color='#373737'
+                                title="Create Account"
+                                onPress={() => this.props.onPressCreate()} /> */}
+                            <TouchableOpacity
+                                style={styles.SubmitButtonStyle}
+                                activeOpacity={.5}
+                                onPress={() => this.props.onPressCreate()}>
+                                <Text style={styles.textButton}> Create Account </Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={[styles.outterButtonCreate]}>
+                            {/* <Button
+                                color='#373737'
+                                title="Change Password"
+                                onPress={() => this.props.onPressPass()} /> */}
+                            <TouchableOpacity
+                                style={styles.SubmitButtonStyle}
+                                activeOpacity={.5}
+                                onPress={() => this.props.onPressPass()}>
+                                <Text style={styles.textButton}> Change Password</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
                 </View>
-                <View style={[styles.inputContainer]}>
-                    <View style={[styles.outterInput]}>
-                        <TextInput
-                            style={[styles.textInput]}
-                            placeholder="Username"
-                            onChangeText = {(text) => this.setState({ username: text})}
-                        />
-                    </View>
-                    <View style={[styles.outterInput]}>
-                        <TextInput 
-                        style={[styles.textInput]}
-                        placeholder="Password"
-                        onChangeText = {(text) => this.setState({ password: text})}
-                        secureTextEntry={true}
-                        />
-                    </View>
-                    <View style={[styles.outterButton]}>
-                        <Button
-                            color='#373737'
-                            title="Login"
-                            onPress={() => this.checkLogin()}/>
-                        
-                    </View>
-                    <View style={[styles.outterButtonCreate]}>
-                    <Button
-                            color='#373737'
-                            title="Create Account"
-                            onPress={() => this.props.onPressCreate()}/>
-                    </View>
-                    <View style={[styles.outterButtonCreate]}>
-                    <Button
-                            color='#373737'
-                            title="Change Password"
-                            onPress={() => this.props.onPressPass()}/>
-                    </View>
-                </View>
-            </View>
+            </LinearGradient>
         );
     }
 }
@@ -77,7 +97,7 @@ class Login extends Component {
 const styles = StyleSheet.create({
     loginContainer: {
         flex: 1,
-        backgroundColor: '#616161',
+        //backgroundColor: '#616161',
         justifyContent: 'center'
     },
     textInput: {
@@ -86,6 +106,25 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         textAlign: 'center',
     },
+    textButton: {
+        color: 'white',
+        fontSize: 15,
+        alignSelf: 'center',
+        textAlign: 'center',
+        fontWeight: 'bold'
+    },
+    SubmitButtonStyle: {
+        width:150,
+        marginTop:5,
+        paddingTop:5,
+        paddingBottom:5,
+        marginLeft:20,
+        marginRight:20,
+        backgroundColor:'#373737',
+        borderRadius:10,
+        borderWidth: 0.5,
+        borderColor: '#fff'
+      },
     outterInput: {
         borderBottomWidth: 1,
         borderBottomColor: 'white',
@@ -95,7 +134,6 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         flex: 1,
-        backgroundColor: '#616161',
         justifyContent: 'flex-start'
     },
     imageStyle: {
@@ -112,7 +150,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignSelf: 'center',
         marginBottom: 20,
-        marginTop: 20,
+        marginTop: 20
     },
     outterButtonCreate: {
         justifyContent: 'center',
