@@ -16,71 +16,95 @@ router.get('/', function (req, res)
 
 //**************************Recursos de Usuarios**************************** */
 //EndPoint para leer todos  los usuarios
-router.get('/getUsuarios',function(req,res)
-{
-    console.log("getUsuarios");
+// router.get('/getUsuarios',function(req,res)
+// {
+//     usuarioController.getUsuarios(req,res);
+// });
+router.get('/getUsuarios', (req, res) => {
     usuarioController.getUsuarios(req,res);
 });
-//router.get('/getUsuarios1',usuarioController.getUsuarios(req,res));
-
+router.get('/Usuarios', (req, res) => {
+    usuarioController.getUsuarios(req,res);
+});
 //EndPoint para leer usuario por id
-router.get('/getUsuarioById',function(req,res)
-{
-    console.log("getUsuarioById con filtro");
-    usuarioController.getUsuarioById(req,res);
+router.get('/getUsuarioById',(req, res) =>{
+    if(!req.query.usuarioId || req.query.usuarioId =='undefined' || req.query.usuarioId == '') 
+        res.status(409).send({ msg: "El campo id usuario es requerido." });
+    else
+        usuarioController.getUsuarioById(req,res);
+});
+//Homologo al anterior
+router.get('/Usuarios/Usuario',(req, res) =>{
+    if(!req.query.usuarioId || req.query.usuarioId =='undefined' || req.query.usuarioId == '') 
+        res.status(409).send({ msg: "El campo id usuario es requerido." });
+    else
+        usuarioController.getUsuarioById(req,res);
+});
+router.get('/getUsuarioByIdOne',(req, res) =>{
+    if(!req.query.usuarioId || req.query.usuarioId =='undefined' || req.query.usuarioId == '') 
+        res.status(409).send({ msg: "El campo id usuario es requerido." });
+    else
+        usuarioController.getUsuarioByIdOne(req,res);
 });
 //Endpoint de insert un usuarios
-router.post('/insertUsuario/Usuario',function(req,res)
-{
-    console.log("Insertar nuevo usuario: " + req.body);
-    usuarioController.insertUsuario(req,res);
+router.post('/insertUsuario/Usuario',(req, res) =>{
+    console.log("Insertar nuevo usuario: ", req.body);
+    if(!req.body || req.body.usuarioId =='undefined' || req.body.password =='undefined' || req.body.usuarioId == '' || req.body.password == '') 
+        res.status(409).send({ msg: "El campo id usuario es requerido." });
+    else
+        usuarioController.insertUsuario(req,res);
 });
-
+router.post('/Usuarios/Usuario',(req, res) =>{
+    console.log("Insertar nuevo usuario: ", req.body);
+    if(!req.body || req.body.usuarioId =='undefined' || req.body.password =='undefined' || req.body.usuarioId == '' || req.body.password == '') 
+        res.status(409).send({ msg: "El campo id usuario es requerido." });
+    else
+        usuarioController.insertUsuario(req,res);
+});
 //EndPoint para actualizar password por usuario.
-router.post('/updateUsuarioByPassword/Usuario',function(req,res)
-{
-    console.log(req);
-    if(!req.body.usuarioId || !req.body.password) {
-        res.status(400).send({ msg: "El campo nombre y password son requeridos del usuario." });
-    }
-    else{
-        usuarioController.updateUsuarioByPassword(req,res);
-    }    
+router.post('/updateUsuarioByPassword/Usuario',(req, res) =>{
+    console.log("Actualizar usuario y password: ", req.body);
+    if(!req.body.usuarioId || !req.body.password) 
+        res.status(409).send({ msg: "El campo nombre y password son requeridos del usuario." });
+    else
+        usuarioController.updateUsuarioByPassword(req,res); 
 });
-
 //**************************Recursos de Usuarios**************************** */
 //EndPoint para insertar comentario
-router.post('/insertComentario/Comentario',function(req,res)
-{
-    console.log("Insertar nuevo comentatrio: " + req.body);
-    comentarioController.insertComentario(req,res);
+router.post('/insertComentario/Comentario',(req, res) =>{
+    console.log("Insertar nuevo comentatrio: ",req.body);
+    if(!req.body || req.body.usuarioId =='undefined' || req.body.peliculaId =='undefined' || req.body.usuarioId == '' || req.body.usuarioId == null || req.body.peliculaId == '' || req.body.peliculaId == null) 
+        res.status(409).send({ msg: "El campo usuario y pelicula son requeridos del comentario." });
+    else
+        comentarioController.insertComentario(req,res);
 });
-
 //EndPoint para leer comentartios de un usuarios
-router.get('/getComentariosByUsuario',function(req,res)
-{
-    console.log(req.body);
-    comentarioController.getComentariosByUsuarioId(req,res);
+router.get('/getComentariosByUsuario',(req, res) =>{
+    console.log("Obtener  comentatrio por usuario: ",req.query);
+    if(!req.query || req.query.usuarioId =='undefined' || req.query.usuarioId == '' || req.query.usuarioId == null ) 
+        res.status(409).send({ msg: "El campo usuario es requerido del comentario." });
+    else
+        comentarioController.getComentariosByUsuarioId(req,res);
 });
-
 //EndPoint para leer comentartios de un usuarios
-router.get('/getComentariosByUsuario',function(req,res)
-{
-    console.log(req.body);
-    comentarioController.getComentariosByPeliculaId(req,res);
+router.get('/getComentariosByPeliculaId',(req, res) =>{   
+    console.log("Obtener  comentatrio por pelicula: ",req.query);
+    if(!req.query ||  req.query.peliculaId =='undefined' || req.query.peliculaId == '' || req.query.peliculaId == null) 
+        res.status(409).send({ msg: "El campo pelicula es requeridos del comentario." });
+    else
+        comentarioController.getComentariosByPeliculaId(req,res);
 });
-
 //**************************Recursos de Peliculas**************************** */
 //EndPoint para buscar pelicula por titulo.
-router.get('/getPeliculasByTitle',function(req,res)
-{
-    console.log(req.body);
-    peliculaController.getPeliculasByTitle(req,res);
+router.get('/getPeliculasByTitle',(req, res) =>{
+    console.log("Obtener  pelicula por titulo: ",req.query);
+    if(!req.query ||  req.query.title =='undefined' || req.query.title == '' || req.query.title == null) 
+        res.status(409).send({ msg: "El campo titulo  de pelicula es requeridos." });
+    else
+        peliculaController.getPeliculasByTitle(req,res);
 });
-   
 //EndPoint para buscar pelicula por titulo y anio.
-router.get('/getPeliculasByTitleAndYear',function(req,res)
-{
+router.get('/getPeliculasByTitleAndYear',(req, res) =>{
     console.log(req);
     if(typeof req.query.title !== 'undefined' && typeof req.query.year !== 'undefined') {
         console.log(req.query.title);
@@ -90,10 +114,8 @@ router.get('/getPeliculasByTitleAndYear',function(req,res)
         res.status(409).send({ msg: "Parametros invalidos." });
     }    
 });
-
 //EndPoint para buscar pelicula por key de nombre de pelicula.
-router.get('/getPeliculasByKey',function(req,res)
-{
+router.get('/getPeliculasByKey',(req, res) =>{
     console.log(req);
     if(typeof req.query.key !== 'undefined') {
         console.log(req.query.key);
@@ -102,10 +124,8 @@ router.get('/getPeliculasByKey',function(req,res)
         res.status(410).send({ msg: "Parametros no ingresado o invalidos." });
     }    
 });
-
 //EndPoint para buscar pelicula por Id  de pelicula.
-router.get('/getPeliculasAndSeriesById',function(req,res)
-{
+router.get('/getPeliculasAndSeriesById',(req, res) =>{
     console.log(req);
     if(typeof req.query.movieId !== 'undefined') {
         console.log(req.query.movieId);
@@ -114,11 +134,8 @@ router.get('/getPeliculasAndSeriesById',function(req,res)
         res.status(410).send({ msg: "Parametros no ingresado o invalidos." });
     }    
 });
-
-
 //EndPoint para buscar series por key de nombre de pelicula.
-router.get('/getSeriesByKey',function(req,res)
-{
+router.get('/getSeriesByKey',(req, res) =>{
     console.log(req);
     if(typeof req.query.key !== 'undefined') {
         console.log(req.query.key);

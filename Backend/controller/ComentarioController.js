@@ -5,11 +5,12 @@ var usuarios = require('./UsuarioController');
 let insertComentario = (req,res) =>
 {
     console.log(req.body);
+    var date = new Date().toISOString().slice(0,10);
     var newComentario = comentarios({
-        nombre:req.body.nombre,
+        nombre:req.body.usuarioId,
         descripcion:req.body.descripcion,
         usuarioId:req.body.usuarioId,
-        fechaComentario:req.body.fechaComentario,
+        fechaComentario:date,
         peliculaId:req.body.peliculaId
     });
     newComentario.save().
@@ -23,7 +24,6 @@ let insertComentario = (req,res) =>
         (err)=>{console.log(err);}
     ) 
 }
-
 
 let getComentariosByUsuarioId = (req, res) =>
 {      
@@ -50,7 +50,7 @@ let getComentariosByPeliculaId = (req, res) =>
     console.log("llegue a leer comentarios con filtro");
     //Obtener id busqueda req.param.tagid
     console.log(req.query.peliculaId);
-    let idBusqueda = {usuarioId: req.query.peliculaId};
+    let idBusqueda = {peliculaId: req.query.peliculaId};
     console.log(idBusqueda);
     //Listar resultados
     comentarios.find(idBusqueda)
