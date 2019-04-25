@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Image, StyleSheet, TextInput, Button, Text } from 'react-native';
+import { LinearGradient } from 'expo'
 import { Actions } from 'react-native-router-flux';
 import ApiController from '../controller/ApiController';
 import { Row } from 'native-base';
@@ -19,6 +20,7 @@ class DatosPersonales extends Component {
     }
     render() {
         return (
+            <LinearGradient colors={['#584150', '#1e161b']} style={{ flex: 1 }}>
             <View style={[styles.detalleContainer]} >
                 <View style={{ alignSelf: 'center', marginBottom: 50 }}>
                     <Image source={require('./vaca.png')} style={{
@@ -47,6 +49,7 @@ class DatosPersonales extends Component {
                     </View>
                 </View>
             </View>
+            </LinearGradient>
         )
     }
 };
@@ -54,7 +57,6 @@ class DatosPersonales extends Component {
 const styles = StyleSheet.create({
     detalleContainer: {
         flex: 1,
-        backgroundColor: '#616161',
         justifyContent: 'center',
 
     },
