@@ -135,10 +135,10 @@ class Detalle extends Component {
             );
         } else {
             return (
-                <View style={{ flex: 1, flexDirection: 'column' }}>
+                <View style={[styles.detalleContainer]}>
                     <ScrollView>
-                        <View style={styles.detalleContainer}>
-                            <View style={{ flex: 1, flexDirection: 'column' }}>
+                        <View style={[styles.detalleContainer]}>
+                            <View style={[styles.detalleContainer]}>
                                 <View style={{ flex: 0.5, flexDirection: 'row' }}>
                                     <Image
                                         style={{ width: 150, height: 250, marginLeft: 10, marginTop: 10, flex: 0.45, borderRadius: 10 }}
