@@ -23,6 +23,12 @@ class Cuenta extends Component {
                     resizeMode: 'contain',
                     borderRadius: 20, alignSelf: 'center', marginBottom: 250
                 }} />
+                <View style={{ flex: 1, alignContent: 'center' }}>
+                    <Text>Pedro</Text>
+                    <Text>GokuApellido</Text>
+                    <Text>PedroGoku@gmail.com</Text>
+                    <Text>PedroRp</Text>
+                </View>
             </View>
         )
     }

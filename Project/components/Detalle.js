@@ -30,6 +30,13 @@ var fakeData = [
 
 var { height, width } = Dimensions.get('window');
 
+function createData(item, idArray) {
+    return {
+        nombre: item.nombre,
+        descripcion: item.descripcion,
+        fechaComentario: item.fechaComentario,
+    };
+}
 class Detalle extends Component {
 
 
@@ -51,6 +58,7 @@ class Detalle extends Component {
             modalVisible: false,
             text: "",
             idUser: props.navigation.getParam('idUser'),
+            comentarios: [],
         }
     }
 
@@ -64,7 +72,7 @@ class Detalle extends Component {
 
     componentDidMount() {
         this.cargarDetalle();
-        console.log("so cra",this.state.idUser)
+        this.cargarComentarios();
     }
 
     setModalVisible(visible) {
@@ -85,17 +93,36 @@ class Detalle extends Component {
 
 
     cargarDetalle() {
-        let uri = `http://192.168.43.215:8080/apiAppPeliculas/getPeliculasAndSeriesById?movieId=${this.state.id}`
-        console.log(uri);
-        fetch(uri).then(res => {
-            return res.json()
-        }).catch((err) => console.log(err)).
-            then(data => {
-                this.setState({
-                    detalle: data,
-                    isLoading: false
-                });
-            }).catch((error) => console.log(error));
+        ApiController.getDetalle(this.okDetalle.bind(this), this.state.id);
+    }
+
+    okDetalle(data) {
+        if (data != null) {
+            this.setState({
+                detalle: data,
+                isLoading: false
+            });
+        } else {
+            alert("Intentar de nuevo")
+        }
+    }
+
+    cargarComentarios() {
+        ApiController.getComentarioByPelicula(this.okComentario.bind(this), this.state.id);
+    }
+
+    okComentario(data) {
+        if (data != null) {
+
+            var i, comentarios = [];
+            for (i = 0; i < data.length; i++) {
+                comentarios.push(createData(data[i], i));
+            }
+            this.setState({ comentarios: comentarios });
+
+        } else {
+            alert("Intentar de nuevo")
+        }
     }
 
     render() {
@@ -194,7 +221,7 @@ class Detalle extends Component {
                                     Comentarios
                                 </Text>
                                 <FlatList
-                                    data={fakeData}
+                                    data={this.state.comentarios}
                                     keyExtractor={(item, index) => 'key' + index}
                                     renderItem={({ item, index }) => {
                                         return (
@@ -266,11 +293,25 @@ class FlatListItems extends Component {
                 margin: 5,
                 borderRadius: 10
             }}>
+                <View style={{ flex: 1, flexDirection: 'row', marginLeft: 10, alignContent: 'space-around' }}>
+                    <Text style={styles.FlatListItems}>
+                        {this.props.item.nombre}
+                    </Text>
+                    <View>
+                        <Text style={styles.FlatListItems}>
+                            {this.props.item.fechaComentario}
+                        </Text>
+                    </View>
+                </View>
+                <View
+                    style={{
+                        borderBottomColor: 'grey',
+                        borderBottomWidth: 1,
+                        marginVertical: 5
+                    }}
+                />
                 <Text style={styles.FlatListItems}>
-                    {this.props.item.user}
-                </Text>
-                <Text style={styles.FlatListItems}>
-                    {this.props.item.comment}
+                    {this.props.item.descripcion}
                 </Text>
             </View>
         );
@@ -279,12 +320,6 @@ class FlatListItems extends Component {
 
 
 
-function onPressFab() {
-
-}
-function onPressHomepage() {
-
-}
 
 
 
