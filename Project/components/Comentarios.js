@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { View, FlatList, StyleSheet, Text, ActivityIndicator } from 'react-native';
+import { View, FlatList, StyleSheet, Text, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo'
 import ApiController from '../controller/ApiController';
 import { AsyncStorage } from 'react-native';
+import { withNavigation } from 'react-navigation';
+
 
 function createData(item) {
   return {
@@ -10,6 +12,7 @@ function createData(item) {
     descripcion: item.descripcion,
     fechaComentario: item.fechaComentario,
     peliculaNombre: item.peliculaNombre,
+    idPelicula: item.peliculaId,
   }
 }
 
@@ -52,7 +55,8 @@ class Comentarios extends Component {
       }
       this.setState({
         comentarios: comentarios,
-        isLoading: false
+        isLoading: false,
+        isFetching: false,
       });
 
     } else {
@@ -60,6 +64,9 @@ class Comentarios extends Component {
     }
   }
 
+  pasarDetalle(idMovie, idUser) {
+    this.props.navigation.navigate('Detalle', { id: idMovie, idUser: idUser })
+  }
 
   render() {
     if (this.state.isLoading) {
@@ -80,13 +87,17 @@ class Comentarios extends Component {
               keyExtractor={(item, index) => 'key' + index}
               renderItem={({ item, index }) => {
                 return (
-                  <FlatListItems item={item} index={index}>
-                  </FlatListItems>
+                  <TouchableOpacity
+                    onPress={() => this.pasarDetalle(item.idPelicula, this.state.idUser)}
+                  >
+                    <FlatListItems item={item} index={index}>
+                    </FlatListItems>
+                  </TouchableOpacity>
                 );
               }}
             >
-
             </FlatList>
+
           </View>
         </LinearGradient>
       )
@@ -136,6 +147,7 @@ class FlatListItems extends Component {
               </Text>
             </View>
           </View>
+
         </View>
 
 
@@ -150,6 +162,7 @@ class FlatListItems extends Component {
           {this.props.item.descripcion}
         </Text>
       </View>
+
     );
 
   }
@@ -178,4 +191,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Comentarios;
+export default withNavigation(Comentarios);
