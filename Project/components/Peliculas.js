@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Button, Image, FlatList, TouchableOpacity } from 'react-native';
 import ApiController from '../controller/ApiController'
 import { TextInput } from 'react-native-gesture-handler';
+import { withNavigation } from 'react-navigation';
 
-function createData(item, idArray) {
+function createData(item) {
     return {
         key: item.imdbID,
         poster: item.Poster,
@@ -11,6 +12,7 @@ function createData(item, idArray) {
         id: item.imdbID,
     };
 }
+
 
 class Peliculas extends Component {
     static navigationOptions = {
@@ -30,11 +32,14 @@ class Peliculas extends Component {
                 { key: '2', poster: 'https://m.media-amazon.com/images/M/MV5BNWVjMzgwMTctZmZjNC00ZmE0LThiNTUtYzkyM2RkYWIzY2Y2XkEyXkFqcGdeQXVyNjEyNDAyMzI@._V1_SX300.jpg', title: "Saw" },
             ],
             nombre: null,
+            idUser: props.navigation.getParam('idUser')
         };
     }
 
     obtenerPeliculas() {
         ApiController.getPeliculas(this.okPeliculas.bind(this), this.state.nombre);
+
+        console.log("jardinero", this.state.idUser);
     }
 
     okPeliculas(data) {
@@ -82,12 +87,13 @@ class Peliculas extends Component {
                             <View style={{ flex: 1, margin: 10 }}
                             >
                                 <TouchableOpacity
-                                    onPress={() => this.props.onPress(item.id)}>
+                                    onPress={() => this.props.onPress(item.id, this.state.idUser)}>
                                     <Image style={[styles.imagen1]}
                                         source={{ uri: item.poster }}
                                     ></Image>
                                     <Text style={[styles.texto]}
                                     >{item.title}</Text>
+
                                 </TouchableOpacity>
                             </View>
                         );
@@ -156,4 +162,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default Peliculas;
+export default withNavigation(Peliculas);

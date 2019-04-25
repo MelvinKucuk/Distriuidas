@@ -15,11 +15,13 @@ import {
   createBottomTabNavigator,
   createStackNavigator,
   SafeAreaView,
-  DrawerItems
+  DrawerItems,
+  withNavigation
 } from 'react-navigation';
 import {DrawerNavigator} from 'react-navigation'
 import { ScrollView } from 'react-native-gesture-handler';
 import { Container, Content, Header, Body} from 'native-base';
+import {AsyncStorage} from 'react-native';
 
 class App extends Component {
   render() {
@@ -27,6 +29,8 @@ class App extends Component {
   }
 }
 export default App;
+
+
 
 
 class LoginScreen extends React.Component {
@@ -42,15 +46,16 @@ class LoginScreen extends React.Component {
       />
     );
   }
-  checkLogin(screen) {
-    this.props.navigation.navigate('Peliculas');
+  checkLogin(id) {
+    this.props.navigation.navigate('PeliculasScreen', { idUser: id });
+    
   }
 
-  goPass(screen) {
+  goPass() {
     this.props.navigation.navigate('ChangePassword');
   }
 
-  goCreate(screen) {
+  goCreate() {
     this.props.navigation.navigate('CreateUser');
   }
 }
@@ -103,6 +108,7 @@ class PeliculasScreen extends React.Component {
     super(props)
   }
 
+
   render() {
     return (
       <Peliculas
@@ -111,11 +117,12 @@ class PeliculasScreen extends React.Component {
     );
   }
 
-  pasarDetalle(idMovie) {
-    this.props.navigation.navigate('Detalle', { id: idMovie })
+  
+
+  pasarDetalle(idMovie, idUser) {
+    this.props.navigation.navigate('Detalle', { id: idMovie, idUser: idUser })
   }
 }
-
 
 
 class SeriesScreen extends React.Component {
@@ -136,6 +143,7 @@ class SeriesScreen extends React.Component {
     return (
       <Series
         onPress={this.pasarDetalle.bind(this)}
+        
       />
     );
   }
@@ -170,7 +178,7 @@ class DetalleScreen extends React.Component {
 
 const PeliculasStackNavigator = createStackNavigator(
   {
-    Peliculas: {
+    PeliculasScreen: {
       screen: PeliculasScreen,
       navigationOptions: ({ navigation }) => {
         return {
@@ -187,11 +195,14 @@ const PeliculasStackNavigator = createStackNavigator(
       }
     },
     Detalle: { screen: Detalle },
+    Series: { screen: SeriesScreen},
   },
   {
-    initialRouteName: 'Peliculas',
+    initialRouteName: 'PeliculasScreen',
   }
 );
+
+
 const SeriesStackNavigator = createStackNavigator(
   {
     Series: { screen: SeriesScreen },
@@ -245,7 +256,7 @@ const PerfilStackNavigator = createStackNavigator(
 )
 
 const AppDrawerNavigator = createDrawerNavigator({
-  Peliculas: {
+  /*Peliculas: {
     screen: PeliculasStackNavigator
   },
   Series: {
@@ -253,7 +264,10 @@ const AppDrawerNavigator = createDrawerNavigator({
   },
   Perfil: {
     screen: PerfilStackNavigator
-  }
+  }*/
+  Peliculas : PeliculasStackNavigator,
+  Series: SeriesStackNavigator,
+  Perfil: PerfilStackNavigator,
 }/*,{
   initialRouteName: 'Peliculas',
   contentComponent:CustomDrawerContentComponent,
@@ -266,7 +280,7 @@ const AppSwitchNavigator = createSwitchNavigator({
   Login: { screen: LoginScreen },
   ChangePassword: { screen: ChangePasswordScreen },
   CreateUser: {screen: CreateUserScreen},
-  Peliculas: { screen: AppDrawerNavigator }
+  Drawer: { screen: AppDrawerNavigator }
 });
 
 const AppContainer = createAppContainer(AppSwitchNavigator);

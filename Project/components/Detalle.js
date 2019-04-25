@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TouchableHighlight, Button, Image, FlatList, Linking, ActivityIndicator, Modal, TextInput, Dimensions } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Entypo, AntDesign, FontAwesome } from '@expo/vector-icons';
+import ApiController from '../controller/ApiController';
 
 var fakeData = [
     {
@@ -49,7 +50,7 @@ class Detalle extends Component {
             isLoading: true,
             modalVisible: false,
             text: "",
-
+            idUser: props.navigation.getParam('idUser'),
         }
     }
 
@@ -63,15 +64,28 @@ class Detalle extends Component {
 
     componentDidMount() {
         this.cargarDetalle();
+        console.log("so cra",this.state.idUser)
     }
 
     setModalVisible(visible) {
         this.setState({ modalVisible: visible });
     }
 
+    cargarComentario(){
+        if (this.state.idUser != null && this.state.id != null && this.state.text != null){
+            ApiController.createComment(this.state.idUser, this.state.id, this.state.text, this.okComentario.bind(this));
+        }
+    }
+
+    okComentario(){
+        alert("Se guardo tu comentario");
+        this.setState({ modalVisible: false });
+    }
+    
+
 
     cargarDetalle() {
-        let uri = `http://192.168.43.71:8080/apiAppPeliculas/getPeliculasAndSeriesById?movieId=${this.state.id}`
+        let uri = `http://192.168.43.215:8080/apiAppPeliculas/getPeliculasAndSeriesById?movieId=${this.state.id}`
         console.log(uri);
         fetch(uri).then(res => {
             return res.json()
@@ -219,7 +233,7 @@ class Detalle extends Component {
                                         title="Aceptar"
                                         color="#B3B6B7"
                                         onPress={() => {
-                                            this.setModalVisible(!this.state.modalVisible);
+                                            this.cargarComentario();
                                         }} />
                                 </View>
                                 <View style={{ marginLeft: 10, width: width * 0.30 }}>

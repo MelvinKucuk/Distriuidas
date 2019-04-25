@@ -3,7 +3,7 @@ import { Component } from 'react';
 class ApiController extends Component {
 
     getPeliculas(okPeliculas, nombre) {
-        let uri = 'http://192.168.43.249:8080/apiAppPeliculas/getPeliculasByKey?key=' + nombre
+        let uri = 'http://192.168.43.215:8080/apiAppPeliculas/getPeliculasByKey?key=' + nombre
         fetch(uri).then(res => {
             return res.json()
         }).catch((err) => alert("Intentar de nuevo")).
@@ -73,6 +73,26 @@ class ApiController extends Component {
                 alert("No existe el usuario");
             }));
     }
+
+    createComment(idUsuario, idPelicula, descripcion, okComentario){
+        let uri = 'http://192.168.43.215:8080/apiAppPeliculas/insertComentario/Comentario'
+        fetch(uri, {
+            method: 'POST',
+            mode: "cors",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                descripcion: descripcion, 
+                usuarioId: idUsuario,
+                peliculaId: idPelicula,
+             }),
+        }).then((res) => {
+            console.log("res1", res);
+            return res.json();
+        }).catch((err) => console.log(err)).then((res) => {
+            okComentario();
+        }).catch((err) => console.log(err));
+    }
+
 }
 
 export default new ApiController();
