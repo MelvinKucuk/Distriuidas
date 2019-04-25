@@ -272,8 +272,9 @@ const PerfilTabNavigator = createBottomTabNavigator({
       headerStyle: {
         backgroundColor: 'black'
       }
-    },
-  });
+    }
+  }
+});
 
 const PerfilStackNavigator = createStackNavigator({
   PerfilTabNavigator: PerfilTabNavigator
