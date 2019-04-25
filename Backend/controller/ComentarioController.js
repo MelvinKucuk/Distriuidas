@@ -11,7 +11,8 @@ let insertComentario = (req,res) =>
         descripcion:req.body.descripcion,
         usuarioId:req.body.usuarioId,
         fechaComentario:date,
-        peliculaId:req.body.peliculaId
+        peliculaId:req.body.peliculaId,
+        peliculaNombre:req.body.peliculaNombre
     });
     newComentario.save().
     then

@@ -57,6 +57,7 @@ class Detalle extends Component {
             isLoading: true,
             modalVisible: false,
             text: "",
+            idUser: props.navigation.getParam('idUser'),
             comentarios: [],
         }
     }
@@ -78,6 +79,19 @@ class Detalle extends Component {
         this.setState({ modalVisible: visible });
     }
 
+    cargarComentario() {
+        if (this.state.idUser != null && this.state.id != null && this.state.text != null) {
+            ApiController.createComment(this.state.idUser, this.state.id, this.state.text, this.okComentario.bind(this));
+        }
+    }
+
+    okComentario() {
+        alert("Se guardo tu comentario");
+        this.setState({ modalVisible: false });
+        this.cargarComentarios();
+    }
+
+
 
     cargarDetalle() {
         ApiController.getDetalle(this.okDetalle.bind(this), this.state.id);
@@ -95,10 +109,10 @@ class Detalle extends Component {
     }
 
     cargarComentarios() {
-        ApiController.getComentarioByPelicula(this.okComentario.bind(this), this.state.id);
+        ApiController.getComentarioByPelicula(this.okComentarioCargar.bind(this), this.state.id);
     }
 
-    okComentario(data) {
+    okComentarioCargar(data) {
         if (data != null) {
 
             var i, comentarios = [];
@@ -108,7 +122,7 @@ class Detalle extends Component {
             this.setState({ comentarios: comentarios });
 
         } else {
-            alert("Intentar de nuevo")
+            //alert("Intentar de nuevo")
         }
     }
 
@@ -116,17 +130,15 @@ class Detalle extends Component {
         if (this.state.isLoading) {
             return (
                 <View style={styles.detalleContainer}>
-                    <ActivityIndicator size="large" color="#00ff00" backgroundColor=' #616161' style={{ flex: 1 }}></ActivityIndicator>
+                    <ActivityIndicator size="large" color="pink" backgroundColor=' #616161' style={{ flex: 1 }}></ActivityIndicator>
                 </View>
             );
         } else {
             return (
-                <View style={{ flex: 1, flexDirection: 'column' }}>
-                    {console.log(this.state.detalle)}
-
+                <View style={[styles.detalleContainer]}>
                     <ScrollView>
-                        <View style={styles.detalleContainer}>
-                            <View style={{ flex: 1, flexDirection: 'column' }}>
+                        <View style={[styles.detalleContainer]}>
+                            <View style={[styles.detalleContainer]}>
                                 <View style={{ flex: 0.5, flexDirection: 'row' }}>
                                     <Image
                                         style={{ width: 150, height: 250, marginLeft: 10, marginTop: 10, flex: 0.45, borderRadius: 10 }}
@@ -247,7 +259,7 @@ class Detalle extends Component {
                                         title="Aceptar"
                                         color="#B3B6B7"
                                         onPress={() => {
-                                            this.setModalVisible(!this.state.modalVisible);
+                                            this.cargarComentario();
                                         }} />
                                 </View>
                                 <View style={{ marginLeft: 10, width: width * 0.30 }}>
@@ -274,22 +286,45 @@ class Detalle extends Component {
 class FlatListItems extends Component {
     render() {
         return (
+
             <View style={{
                 flex: 1,
                 backgroundColor: 'white',
                 margin: 5,
                 borderRadius: 10
             }}>
-                <View style={{ flex: 1, flexDirection: 'row', marginLeft: 10, alignContent: 'space-around' }}>
-                    <Text style={styles.FlatListItems}>
-                        {this.props.item.nombre}
-                    </Text>
-                    <View>
-                        <Text style={styles.FlatListItems}>
-                            {this.props.item.fechaComentario}
+                <View style={{ flex: 1, flexDirection: 'row', marginLeft: 10 }}>
+                    <View style={styles.CircleShapeView}>
+                        <Text style={{ fontSize: 15, color: 'white', marginTop: 5 }}>
+                            {this.props.item.nombre.slice(0, 1).toUpperCase()}
                         </Text>
                     </View>
+                    <View style={{ flex: 1, flexDirection: 'column', marginLeft: 10 }}>
+                        <View>
+                            <Text style={{
+                                color: 'black',
+                                padding: 5,
+                                fontSize: 12,
+                                marginTop: 5
+                            }}>
+                                {this.props.item.nombre}
+                            </Text>
+                        </View>
+                        <View>
+                            <Text style={{
+                                color: 'black',
+                                paddingTop: 3,
+                                paddingLeft: 5,
+                                paddingBottom: 5,
+                                fontSize: 12,
+                            }}>
+                                {this.props.item.fechaComentario}
+                            </Text>
+                        </View>
+                    </View>
                 </View>
+
+
                 <View
                     style={{
                         borderBottomColor: 'grey',
@@ -302,6 +337,7 @@ class FlatListItems extends Component {
                 </Text>
             </View>
         );
+
     }
 }
 
@@ -394,6 +430,15 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 20,
         alignSelf: 'center',
+    },
+    CircleShapeView: {
+        width: 35,
+        height: 35,
+        borderRadius: 35 / 2,
+        backgroundColor: '#00BCD4',
+        marginTop: 15,
+        alignItems: 'center',
+        alignContent: 'center'
     },
 
 })

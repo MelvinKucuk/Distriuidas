@@ -3,7 +3,8 @@ import { View, Image, StyleSheet, TextInput, Button, Text } from 'react-native';
 import { LinearGradient } from 'expo'
 import { Actions } from 'react-native-router-flux';
 import ApiController from '../controller/ApiController';
-import { Row } from 'native-base';
+import { AsyncStorage } from 'react-native';
+
 
 class DatosPersonales extends Component {
     static navigationOptions = {
@@ -16,8 +17,40 @@ class DatosPersonales extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            idUser: null,
+            nombre: null,
+            apellido: null,
+            email: null,
         };
+        this._retrieveData();
     }
+
+    _retrieveData = async () => {
+        try {
+            const value = await AsyncStorage.getItem('idUser');
+            if (value !== null) {
+                this.setState({
+                    idUser: value
+                })
+                this.getUserData(this.state.idUser);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    getUserData() {
+        ApiController.getUsuario(this.okUserData.bind(this), this.state.idUser);
+    }
+
+    okUserData(data) {
+        this.setState({
+            nombre: data.nombre,
+            apellido: data.apellido,
+            email: data.email,
+        })
+    }
+
     render() {
         return (
             <LinearGradient colors={['#584150', '#1e161b']} style={{ flex: 1 }}>
@@ -30,22 +63,22 @@ class DatosPersonales extends Component {
                         borderRadius: 20,
                     }} />
                 </View>
-                <View style={{alignSelf:'center'}}>
+                <View style={{ alignSelf: 'center' }}>
                     <View style={[styles.underline]}>
                         <Text style={[styles.TextUnderline]}>Nombre:</Text>
-                        <Text style={[styles.textInput]}>Pedro</Text>
+                        <Text style={[styles.textInput]}>{this.state.nombre}</Text>
                     </View>
                     <View style={[styles.underline]}>
                         <Text style={[styles.TextUnderline]}>Apellido:</Text>
-                        <Text style={[styles.textInput]}>GokuApellido</Text>
+                        <Text style={[styles.textInput]}>{this.state.apellido}</Text>
                     </View>
                     <View style={[styles.underline]}>
                         <Text style={[styles.TextUnderline]}>E-Mail:</Text>
-                        <Text style={[styles.textInput]}>PedroGoku@gmail.com</Text>
+                        <Text style={[styles.textInput]}>{this.state.email}</Text>
                     </View>
                     <View style={[styles.underline]}>
                         <Text style={[styles.TextUnderline]}>Usuario:</Text>
-                        <Text style={[styles.textInput]}> PedroRp</Text>
+                        <Text style={[styles.textInput]}>{this.state.idUser}</Text>
                     </View>
                 </View>
             </View>
@@ -72,7 +105,7 @@ const styles = StyleSheet.create({
         textDecorationLine: 'underline',
         color: 'white',
         fontSize: 15,
-        width: 58,
+        width: 60,
     }
 })
 export default DatosPersonales;

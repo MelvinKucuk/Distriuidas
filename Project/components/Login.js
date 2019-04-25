@@ -19,7 +19,7 @@ class Login extends Component {
 
     checkUsuario(data) {
         if (data.usuarioId == this.state.username && data.password == this.state.password) {
-            this.props.onPressLogin()
+            this.props.onPressLogin(this.state.username);
         } else {
             alert("Contraseña incorrecta");
         }
@@ -33,7 +33,7 @@ class Login extends Component {
                     <View style={[styles.imageContainer]}>
                         <Image
                             style={[styles.imageStyle]}
-                            source={require('./clapperboard.png')} />
+                            source={require('./pochoclo.png')} />
                     </View>
                     <View style={[styles.inputContainer]}>
                         <View style={[styles.outterInput]}>

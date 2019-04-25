@@ -85,7 +85,7 @@ class ApiController extends Component {
     }
 
     getUsuario(okUsuario, username) {
-        let uri = 'http://192.168.43.215:8080/apiAppPeliculas/getUsuarioById?usuarioId=' + username
+        let uri = 'http://192.168.43.215:8080/apiAppPeliculas/getUsuarioByIdOne?usuarioId=' + username
         fetch(uri).then(res => {
             return res.json()
         }).catch((err) => {
@@ -93,12 +93,48 @@ class ApiController extends Component {
 
         }).
             then(data => {
-                okUsuario(data[0]);
+                okUsuario(data);
             }).catch((err => {
                 console.log(err);
                 alert("No existe el usuario");
             }));
     }
+
+    createComment(idUsuario, idPelicula, descripcion, okComentario) {
+        let uri = 'http://192.168.43.215:8080/apiAppPeliculas/insertComentario/Comentario'
+        fetch(uri, {
+            method: 'POST',
+            mode: "cors",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                descripcion: descripcion,
+                usuarioId: idUsuario,
+                peliculaId: idPelicula,
+            }),
+        }).then((res) => {
+            console.log("res1", res);
+
+            return res.json();
+        }).catch((err) => console.log(err)).then((res) => {
+            okComentario();
+        }).catch((err) => console.log(err));
+    }
+
+    getCommentByIdUser(userId, okComentario) {
+        let uri = 'http://192.168.43.215:8080/apiAppPeliculas/getComentariosByUsuario?usuarioId='+userId
+        fetch(uri).then(res => {
+            return res.json()
+        }).catch((err) => {
+            console.log(err)
+        }).
+            then(data => {
+                okComentario(data);
+            }).catch((err => {
+                console.log(err);
+                alert("No existen Comentarios");
+            }));
+    }
+
 }
 
 export default new ApiController();

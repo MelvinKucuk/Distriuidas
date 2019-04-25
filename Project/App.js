@@ -13,14 +13,13 @@ import {
   createSwitchNavigator,
   createAppContainer,
   createDrawerNavigator,
-  DrawerItems,
   createBottomTabNavigator,
   createStackNavigator,
-  SafeAreaView,
+  DrawerItems,
 } from 'react-navigation';
-import {DrawerNavigator} from 'react-navigation'
+import { DrawerNavigator } from 'react-navigation'
 import { ScrollView } from 'react-native-gesture-handler';
-import { Container, Content, Header,Left, Body} from 'native-base';
+import { Container, Content, Header, Left, Body } from 'native-base';
 
 class App extends Component {
   render() {
@@ -28,6 +27,8 @@ class App extends Component {
   }
 }
 export default App;
+
+
 
 
 class LoginScreen extends React.Component {
@@ -38,20 +39,20 @@ class LoginScreen extends React.Component {
     return (
       <Login
         onPressLogin={this.checkLogin.bind(this)}
-        onPressPass = {this.goPass.bind(this)}
-        onPressCreate = {this.goCreate.bind(this)}
+        onPressPass={this.goPass.bind(this)}
+        onPressCreate={this.goCreate.bind(this)}
       />
     );
   }
-  checkLogin(screen) {
-    this.props.navigation.navigate('Peliculas');
+  checkLogin(id) {
+    this.props.navigation.navigate('PeliculasScreen', { idUser: id });
   }
 
-  goPass(screen) {
+  goPass() {
     this.props.navigation.navigate('ChangePassword');
   }
 
-  goCreate(screen) {
+  goCreate() {
     this.props.navigation.navigate('CreateUser');
   }
 }
@@ -104,6 +105,7 @@ class PeliculasScreen extends React.Component {
     super(props)
   }
 
+
   render() {
     return (
       <Peliculas
@@ -112,11 +114,12 @@ class PeliculasScreen extends React.Component {
     );
   }
 
-  pasarDetalle(idMovie) {
-    this.props.navigation.navigate('Detalle', { id: idMovie })
+
+
+  pasarDetalle(idMovie, idUser) {
+    this.props.navigation.navigate('Detalle', { id: idMovie, idUser: idUser })
   }
 }
-
 
 
 class SeriesScreen extends React.Component {
@@ -137,12 +140,13 @@ class SeriesScreen extends React.Component {
     return (
       <Series
         onPress={this.pasarDetalle.bind(this)}
+
       />
     );
   }
 
-  pasarDetalle(idMovie) {
-    this.props.navigation.navigate('Detalle', { id: idMovie })
+  pasarDetalle(idMovie, idUser) {
+    this.props.navigation.navigate('Detalle', { id: idMovie, idUser: idUser })
   }
 }
 
@@ -172,7 +176,8 @@ class DetalleScreen extends React.Component {
 
 const PeliculasStackNavigator = createStackNavigator(
   {
-    Peliculas: {screen: PeliculasScreen,
+    PeliculasScreen: {
+      screen: PeliculasScreen,
       navigationOptions: ({ navigation }) => {
         return {
           headerLeft: (
@@ -188,11 +193,14 @@ const PeliculasStackNavigator = createStackNavigator(
       }
     },
     Detalle: { screen: Detalle },
+    Series: { screen: SeriesScreen },
   },
   {
-    initialRouteName: 'Peliculas',
+    initialRouteName: 'PeliculasScreen',
   }
 );
+
+
 const SeriesStackNavigator = createStackNavigator(
   {
     Series: {screen: SeriesScreen,
@@ -238,58 +246,38 @@ const PerfilTabNavigator = createBottomTabNavigator({
         backgroundColor: 'black'
       }
     }
-  },
-},{
-  
+  }
 });
 
-const PerfilStackNavigator= createStackNavigator({
+const PerfilStackNavigator = createStackNavigator({
   PerfilTabNavigator: PerfilTabNavigator
 });
 
 const AppDrawerNavigator = createDrawerNavigator({
-  Peliculas: {
-    screen: PeliculasStackNavigator
-  },
-  Series: {
-    screen: SeriesStackNavigator
-  },
-  Perfil: {
-    screen: PerfilStackNavigator
-  }
-},{
+  Peliculas: PeliculasStackNavigator,
+  Series: SeriesStackNavigator,
+  Perfil: PerfilStackNavigator,
+}, {
     drawerBackgroundColor: 'pink',
-    DrawerItems:{
-      backgroundColor: 'white'
-    }
-}
+    statusBarBackgorund: 'green'
+  }
+
 );
+
+
 
 const AppSwitchNavigator = createSwitchNavigator({
   Login: { screen: LoginScreen },
   ChangePassword: { screen: ChangePasswordScreen },
-  CreateUser: {screen: CreateUserScreen},
-  Peliculas: { screen: AppDrawerNavigator }
+  CreateUser: { screen: CreateUserScreen },
+  Drawer: { screen: AppDrawerNavigator }
 });
 
 const AppContainer = createAppContainer(AppSwitchNavigator);
 
-/*
-const CustomDrawerComponent = (props) => (
-  <SafeAreaView Style={{ flex: 1 }}>
-    <View style={{
-      height: 150, backgroundColor: 'white', alignContent: 'center',
-      justifyContent: 'center'
-    }}>
-      <Image source={require('./vaca.png')}
-        style={{ height: 120, with: 120, borderRadius: 60 }} />
-    </View>
-    <ScrollView>
-      <DrawerItems{...props} />
-    </ScrollView>
-  </SafeAreaView>
-)
-*/
+
+
+
 class drawerContentComponents extends Component {
 
   navigateToScreen = (route) => (
@@ -304,8 +292,8 @@ class drawerContentComponents extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.headerContainer}>
-            <Text style={styles.headerText}>Header Portion</Text>
-            <Text style={styles.headerText}>You can display here logo or profile image</Text>
+          <Text style={styles.headerText}>Header Portion</Text>
+          <Text style={styles.headerText}>You can display here logo or profile image</Text>
         </View>
         <View style={styles.screenContainer}>
           <View style={styles.screenStyle}>
@@ -323,19 +311,7 @@ class drawerContentComponents extends Component {
     )
   }
 }
-/*
-const CustomDrawerContentComponent = (props) => (
 
-  <Container>
-    <Header>
-      <Body>
-        <Image source={require('./components/vaca.png')}
-        style={{height: '150', with:'150', borderRadius:'25'}} />
-      </Body>
-    </Header>
-  </Container>
-)
-*/
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#616161',

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button, Image, FlatList, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, StyleSheet, Button, Image, FlatList, TouchableOpacity } from 'react-native';
+import { TextInput, ScrollView } from 'react-native-gesture-handler';
 import ApiController from '../controller/ApiController'
+import { AsyncStorage } from 'react-native';
 import { LinearGradient } from 'expo'
 
 function createData(item, idArray) {
@@ -29,17 +31,32 @@ class Series extends Component {
                 { key: '1', poster: 'https://m.media-amazon.com/images/M/MV5BNWVjMzgwMTctZmZjNC00ZmE0LThiNTUtYzkyM2RkYWIzY2Y2XkEyXkFqcGdeQXVyNjEyNDAyMzI@._V1_SX300.jpg', title: "Saw" },
                 { key: '2', poster: 'https://m.media-amazon.com/images/M/MV5BNWVjMzgwMTctZmZjNC00ZmE0LThiNTUtYzkyM2RkYWIzY2Y2XkEyXkFqcGdeQXVyNjEyNDAyMzI@._V1_SX300.jpg', title: "Saw" },
             ],
-            nombre: null
+            nombre: null,
+            idUser: null,
         };
+        this._retrieveData();
     }
 
-    componentDidMount() {
-        //ApiController.getSeries(this.okSeries.bind(this));
-    }
 
     obtenerSeries() {
         ApiController.getSeries(this.okSeries.bind(this), this.state.nombre);
+
+
+
     }
+
+    _retrieveData = async () => {
+        try {
+            const value = await AsyncStorage.getItem('idUser');
+            if (value !== null) {
+                this.setState({
+                    idUser: value
+                })
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     okSeries(data) {
         var i, newArray = [];
@@ -51,7 +68,6 @@ class Series extends Component {
 
 
     render() {
-        //console.log("Entre al render");
         return (
             <LinearGradient colors={['#584150', '#1e161b']} style={{ flex: 1 }}>
                 <View style={[styles.detalleContainer]} >
@@ -74,7 +90,52 @@ class Series extends Component {
                             </TouchableOpacity>
 
                         </View>
+            <View style={[styles.detalleContainer]}>
+                <ScrollView>
+                    <View style={[styles.detalleContainer]} >
+                        <View style={{ flexDirection: 'row', backgroundColor: '#373737' }}>
+                            <View style={[styles.outterInput]}>
+                                <TextInput
+                                    style={[styles.textInput]}
+                                    placeholder="Buscar por titulo"
+                                    onChangeText={(text) => this.setState({ nombre: text })}
+                                    autoFocus={true}
+                                    onSubmitEditing={() => this.obtenerSeries()}
+                                />
+                            </View>
+                            <View style={[styles.outterButton]}>
+                                <Button
+                                    title="Buscar"
+                                    color='#373737'
+                                    onPress={() => this.obtenerSeries()}
+                                />
+                            </View>
+                        </View>
+                        <FlatList
+                            style={{ flex: 1 }}
+                            numColumns={2}
+                            data={this.state.series}
+                            keyboardShouldPersistTaps='always'
+                            renderItem={({ item }) => {
+                                return (
+                                    <View style={{ flex: 1, margin: 10 }}
+                                    >
+                                        <TouchableOpacity
+                                            onPress={() => this.props.onPress(item.id, this.state.idUser)}>
+                                            <Image style={[styles.imagen1]}
+                                                source={{ uri: item.poster }}
+                                            ></Image>
+                                            <Text style={[styles.texto]}
+                                            >{item.title}</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                );
+                            }}
+                        />
+
                     </View>
+                </ScrollView>
+            </View>
                     <FlatList
                         style={{ flex: 1 }}
                         numColumns={2}
