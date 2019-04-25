@@ -32,6 +32,21 @@ class ApiController extends Component {
             }).catch((err) => console.log(err));
     }
 
+    getComentarioByPelicula(okComentario, id) {
+        let uri = 'http://192.168.43.215:8080/apiAppPeliculas/getComentariosByPeliculaId?peliculaId=' + id
+        fetch(uri).then(res => {
+            return res.json()
+        }).catch((err) => {
+            console.log(err)
+        }).
+            then(data => {
+                okComentario(data);
+            }).catch((err => {
+                console.log(err);
+                alert("No existen Comentarios");
+            }));
+    }
+
     insertUsuario(name, lastName, email, user, password, okCreate) {
         let uri = 'http://192.168.43.215:8080/apiAppPeliculas/insertUsuario/Usuario'
         fetch(uri, {
