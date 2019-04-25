@@ -88,6 +88,7 @@ class Detalle extends Component {
     okComentario(){
         alert("Se guardo tu comentario");
         this.setState({ modalVisible: false });
+        this.cargarComentarios();
     }
     
 
@@ -108,10 +109,10 @@ class Detalle extends Component {
     }
 
     cargarComentarios() {
-        ApiController.getComentarioByPelicula(this.okComentario.bind(this), this.state.id);
+        ApiController.getComentarioByPelicula(this.okComentarioCargar.bind(this), this.state.id);
     }
 
-    okComentario(data) {
+    okComentarioCargar(data) {
         if (data != null) {
 
             var i, comentarios = [];
@@ -121,7 +122,7 @@ class Detalle extends Component {
             this.setState({ comentarios: comentarios });
 
         } else {
-            alert("Intentar de nuevo")
+            //alert("Intentar de nuevo")
         }
     }
 
@@ -135,8 +136,6 @@ class Detalle extends Component {
         } else {
             return (
                 <View style={{ flex: 1, flexDirection: 'column' }}>
-                    {console.log(this.state.detalle)}
-
                     <ScrollView>
                         <View style={styles.detalleContainer}>
                             <View style={{ flex: 1, flexDirection: 'column' }}>

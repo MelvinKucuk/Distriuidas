@@ -113,6 +113,7 @@ class ApiController extends Component {
              }),
         }).then((res) => {
             console.log("res1", res);
+            
             return res.json();
         }).catch((err) => console.log(err)).then((res) => {
             okComentario();

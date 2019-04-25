@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button, Image, FlatList, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, StyleSheet, Button, Image, FlatList, TouchableOpacity } from 'react-native';
+import { TextInput, ScrollView } from 'react-native-gesture-handler';
 import ApiController from '../controller/ApiController'
+import {AsyncStorage} from 'react-native';
 
 function createData(item, idArray) {
     return {
@@ -28,17 +30,32 @@ class Series extends Component {
                 { key: '1', poster: 'https://m.media-amazon.com/images/M/MV5BNWVjMzgwMTctZmZjNC00ZmE0LThiNTUtYzkyM2RkYWIzY2Y2XkEyXkFqcGdeQXVyNjEyNDAyMzI@._V1_SX300.jpg', title: "Saw" },
                 { key: '2', poster: 'https://m.media-amazon.com/images/M/MV5BNWVjMzgwMTctZmZjNC00ZmE0LThiNTUtYzkyM2RkYWIzY2Y2XkEyXkFqcGdeQXVyNjEyNDAyMzI@._V1_SX300.jpg', title: "Saw" },
             ],
-            nombre: null
+            nombre: null,
+            idUser: null,
         };
+        
     }
 
-    componentDidMount() {
-        //ApiController.getSeries(this.okSeries.bind(this));
-    }
 
     obtenerSeries() {
         ApiController.getSeries(this.okSeries.bind(this), this.state.nombre);
+
+       
+
     }
+
+    _retrieveData = async () => {
+        try {
+          const value = await AsyncStorage.getItem('idUs');
+          if (value !== null) {
+            this.setState ({
+                idUser: value
+            })
+          }
+        } catch (error) {
+            console.log(error);
+        }
+      };
 
     okSeries(data) {
         var i, newArray = [];
@@ -46,53 +63,57 @@ class Series extends Component {
             newArray.push(createData(data[i], i));
         }
         this.setState({ series: newArray });
+        this._retrieveData();
     }
 
 
     render() {
-        //console.log("Entre al render");
         return (
-            <View style={[styles.detalleContainer]} >
-                <View style={{ flexDirection: 'row', backgroundColor: '#373737' }}>
-                    <View style={[styles.outterInput]}>
-                        <TextInput
-                            style={[styles.textInput]}
-                            placeholder="Buscar por titulo"
-                            onChangeText={(text) => this.setState({ nombre: text })}
-                            autoFocus={true}
-                            onSubmitEditing={() => this.obtenerSeries()}
-                        />
-                    </View>
-                    <View style={[styles.outterButton]}>
-                        <Button
-                            title="Buscar"
-                            color='#373737'
-                            onPress={() => this.obtenerSeries()}
-                        />
-                    </View>
-                </View>
-                <FlatList
-                    style={{ flex: 1 }}
-                    numColumns={2}
-                    data={this.state.series}
-                    keyboardShouldPersistTaps='always'
-                    renderItem={({ item }) => {
-                        return (
-                            <View style={{ flex: 1, margin: 10 }}
-                            >
-                                <TouchableOpacity
-                                    onPress={() => this.props.onPress(item.id)}>
-                                    <Image style={[styles.imagen1]}
-                                        source={{ uri: item.poster }}
-                                    ></Image>
-                                    <Text style={[styles.texto]}
-                                    >{item.title}</Text>
-                                </TouchableOpacity>
+            <View style={[styles.detalleContainer]}>
+                <ScrollView>
+                    <View style={[styles.detalleContainer]} >
+                        <View style={{ flexDirection: 'row', backgroundColor: '#373737' }}>
+                            <View style={[styles.outterInput]}>
+                                <TextInput
+                                    style={[styles.textInput]}
+                                    placeholder="Buscar por titulo"
+                                    onChangeText={(text) => this.setState({ nombre: text })}
+                                    autoFocus={true}
+                                    onSubmitEditing={() => this.obtenerSeries()}
+                                />
                             </View>
-                        );
-                    }}
-                />
+                            <View style={[styles.outterButton]}>
+                                <Button
+                                    title="Buscar"
+                                    color='#373737'
+                                    onPress={() => this.obtenerSeries()}
+                                />
+                            </View>
+                        </View>
+                        <FlatList
+                            style={{ flex: 1 }}
+                            numColumns={2}
+                            data={this.state.series}
+                            keyboardShouldPersistTaps='always'
+                            renderItem={({ item }) => {
+                                return (
+                                    <View style={{ flex: 1, margin: 10 }}
+                                    >
+                                        <TouchableOpacity
+                                            onPress={() => this.props.onPress(item.id, this.state.idUser)}>
+                                            <Image style={[styles.imagen1]}
+                                                source={{ uri: item.poster }}
+                                            ></Image>
+                                            <Text style={[styles.texto]}
+                                            >{item.title}</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                );
+                            }}
+                        />
 
+                    </View>
+                </ScrollView>
             </View>
         )
     }
@@ -123,8 +144,7 @@ const styles = StyleSheet.create({
 
     detalleContainer: {
         flex: 1,
-        backgroundColor: '#616161',
-        justifyContent: 'center',
+        backgroundColor: '#373737',
     },
     texto: {
         color: 'white',
