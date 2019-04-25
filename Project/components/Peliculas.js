@@ -150,8 +150,9 @@ const styles = StyleSheet.create({
     },
     outterButton: {
         marginTop: 15,
-        marginRight: 50,
+        marginRight: 20,
         flex: 1,
+        width: 60
     }
 
 })

@@ -6,7 +6,7 @@ import { Row } from 'native-base';
 
 class DatosPersonales extends Component {
     static navigationOptions = {
-        title: 'Perfil',
+        title: 'Datos Personales',
         headerStyle: {
             backgroundColor: 'black',
         },

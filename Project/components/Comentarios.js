@@ -6,11 +6,19 @@ import ApiController from '../controller/ApiController';
 class Comentarios extends Component{
     render(){
       return(
-        <View style={{flex:1}}>
-          <Text>Pedro</Text>
+        <View style={[styles.detalleContainer]}>
+          <Text></Text>
         </View>
       );
     }
 }
+
+const styles = StyleSheet.create({
+  detalleContainer: {
+  flex: 1,
+  backgroundColor: '#616161',
+  justifyContent: 'center',
+},
+})
 
 export default Comentarios;

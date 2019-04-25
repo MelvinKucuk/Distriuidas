@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, AppRegistry, Button, Image } from 'react-native';
 import Icon from '@expo/vector-icons/Ionicons';
 import Detalle from './components/Detalle';
 import Peliculas from './components/Peliculas';
@@ -170,10 +170,10 @@ class DetalleScreen extends React.Component {
   }
 }
 
+
 const PeliculasStackNavigator = createStackNavigator(
   {
-    Peliculas: {
-      screen: PeliculasScreen,
+    Peliculas: {screen: PeliculasScreen,
       navigationOptions: ({ navigation }) => {
         return {
           headerLeft: (
@@ -196,25 +196,22 @@ const PeliculasStackNavigator = createStackNavigator(
 );
 const SeriesStackNavigator = createStackNavigator(
   {
-    Series: { screen: SeriesScreen },
-    Detalle: { screen: Detalle },
-  },
-  {
-    defaultNavigationOptions: ({ navigation }) => {
-      return {
-        headerLeft: (
-          <Icon
-            style={{ paddingLeft: 10, color: 'white' }}
-            onPress={() => navigation.openDrawer()}
-            name="md-menu"
-            size={30}
-          />
-        ),
-        headerStyle: {
-          backgroundColor: 'black'
+    Series: {screen: SeriesScreen,
+      navigationOptions: ({ navigation }) => {
+        return {
+          headerLeft: (
+            <Icon
+              style={{ paddingLeft: 10, color: 'white' }}
+              onPress={() => navigation.openDrawer()}
+              name="md-menu"
+              size={30}
+            />
+          ),
+
         }
-      };
-    }
+      }
+    },
+    Detalle: { screen: Detalle },
   },
   {
     initialRouteName: 'Series',
@@ -254,7 +251,7 @@ const PerfilTabNavigator = createBottomTabNavigator({
   navigationOptions: ({navigation})=>{
     const {routeName} = navigation.state.routes[navigation.state.index]
     return{
-      headerTitle: 'Datos Personales',
+      headerTitle: 'Perfil',
       headerLeft: (
         <Icon
           style={{ paddingLeft: 10, color: 'white' }}
