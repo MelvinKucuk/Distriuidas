@@ -100,7 +100,7 @@ class ApiController extends Component {
             }));
     }
 
-    createComment(idUsuario, idPelicula, descripcion, okComentario) {
+    createComment(idUsuario, idPelicula, descripcion, title, okComentario) {
         let uri = 'http://192.168.43.215:8080/apiAppPeliculas/insertComentario/Comentario'
         fetch(uri, {
             method: 'POST',
@@ -110,6 +110,7 @@ class ApiController extends Component {
                 descripcion: descripcion,
                 usuarioId: idUsuario,
                 peliculaId: idPelicula,
+                peliculaNombre: title,
             }),
         }).then((res) => {
             console.log("res1", res);
@@ -121,7 +122,7 @@ class ApiController extends Component {
     }
 
     getCommentByIdUser(userId, okComentario) {
-        let uri = 'http://192.168.43.215:8080/apiAppPeliculas/getComentariosByUsuario?usuarioId='+userId
+        let uri = 'http://192.168.43.215:8080/apiAppPeliculas/getComentariosByUsuario?usuarioId=' + userId
         fetch(uri).then(res => {
             return res.json()
         }).catch((err) => {

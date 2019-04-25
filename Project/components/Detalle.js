@@ -30,7 +30,7 @@ var fakeData = [
 
 var { height, width } = Dimensions.get('window');
 
-function createData(item, idArray) {
+function createData(item) {
     return {
         nombre: item.nombre,
         descripcion: item.descripcion,
@@ -81,7 +81,7 @@ class Detalle extends Component {
 
     cargarComentario() {
         if (this.state.idUser != null && this.state.id != null && this.state.text != null) {
-            ApiController.createComment(this.state.idUser, this.state.id, this.state.text, this.okComentario.bind(this));
+            ApiController.createComment(this.state.idUser, this.state.id, this.state.text, this.state.detalle.title, this.okComentario.bind(this));
         }
     }
 
@@ -183,13 +183,6 @@ class Detalle extends Component {
                                             </Text>
                                             <FontAwesome name="star" size={15} color="white" />
                                         </View>
-                                        {/* <View style={{ marginHorizontal: 20, marginTop: 20 }}>
-                                            <Button
-                                                onPress={() => Linking.openURL(this.state.detalle.webSite)}
-                                                title="Homepage"
-                                                color="#B3B6B7"
-                                            />
-                                        </View> */}
                                     </View>
                                 </View>
                                 <Text style={styles.detalleGenresTitles}>

@@ -1,6 +1,16 @@
 import React, { Component } from 'react';
-import { View, Image, StyleSheet, TextInput, Button, Text, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, FlatList, Text, ActivityIndicator } from 'react-native';
 import ApiController from '../controller/ApiController';
+import { AsyncStorage } from 'react-native';
+
+function createData(item) {
+  return {
+    nombre: item.nombre,
+    descripcion: item.descripcion,
+    fechaComentario: item.fechaComentario,
+    peliculaNombre: item.peliculaNombre,
+  }
+}
 
 class Comentarios extends Component {
 
@@ -32,13 +42,25 @@ class Comentarios extends Component {
     ApiController.getCommentByIdUser(idUser, this.okComments.bind(this));
   }
 
+
+
   okComments(data) {
+    if (data != null) {
 
+      var i, comentarios = [];
+      for (i = 0; i < data.length; i++) {
+        comentarios.push(createData(data[i], i));
+      }
+      this.setState({
+        comentarios: comentarios,
+        isLoading: false
+      });
+
+    } else {
+      //alert("Intentar de nuevo")
+    }
   }
 
-  getPeliculas() {
-
-  }
 
   render() {
     if (this.state.isLoading) {
@@ -55,11 +77,10 @@ class Comentarios extends Component {
                                 </Text>
           <FlatList
             data={this.state.comentarios}
-            keyExtractor={(item, index) => 'key' + index}
+            keyExtractor={(index) => 'key' + index}
             renderItem={({ item, index }) => {
               return (
                 <FlatListItems item={item} index={index}>
-
                 </FlatListItems>
               );
             }}
@@ -94,10 +115,11 @@ class FlatListItems extends Component {
               <Text style={{
                 color: 'black',
                 padding: 5,
-                fontSize: 12,
-                marginTop: 5
+                fontSize: 20,
+                marginTop: 5,
+                fontWeight: 'bold',
               }}>
-                {this.props.item.nombre}
+                {this.props.item.peliculaNombre}
               </Text>
             </View>
             <View>
