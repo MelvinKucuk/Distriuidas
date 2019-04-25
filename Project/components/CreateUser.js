@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View, Image, StyleSheet, TextInput, Button } from 'react-native';
-import { Actions } from 'react-native-router-flux';
 import ApiController from '../controller/ApiController';
 
 class Login extends Component {
@@ -15,14 +14,14 @@ class Login extends Component {
         }
     }
 
-    checkCreate(){
-        if(this.state.user != null && this.state.password != null){
-        ApiController.insertUsuario(this.state.name, this.state.lastName, this.state.email, 
-            this.state.user, this.state.password, this.okCreate.bind(this));  
+    checkCreate() {
+        if (this.state.user != null && this.state.password != null) {
+            ApiController.insertUsuario(this.state.name, this.state.lastName, this.state.email,
+                this.state.user, this.state.password, this.okCreate.bind(this));
         }
     }
 
-    okCreate(){
+    okCreate() {
         alert("Se creo el usuario exitosamente");
         this.props.onPress();
     }
@@ -36,54 +35,54 @@ class Login extends Component {
                         source={require('./clapperboard.png')}></Image>
                 </View>
                 <View style={[styles.inputContainer]}>
-                <View style={[styles.outterInput]}>
+                    <View style={[styles.outterInput]}>
                         <TextInput
                             style={[styles.textInput]}
                             placeholder="Name"
-                            onChangeText = {(text) => this.setState({ name: text})}
+                            onChangeText={(text) => this.setState({ name: text })}
                         />
                     </View>
                     <View style={[styles.outterInput]}>
                         <TextInput
                             style={[styles.textInput]}
                             placeholder="Last Name"
-                            onChangeText = {(text) => this.setState({ lastName: text})}
+                            onChangeText={(text) => this.setState({ lastName: text })}
                         />
                     </View>
                     <View style={[styles.outterInput]}>
                         <TextInput
                             style={[styles.textInput]}
                             placeholder="Email"
-                            onChangeText = {(text) => this.setState({ email: text})}
+                            onChangeText={(text) => this.setState({ email: text })}
                         />
                     </View>
                     <View style={[styles.outterInput]}>
-                        <TextInput 
-                        style={[styles.textInput]}
-                        placeholder="User"
-                        onChangeText = {(text) => this.setState({ user: text})}
+                        <TextInput
+                            style={[styles.textInput]}
+                            placeholder="User"
+                            onChangeText={(text) => this.setState({ user: text })}
                         />
                     </View>
                     <View style={[styles.outterInput]}>
-                        <TextInput 
-                        style={[styles.textInput]}
-                        placeholder="Password"
-                        onChangeText = {(text) => this.setState({ password: text})}
-                        secureTextEntry={true}
+                        <TextInput
+                            style={[styles.textInput]}
+                            placeholder="Password"
+                            onChangeText={(text) => this.setState({ password: text })}
+                            secureTextEntry={true}
                         />
                     </View>
                     <View style={[styles.outterButton]}>
                         <Button
                             color='#373737'
                             title="Create User"
-                            onPress={() => this.checkCreate()}/>
-                        
+                            onPress={() => this.checkCreate()} />
+
                     </View>
                     <View style={[styles.outterButtonCreate]}>
-                    <Button
+                        <Button
                             color='#373737'
                             title="Go Back"
-                            onPress={() => this.props.onPress()}/>
+                            onPress={() => this.props.onPress()} />
                     </View>
                 </View>
             </View>

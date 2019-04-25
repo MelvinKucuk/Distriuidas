@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View, Image, StyleSheet, TextInput, Button, Text } from 'react-native';
-import { Actions } from 'react-native-router-flux';
 import ApiController from '../controller/ApiController';
 import { AsyncStorage } from 'react-native';
 

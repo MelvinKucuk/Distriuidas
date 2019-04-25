@@ -29,16 +29,14 @@ class Peliculas extends Component {
         super(props);
 
         this.state = {
-            peliculas: [
-                { key: '1', poster: 'https://m.media-amazon.com/images/M/MV5BNWVjMzgwMTctZmZjNC00ZmE0LThiNTUtYzkyM2RkYWIzY2Y2XkEyXkFqcGdeQXVyNjEyNDAyMzI@._V1_SX300.jpg', title: "Saw" },
-                { key: '2', poster: 'https://m.media-amazon.com/images/M/MV5BNWVjMzgwMTctZmZjNC00ZmE0LThiNTUtYzkyM2RkYWIzY2Y2XkEyXkFqcGdeQXVyNjEyNDAyMzI@._V1_SX300.jpg', title: "Saw" },
-            ],
-            nombre: null,
+            peliculas: [],
+            nombre: 'america',
             idUser: props.navigation.getParam('idUser')
         };
 
         console.log("USER", this.state.idUser);
         this._storeData(this.state.idUser);
+        this.obtenerPeliculas()
 
     }
 
@@ -70,7 +68,6 @@ class Peliculas extends Component {
         this._storeData(this.state.idUser);
     }
 
-
     render() {
         //console.log("Entre al render");
         return (
@@ -101,7 +98,6 @@ class Peliculas extends Component {
                             keyboardShouldPersistTaps='always'
                             renderItem={({ item }) => {
                                 return (
-
                                     <View style={{ flex: 1, margin: 10 }}
                                     >
                                         <TouchableOpacity

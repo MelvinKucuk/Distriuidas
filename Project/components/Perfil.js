@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button, ToolbarAndroid, Image, FlatList } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 
 class Cuenta extends Component {
     static navigationOptions = {

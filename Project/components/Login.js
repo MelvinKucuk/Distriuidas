@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, StyleSheet, TextInput, Button , TouchableOpacity,Text} from 'react-native';
-import { Actions } from 'react-native-router-flux';
+import { View, Image, StyleSheet, TextInput, TouchableOpacity, Text } from 'react-native';
 import ApiController from '../controller/ApiController';
 import { LinearGradient } from 'expo'
 
@@ -114,17 +113,17 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     SubmitButtonStyle: {
-        width:150,
-        marginTop:5,
-        paddingTop:5,
-        paddingBottom:5,
-        marginLeft:20,
-        marginRight:20,
-        backgroundColor:'#373737',
-        borderRadius:10,
+        width: 150,
+        marginTop: 5,
+        paddingTop: 5,
+        paddingBottom: 5,
+        marginLeft: 20,
+        marginRight: 20,
+        backgroundColor: '#373737',
+        borderRadius: 10,
         borderWidth: 0.5,
         borderColor: '#fff'
-      },
+    },
     outterInput: {
         borderBottomWidth: 1,
         borderBottomColor: 'white',

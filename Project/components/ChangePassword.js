@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View, Image, StyleSheet, TextInput, Button } from 'react-native';
-import { Actions } from 'react-native-router-flux';
 import ApiController from '../controller/ApiController';
 
 class Login extends Component {
@@ -13,18 +12,18 @@ class Login extends Component {
         }
     }
 
-    checkChange(){
-        ApiController.getUsuario(this.checkUsuario.bind(this), this.state.username)        
+    checkChange() {
+        ApiController.getUsuario(this.checkUsuario.bind(this), this.state.username)
     }
 
-    checkUsuario(data){
-        if(data.password == this.state.oldPassword){
+    checkUsuario(data) {
+        if (data.password == this.state.oldPassword) {
             ApiController.changePassword(this.state.username, this.state.newPassword, this.okChange.bind(this));
-        } else{
+        } else {
         }
     }
 
-    okChange(){
+    okChange() {
         alert("Cambio de contraseña exitoso");
         this.props.onPress();
     }
@@ -42,37 +41,37 @@ class Login extends Component {
                         <TextInput
                             style={[styles.textInput]}
                             placeholder="Username"
-                            onChangeText = {(text) => this.setState({ username: text})}
+                            onChangeText={(text) => this.setState({ username: text })}
                         />
                     </View>
                     <View style={[styles.outterInput]}>
-                        <TextInput 
-                        style={[styles.textInput]}
-                        placeholder="Old Password"
-                        onChangeText = {(text) => this.setState({ oldPassword: text})}
-                        secureTextEntry={true}
+                        <TextInput
+                            style={[styles.textInput]}
+                            placeholder="Old Password"
+                            onChangeText={(text) => this.setState({ oldPassword: text })}
+                            secureTextEntry={true}
                         />
                     </View>
                     <View style={[styles.outterInput]}>
-                        <TextInput 
-                        style={[styles.textInput]}
-                        placeholder="New Password"
-                        onChangeText = {(text) => this.setState({ newPassword: text})}
-                        secureTextEntry={true}
+                        <TextInput
+                            style={[styles.textInput]}
+                            placeholder="New Password"
+                            onChangeText={(text) => this.setState({ newPassword: text })}
+                            secureTextEntry={true}
                         />
                     </View>
                     <View style={[styles.outterButton]}>
                         <Button
                             color='#373737'
                             title="Change Password"
-                            onPress={() => this.checkChange()}/>
-                        
+                            onPress={() => this.checkChange()} />
+
                     </View>
                     <View style={[styles.outterButtonCreate]}>
-                    <Button
+                        <Button
                             color='#373737'
                             title="Go Back"
-                            onPress={() => this.props.onPress()}/>
+                            onPress={() => this.props.onPress()} />
                     </View>
                 </View>
             </View>

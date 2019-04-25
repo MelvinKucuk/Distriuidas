@@ -26,22 +26,17 @@ class Series extends Component {
         super(props);
 
         this.state = {
-            series: [
-                { key: '1', poster: 'https://m.media-amazon.com/images/M/MV5BNWVjMzgwMTctZmZjNC00ZmE0LThiNTUtYzkyM2RkYWIzY2Y2XkEyXkFqcGdeQXVyNjEyNDAyMzI@._V1_SX300.jpg', title: "Saw" },
-                { key: '2', poster: 'https://m.media-amazon.com/images/M/MV5BNWVjMzgwMTctZmZjNC00ZmE0LThiNTUtYzkyM2RkYWIzY2Y2XkEyXkFqcGdeQXVyNjEyNDAyMzI@._V1_SX300.jpg', title: "Saw" },
-            ],
-            nombre: null,
+            series: [],
+            nombre: 'breaking',
             idUser: null,
         };
         this._retrieveData();
+        this.obtenerSeries();
     }
 
 
     obtenerSeries() {
         ApiController.getSeries(this.okSeries.bind(this), this.state.nombre);
-
-
-
     }
 
     _retrieveData = async () => {

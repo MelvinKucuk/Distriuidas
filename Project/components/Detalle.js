@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TouchableHighlight, Button, Image, FlatList, Linking, ActivityIndicator, Modal, TextInput, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Button, Image, FlatList, ActivityIndicator, Modal, TextInput, Dimensions } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Entypo, AntDesign, FontAwesome } from '@expo/vector-icons';
 import ApiController from '../controller/ApiController';
