@@ -61,7 +61,6 @@ class ApiController extends Component {
                 password: password,
             })
         }).then((res) => {
-            console.log("res1", res);
             return res.json();
         }).catch((err) => console.log(err)).then((res) => {
             okCreate();
@@ -77,7 +76,6 @@ class ApiController extends Component {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ usuarioId: user, password: pass }),
         }).then((res) => {
-            console.log("res1", res);
             return res.json();
         }).catch((err) => console.log(err)).then((res) => {
             okChange();
@@ -113,8 +111,6 @@ class ApiController extends Component {
                 peliculaNombre: title,
             }),
         }).then((res) => {
-            console.log("res1", res);
-
             return res.json();
         }).catch((err) => console.log(err)).then((res) => {
             okComentario();

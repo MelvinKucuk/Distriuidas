@@ -65,94 +65,54 @@ class Series extends Component {
     render() {
         return (
             <LinearGradient colors={['#584150', '#1e161b']} style={{ flex: 1 }}>
-                <View style={[styles.detalleContainer]} >
-                    <View style={{ flexDirection: 'row', backgroundColor: '#373737' }}>
-                        <View style={[styles.outterInput]}>
-                            <TextInput
-                                style={[styles.textInput]}
-                                placeholder="Buscar por titulo"
-                                onChangeText={(text) => this.setState({ nombre: text })}
-                                autoFocus={true}
-                                onSubmitEditing={() => this.obtenerSeries()}
-                            />
-                        </View>
-                        <View style={[styles.outterButton]}>
-                            <TouchableOpacity
-                                style={styles.SubmitButtonStyle}
-                                activeOpacity={.5}
-                                onPress={() => this.obtenerSeries()}>
-                                <Text style={styles.textButton}> Buscar </Text>
-                            </TouchableOpacity>
-
-                        </View>
-            <View style={[styles.detalleContainer]}>
-                <ScrollView>
-                    <View style={[styles.detalleContainer]} >
-                        <View style={{ flexDirection: 'row', backgroundColor: '#373737' }}>
-                            <View style={[styles.outterInput]}>
-                                <TextInput
-                                    style={[styles.textInput]}
-                                    placeholder="Buscar por titulo"
-                                    onChangeText={(text) => this.setState({ nombre: text })}
-                                    autoFocus={true}
-                                    onSubmitEditing={() => this.obtenerSeries()}
-                                />
-                            </View>
-                            <View style={[styles.outterButton]}>
-                                <Button
-                                    title="Buscar"
-                                    color='#373737'
-                                    onPress={() => this.obtenerSeries()}
-                                />
-                            </View>
-                        </View>
-                        <FlatList
-                            style={{ flex: 1 }}
-                            numColumns={2}
-                            data={this.state.series}
-                            keyboardShouldPersistTaps='always'
-                            renderItem={({ item }) => {
-                                return (
-                                    <View style={{ flex: 1, margin: 10 }}
-                                    >
-                                        <TouchableOpacity
-                                            onPress={() => this.props.onPress(item.id, this.state.idUser)}>
-                                            <Image style={[styles.imagen1]}
-                                                source={{ uri: item.poster }}
-                                            ></Image>
-                                            <Text style={[styles.texto]}
-                                            >{item.title}</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                );
-                            }}
-                        />
-
-                    </View>
-                </ScrollView>
-            </View>
-                    <FlatList
-                        style={{ flex: 1 }}
-                        numColumns={2}
-                        data={this.state.series}
-                        keyboardShouldPersistTaps='always'
-                        renderItem={({ item }) => {
-                            return (
-                                <View style={{ flex: 1, margin: 10 }}
-                                >
+                <View style={[styles.detalleContainer]}>
+                    <ScrollView>
+                        <View style={[styles.detalleContainer]} >
+                            <View style={{ flexDirection: 'row' }}>
+                                <View style={[styles.outterInput]}>
+                                    <TextInput
+                                        style={[styles.textInput]}
+                                        placeholder="Buscar por titulo"
+                                        onChangeText={(text) => this.setState({ nombre: text })}
+                                        onSubmitEditing={() => this.obtenerSeries()}
+                                    />
+                                </View>
+                                <View style={[styles.outterButton]}>
                                     <TouchableOpacity
-                                        onPress={() => this.props.onPress(item.id)}>
-                                        <Image style={[styles.imagen1]}
-                                            source={{ uri: item.poster }}
-                                        ></Image>
-                                        <Text style={[styles.texto]}
-                                        >{item.title}</Text>
+                                        style={styles.SubmitButtonStyle}
+                                        activeOpacity={.5}
+                                        onPress={() => this.obtenerSeries()}>
+                                        <Text style={styles.textButton}> Buscar </Text>
                                     </TouchableOpacity>
                                 </View>
-                            );
-                        }}
-                    />
+                            </View>
+                            <FlatList
+                                style={{ flex: 1 }}
+                                numColumns={2}
+                                data={this.state.series}
+                                keyboardShouldPersistTaps='always'
+                                renderItem={({ item }) => {
+                                    return (
+                                        <View style={{ flex: 1, margin: 10 }}
+                                        >
+                                            <TouchableOpacity
+                                                onPress={() => this.props.onPress(item.id, this.state.idUser)}>
+                                                <Image style={[styles.imagen1]}
+                                                    source={{ uri: item.poster }}
+                                                ></Image>
+                                                <Text
+                                                    style={[styles.texto]}
+                                                    numberOfLines={2}
+                                                    ellipsizeMode={"tail"}
+                                                >{item.title}</Text>
 
+                                            </TouchableOpacity>
+                                        </View>
+                                    );
+                                }}
+                            />
+                        </View>
+                    </ScrollView>
                 </View>
             </LinearGradient>
         )

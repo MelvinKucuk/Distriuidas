@@ -17,7 +17,7 @@ class Login extends Component {
     }
 
     checkUsuario(data) {
-        if (data.usuarioId == this.state.username && data.password == this.state.password) {
+        if (data.usuarioId == this.state.username && data.password == this.state.password && this.state.username != null) {
             this.props.onPressLogin(this.state.username);
         } else {
             alert("Contraseña incorrecta");
@@ -26,8 +26,7 @@ class Login extends Component {
 
     render() {
         return (
-            <LinearGradient
-                colors={['#584150', '#1e161b']} style={{ flex: 1 }}>
+            <LinearGradient colors={['#584150', '#1e161b']} style={{ flex: 1 }}>
                 <View style={[styles.loginContainer]}>
                     <View style={[styles.imageContainer]}>
                         <Image
@@ -51,10 +50,6 @@ class Login extends Component {
                             />
                         </View>
                         <View style={[styles.outterButton]}>
-                            {/* <Button
-                                color='#373737'
-                                title="Login"
-                                onPress={() => this.checkLogin()} /> */}
                             <TouchableOpacity
                                 style={styles.SubmitButtonStyle}
                                 activeOpacity={.5}
@@ -63,10 +58,6 @@ class Login extends Component {
                             </TouchableOpacity>
                         </View>
                         <View style={[styles.outterButtonCreate]}>
-                            {/* <Button
-                                color='#373737'
-                                title="Create Account"
-                                onPress={() => this.props.onPressCreate()} /> */}
                             <TouchableOpacity
                                 style={styles.SubmitButtonStyle}
                                 activeOpacity={.5}
@@ -137,7 +128,7 @@ const styles = StyleSheet.create({
     },
     imageStyle: {
         width: '100%',
-        height: 200,
+        height: 300,
         resizeMode: 'contain',
         justifyContent: 'center'
     },

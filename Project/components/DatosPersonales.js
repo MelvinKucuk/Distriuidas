@@ -53,34 +53,34 @@ class DatosPersonales extends Component {
     render() {
         return (
             <LinearGradient colors={['#584150', '#1e161b']} style={{ flex: 1 }}>
-            <View style={[styles.detalleContainer]} >
-                <View style={{ alignSelf: 'center', marginBottom: 50 }}>
-                    <Image source={require('./vaca.png')} style={{
-                        height: 180,
-                        width: 180,
-                        resizeMode: 'contain',
-                        borderRadius: 20,
-                    }} />
+                <View style={[styles.detalleContainer]} >
+                    <View style={{ alignSelf: 'center', marginBottom: 50 }}>
+                        <Image source={require('./vaca.png')} style={{
+                            height: 250,
+                            width: 250,
+                            resizeMode: 'contain',
+                            marginBottom: 30
+                        }} />
+                    </View>
+                    <View style={{ alignSelf: 'center' }}>
+                        <View style={[styles.underline]}>
+                            <Text style={[styles.TextUnderline]}>Nombre:</Text>
+                            <Text style={[styles.textInput]}>{this.state.nombre}</Text>
+                        </View>
+                        <View style={[styles.underline]}>
+                            <Text style={[styles.TextUnderline]}>Apellido:</Text>
+                            <Text style={[styles.textInput]}>{this.state.apellido}</Text>
+                        </View>
+                        <View style={[styles.underline]}>
+                            <Text style={[styles.TextUnderline]}>E-Mail:</Text>
+                            <Text style={[styles.textInput]}>{this.state.email}</Text>
+                        </View>
+                        <View style={[styles.underline]}>
+                            <Text style={[styles.TextUnderline]}>Usuario:</Text>
+                            <Text style={[styles.textInput]}>{this.state.idUser}</Text>
+                        </View>
+                    </View>
                 </View>
-                <View style={{ alignSelf: 'center' }}>
-                    <View style={[styles.underline]}>
-                        <Text style={[styles.TextUnderline]}>Nombre:</Text>
-                        <Text style={[styles.textInput]}>{this.state.nombre}</Text>
-                    </View>
-                    <View style={[styles.underline]}>
-                        <Text style={[styles.TextUnderline]}>Apellido:</Text>
-                        <Text style={[styles.textInput]}>{this.state.apellido}</Text>
-                    </View>
-                    <View style={[styles.underline]}>
-                        <Text style={[styles.TextUnderline]}>E-Mail:</Text>
-                        <Text style={[styles.textInput]}>{this.state.email}</Text>
-                    </View>
-                    <View style={[styles.underline]}>
-                        <Text style={[styles.TextUnderline]}>Usuario:</Text>
-                        <Text style={[styles.textInput]}>{this.state.idUser}</Text>
-                    </View>
-                </View>
-            </View>
             </LinearGradient>
         )
     }
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     },
     textInput: {
         color: 'white',
-        fontSize: 15,
+        fontSize: 20,
         marginLeft: 20,
     },
     underline: {
@@ -103,8 +103,8 @@ const styles = StyleSheet.create({
     TextUnderline: {
         textDecorationLine: 'underline',
         color: 'white',
-        fontSize: 15,
-        width: 60,
+        fontSize: 20,
+        width: 80,
     }
 })
 export default DatosPersonales;

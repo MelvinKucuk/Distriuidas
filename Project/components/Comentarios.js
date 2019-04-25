@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, StyleSheet, TextInput, Button, Text, ActivityIndicator } from 'react-native';
+import { View, FlatList, StyleSheet, Text, ActivityIndicator } from 'react-native';
 import { LinearGradient } from 'expo'
 import ApiController from '../controller/ApiController';
 import { AsyncStorage } from 'react-native';
@@ -13,10 +13,6 @@ function createData(item) {
   }
 }
 
-class Comentarios extends Component {
-  render() {
-    return (
-      <LinearGradient colors={['#584150', '#1e161b']} style={{ flex: 1 }}>
 class Comentarios extends Component {
 
   constructor(props) {
@@ -47,8 +43,6 @@ class Comentarios extends Component {
     ApiController.getCommentByIdUser(idUser, this.okComments.bind(this));
   }
 
-
-
   okComments(data) {
     if (data != null) {
 
@@ -70,35 +64,35 @@ class Comentarios extends Component {
   render() {
     if (this.state.isLoading) {
       return (
-        <View style={styles.detalleContainer}>
-          <ActivityIndicator size="large" color="pink" backgroundColor=' #616161' style={{ flex: 1 }}></ActivityIndicator>
-        </View>
+        <LinearGradient colors={['#584150', '#1e161b']} style={{ flex: 1 }}>
+          <View style={styles.detalleContainer}>
+            <ActivityIndicator size="large" color="pink" style={{ flex: 1 }}></ActivityIndicator>
+          </View>
+        </LinearGradient>
       );
     } else {
       return (
-        <View style={[styles.detalleContainer]}>
-          <Text style={styles.detalleGenresTitles}>
-            Comentarios
-                                </Text>
-          <FlatList
-            data={this.state.comentarios}
-            keyExtractor={(index) => 'key' + index}
-            renderItem={({ item, index }) => {
-              return (
-                <FlatListItems item={item} index={index}>
-                </FlatListItems>
-              );
-            }}
-          >
+        <LinearGradient colors={['#584150', '#1e161b']} style={{ flex: 1 }}>
+          <View style={[styles.detalleContainer]}>
 
-          </FlatList>
-        </View>
-      </LinearGradient>
-    )
-  }
-      );
+            <FlatList
+              data={this.state.comentarios}
+              keyExtractor={(item, index) => 'key' + index}
+              renderItem={({ item, index }) => {
+                return (
+                  <FlatListItems item={item} index={index}>
+                  </FlatListItems>
+                );
+              }}
+            >
+
+            </FlatList>
+          </View>
+        </LinearGradient>
+      )
     }
   }
+
 }
 
 
@@ -149,7 +143,7 @@ class FlatListItems extends Component {
           style={{
             borderBottomColor: 'grey',
             borderBottomWidth: 1,
-            marginVertical: 5
+            marginVertical: 5,
           }}
         />
         <Text style={styles.FlatListItems}>
@@ -167,6 +161,20 @@ const styles = StyleSheet.create({
   detalleContainer: {
     flex: 1,
     justifyContent: 'center',
+  },
+  CircleShapeView: {
+    width: 35,
+    height: 35,
+    borderRadius: 35 / 2,
+    backgroundColor: '#00BCD4',
+    marginTop: 15,
+    alignItems: 'center',
+    alignContent: 'center'
+  },
+  FlatListItems: {
+    color: 'black',
+    padding: 10,
+    fontSize: 16,
   },
 })
 

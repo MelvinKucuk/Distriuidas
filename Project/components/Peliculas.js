@@ -4,7 +4,6 @@ import ApiController from '../controller/ApiController'
 import { TextInput, ScrollView } from 'react-native-gesture-handler';
 import { withNavigation } from 'react-navigation';
 import { AsyncStorage } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
 import { LinearGradient } from 'expo'
 
 
@@ -36,7 +35,6 @@ class Peliculas extends Component {
             idUser: props.navigation.getParam('idUser')
         };
 
-        console.log("USER", this.state.idUser);
         this._storeData(this.state.idUser);
         this.obtenerPeliculas()
 
@@ -44,14 +42,11 @@ class Peliculas extends Component {
 
     obtenerPeliculas() {
         ApiController.getPeliculas(this.okPeliculas.bind(this), this.state.nombre);
-
-        console.log("jarinero", this.state.idUser);
     }
 
     _storeData = async () => {
         try {
             await AsyncStorage.setItem('idUser', this.state.idUser);
-            console.log("Se guardo");
         } catch (error) {
             console.log(error);
         }
@@ -71,100 +66,59 @@ class Peliculas extends Component {
     }
 
     render() {
-        //console.log("Entre al render");
         return (
-            <View style={[styles.detalleContainer]}>
-                <ScrollView>
-                    <View style={[styles.detalleContainer]} >
-                        <View style={{ flexDirection: 'row' }}>
-                            <View style={[styles.outterInput]}>
-                                <TextInput
-                                    style={[styles.textInput]}
-                                    placeholder="Buscar por titulo"
-                                    onChangeText={(text) => this.setState({ nombre: text })}
-                                    onSubmitEditing={() => this.obtenerPeliculas()}
-                                />
-                            </View>
-                            <View style={[styles.outterButton]}>
-                                <Button
-                                    title="Buscar"
-                                    color='#373737'
-                                    onPress={() => this.obtenerPeliculas()}
-                                />
-                            </View>
-                        </View>
-                        <FlatList
-                            style={{ flex: 1 }}
-                            numColumns={2}
-                            data={this.state.peliculas}
-                            keyboardShouldPersistTaps='always'
-                            renderItem={({ item }) => {
-                                return (
-                                    <View style={{ flex: 1, margin: 10 }}
-                                    >
-                                        <TouchableOpacity
-                                            onPress={() => this.props.onPress(item.id, this.state.idUser)}>
-                                            <Image style={[styles.imagen1]}
-                                                source={{ uri: item.poster }}
-                                            ></Image>
-                                            <Text style={[styles.texto]}
-                                            >{item.title}</Text>
-
-                                        </TouchableOpacity>
-                                    </View>
-                                );
-                            }}
-                        />
             <LinearGradient colors={['#584150', '#1e161b']} style={{ flex: 1 }}>
-                <View style={[styles.detalleContainer]} >
-                    <View style={{ flexDirection: 'row', backgroundColor: '#373737' }}>
-                        <View style={[styles.outterInput]}>
-                            <TextInput
-                                style={[styles.textInput]}
-                                placeholder="Buscar por titulo"
-                                onChangeText={(text) => this.setState({ nombre: text })}
-                                onSubmitEditing={() => this.obtenerPeliculas()}
-                            />
-                        </View>
-                        <View style={[styles.outterButton]}>
-                            <TouchableOpacity
-                                style={styles.SubmitButtonStyle}
-                                activeOpacity={.5}
-                                onPress={() => this.obtenerPeliculas()}>
-                                <Text style={styles.textButton}> Buscar </Text>
-                            </TouchableOpacity>
-
-                        </View>
-                    </View>
-                </ScrollView>
-            </View>
-        )
-
-                    <FlatList
-                        style={{ flex: 1 }}
-                        numColumns={2}
-                        data={this.state.peliculas}
-                        keyboardShouldPersistTaps='always'
-                        renderItem={({ item }) => {
-                            return (
-
-                                <View style={{ flex: 1, margin: 10 }}
-                                >
+                <View style={[styles.detalleContainer]}>
+                    <ScrollView>
+                        <View style={[styles.detalleContainer]} >
+                            <View style={{ flexDirection: 'row' }}>
+                                <View style={[styles.outterInput]}>
+                                    <TextInput
+                                        style={[styles.textInput]}
+                                        placeholder="Buscar por titulo"
+                                        onChangeText={(text) => this.setState({ nombre: text })}
+                                        onSubmitEditing={() => this.obtenerPeliculas()}
+                                    />
+                                </View>
+                                <View style={[styles.outterButton]}>
                                     <TouchableOpacity
-                                        onPress={() => this.props.onPress(item.id)}>
-                                        <Image style={[styles.imagen1]}
-                                            source={{ uri: item.poster }}
-                                        ></Image>
-                                        <Text style={[styles.texto]}
-                                        >{item.title}</Text>
+                                        style={styles.SubmitButtonStyle}
+                                        activeOpacity={.5}
+                                        onPress={() => this.obtenerPeliculas()}>
+                                        <Text style={styles.textButton}> Buscar </Text>
                                     </TouchableOpacity>
                                 </View>
-                            );
-                        }}
-                    />
+                            </View>
+                            <FlatList
+                                style={{ flex: 1 }}
+                                numColumns={2}
+                                data={this.state.peliculas}
+                                keyboardShouldPersistTaps='always'
+                                renderItem={({ item }) => {
+                                    return (
+                                        <View style={{ flex: 1, margin: 10 }}
+                                        >
+                                            <TouchableOpacity
+                                                onPress={() => this.props.onPress(item.id, this.state.idUser)}>
+                                                <Image style={[styles.imagen1]}
+                                                    source={{ uri: item.poster }}
+                                                ></Image>
+                                                <Text
+                                                    style={[styles.texto]}
+                                                    numberOfLines={2}
+                                                    ellipsizeMode={"tail"}
+                                                >{item.title}</Text>
 
+                                            </TouchableOpacity>
+                                        </View>
+                                    );
+                                }}
+                            />
+                        </View>
+                    </ScrollView>
                 </View>
             </LinearGradient>
+
         );
     }
 
@@ -194,7 +148,6 @@ const styles = StyleSheet.create({
 
     detalleContainer: {
         flex: 1,
-        backgroundColor: '#373737',
 
         justifyContent: 'center',
     },
@@ -202,7 +155,8 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 20,
         alignSelf: 'center',
-        textAlign: 'center'
+        textAlign: 'center',
+
     },
     outterInput: {
         flex: 3,

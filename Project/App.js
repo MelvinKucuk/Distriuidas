@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, AppRegistry, Button, Image } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import Icon from '@expo/vector-icons/Ionicons';
 import Detalle from './components/Detalle';
 import Peliculas from './components/Peliculas';
@@ -15,11 +15,9 @@ import {
   createDrawerNavigator,
   createBottomTabNavigator,
   createStackNavigator,
-  DrawerItems,
 } from 'react-navigation';
-import { DrawerNavigator } from 'react-navigation'
-import { ScrollView } from 'react-native-gesture-handler';
-import { Container, Content, Header, Left, Body } from 'native-base';
+
+
 
 class App extends Component {
   render() {
@@ -89,8 +87,6 @@ class CreateUserScreen extends React.Component {
   }
 }
 
-
-
 class PeliculasScreen extends React.Component {
 
   static navigationOptions = {
@@ -121,7 +117,6 @@ class PeliculasScreen extends React.Component {
   }
 }
 
-
 class SeriesScreen extends React.Component {
 
   static navigationOptions = {
@@ -150,29 +145,6 @@ class SeriesScreen extends React.Component {
   }
 }
 
-class DetalleScreen extends React.Component {
-
-  static navigationOptions = {
-    title: 'Peliculas',
-    headerStyle: {
-      backgroundColor: 'black',
-    },
-    headerTintColor: 'white',
-  };
-
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
-    return (
-      <Detalle
-
-      />
-    );
-  }
-}
-
 
 const PeliculasStackNavigator = createStackNavigator(
   {
@@ -193,7 +165,6 @@ const PeliculasStackNavigator = createStackNavigator(
       }
     },
     Detalle: { screen: Detalle },
-    Series: { screen: SeriesScreen },
   },
   {
     initialRouteName: 'PeliculasScreen',
@@ -203,7 +174,8 @@ const PeliculasStackNavigator = createStackNavigator(
 
 const SeriesStackNavigator = createStackNavigator(
   {
-    Series: {screen: SeriesScreen,
+    Series: {
+      screen: SeriesScreen,
       navigationOptions: ({ navigation }) => {
         return {
           headerLeft: (
@@ -228,26 +200,38 @@ const SeriesStackNavigator = createStackNavigator(
 const PerfilTabNavigator = createBottomTabNavigator({
   DatosPersonales,
   Comentarios
-},{
-  navigationOptions: ({navigation})=>{
-    const {routeName} = navigation.state.routes[navigation.state.index]
-    return{
-      headerTitle: 'Perfil',
-      headerLeft: (
-        <Icon
-          style={{ paddingLeft: 10, color: 'white' }}
-          onPress={() => navigation.openDrawer()}
-          name="md-menu"
-          size={30}
-        />
-      ),
-      headerTintColor: 'white',
-      headerStyle: {
-        backgroundColor: 'black'
+}, {
+    navigationOptions: ({ navigation }) => {
+      const { routeName } = navigation.state.routes[navigation.state.index]
+      return {
+        headerTitle: 'Perfil',
+        headerLeft: (
+          <Icon
+            style={{ paddingLeft: 10, color: 'white' }}
+            onPress={() => navigation.openDrawer()}
+            name="md-menu"
+            size={30}
+          />
+        ),
+        headerTintColor: 'white',
+        headerStyle: {
+          backgroundColor: 'black'
+        }
       }
+    },
+    tabBarOptions: {
+      inactiveTintColor: 'black',
+      style: {
+        backgroundColor: 'pink',
+
+      },
+      labelStyle: {
+        fontSize: 18,
+        paddingVertical: 10
+      }
+
     }
-  }
-});
+  });
 
 const PerfilStackNavigator = createStackNavigator({
   PerfilTabNavigator: PerfilTabNavigator
@@ -259,12 +243,11 @@ const AppDrawerNavigator = createDrawerNavigator({
   Perfil: PerfilStackNavigator,
 }, {
     drawerBackgroundColor: 'pink',
-    statusBarBackgorund: 'green'
+    contentOptions: {
+      //Esto sirve para cambiar algunos colores
+    }
   }
-
 );
-
-
 
 const AppSwitchNavigator = createSwitchNavigator({
   Login: { screen: LoginScreen },
@@ -275,75 +258,10 @@ const AppSwitchNavigator = createSwitchNavigator({
 
 const AppContainer = createAppContainer(AppSwitchNavigator);
 
-
-
-
-class drawerContentComponents extends Component {
-
-  navigateToScreen = (route) => (
-    () => {
-      const navigateAction = NavigationActions.navigate({
-        routeName: route
-      });
-      this.props.navigation.dispatch(navigateAction);
-    })
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <View style={styles.headerContainer}>
-          <Text style={styles.headerText}>Header Portion</Text>
-          <Text style={styles.headerText}>You can display here logo or profile image</Text>
-        </View>
-        <View style={styles.screenContainer}>
-          <View style={styles.screenStyle}>
-            <Text onPress={this.navigateToScreen('Peliculas')}>Peliculas</Text>
-          </View>
-          <View style={styles.screenStyle}>
-            <Text onPress={this.navigateToScreen('Series')}>Series</Text>
-          </View>
-          <View style={styles.screenStyle}>
-            <Text onPress={this.navigateToScreen('Perfil')}>Perfil</Text>
-          </View>
-        </View>
-      </View>
-
-    )
-  }
-}
-
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#616161',
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
   }
 });
-/*
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-  },
-  headerContainer: {
-    height: 150,
-  },
-  headerText: {
-    color: '#fff8f8',
-  },
-  screenContainer: {
-    paddingTop: 20
-  },
-  screenStyle: {
-    height: 30,
-    marginTop: 2,
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  screenTextStyle: {
-    fontSize: 20,
-    marginLeft: 20
-  },
-
-});
-*/
