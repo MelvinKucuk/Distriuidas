@@ -105,7 +105,7 @@ router.get('/getPeliculasByTitle',(req, res) =>{
 });
 //EndPoint para buscar pelicula por titulo y anio.
 router.get('/getPeliculasByTitleAndYear',(req, res) =>{
-    console.log(req);
+    console.log('Param getPeliculasByTitleAndYear: ',req.query);
     if(typeof req.query.title !== 'undefined' && typeof req.query.year !== 'undefined') {
         console.log(req.query.title);
         console.log(req.query.year);
@@ -116,7 +116,7 @@ router.get('/getPeliculasByTitleAndYear',(req, res) =>{
 });
 //EndPoint para buscar pelicula por key de nombre de pelicula.
 router.get('/getPeliculasByKey',(req, res) =>{
-    console.log(req);
+    console.log('Param getPeliculasByKey: ',req.query);
     if(typeof req.query.key !== 'undefined') {
         console.log(req.query.key);
         peliculaController.getPeliculasByKey(req,res);
@@ -126,7 +126,7 @@ router.get('/getPeliculasByKey',(req, res) =>{
 });
 //EndPoint para buscar pelicula por Id  de pelicula.
 router.get('/getPeliculasAndSeriesById',(req, res) =>{
-    console.log(req);
+    console.log('Param getPeliculasAndSeriesById: ',req.query);
     if(typeof req.query.movieId !== 'undefined') {
         console.log(req.query.movieId);
         peliculaController.getPeliculasAndSeriesById(req,res);
@@ -136,7 +136,7 @@ router.get('/getPeliculasAndSeriesById',(req, res) =>{
 });
 //EndPoint para buscar series por key de nombre de pelicula.
 router.get('/getSeriesByKey',(req, res) =>{
-    console.log(req);
+    console.log('Param getSeriesByKey: ',req.query);
     if(typeof req.query.key !== 'undefined') {
         console.log(req.query.key);
         peliculaController.getSeriesByKey(req,res);
